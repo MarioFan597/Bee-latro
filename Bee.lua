@@ -11,7 +11,7 @@
 function Card:is_bee()
 	local check = false
 
-	if self.ability.extra.bee then
+	if self.ability.extra ~= nil and self.ability.extra.bee then
 		check = true
 	return check
 
@@ -95,7 +95,7 @@ SMODS.Joker {
 
 SMODS.Joker {
     key = "beebeedagger",
-    pos = { x = 0, y = 2 },
+    pos = { x = 2, y = 0 },
 	loc_txt = {
 		name = 'Bee-Bee Dagger',
 		text = {
@@ -269,6 +269,46 @@ SMODS.Joker {
     end
 }
 
+SMODS.Joker {
+	key = 'ballofbees',
+	loc_txt = {
+		name = 'Ball of Bees',
+		text = {
+            "When you play a {C:attention}Straight{}, create #1# {C:attention}Jimbee{}",
+			"When you play a {C:attention}Flush{}, retrigger your {C:attention}Bee Jokers{}",
+			"{C:inactive}This counts as a bee joker"
+		}
+	},
+	config = { extra = { beecount = 1, bee = true, bold = 2} },
+	rarity = 1,
+	atlas = 'beeatlas',
+	pos = { x = 0, y = 3 },
+	cost = 2,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.beecount, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+	end,
+	calculate = function(self, card, context)
+		if context.before and next(context.poker_hands['Straight']) and not context.blueprint then
+			for i = 1, card.ability.extra.beecount do				
+				local card = create_card("Joker", G.joker, nil, nil, nil, nil, "j_bee_jimbee")
+				card:add_to_deck()
+				G.jokers:emplace(card)								
+			end
+
+			return {message = 'Created!', colour = G.C.FILTER,}
+		end
+
+		if (context.retrigger_joker_check and not context.retrigger_joker and context.other_card ~= self and G.GAME.last_hand_played == 'Flush') then
+			if (context.other_card:is_bee()) then
+				return {
+					message = localize("k_again_ex"),
+					repetitions = 1,
+					card = card,
+				}
+			end
+		end
+    end
+}
 
 ----------------------------------------------
 ------------MOD CODE END----------------------

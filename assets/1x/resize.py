@@ -3,7 +3,7 @@ from PIL import Image
 import os
 import time
 
-os.chdir("C:\\Users\\User\\Documents\\Bee-latro\\Bee-latro\\assets\\1x")
+
 
 
 def upscale_pixel_art(input_image, output_directory, input_image_path):

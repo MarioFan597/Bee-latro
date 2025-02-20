@@ -278,6 +278,7 @@ SMODS.Joker {
 		text = {
             "When you play a {C:attention}Straight{}, create #1# {C:attention}Jimbee{}",
 			"When you play a {C:attention}Flush{}, retrigger your {C:attention}Bee Jokers{}",
+			"",
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
@@ -326,7 +327,7 @@ SMODS.Joker {
 	config = { extra = { slots = 2, bee = true, bold = 5, beeCount = 1, activeSlots = 0} },
 	rarity = "cry_epic",
 	atlas = 'beeatlas',
-	pos = { x = 0, y = 0 },
+	pos = { x = 1, y = 0 },
 	cost = 15,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.slots, card and card.ability.extra.activeSlots, card and card.ability.extra.bee, card and card.ability.extra.bold, } }
@@ -344,15 +345,26 @@ SMODS.Joker {
     end,
 	remove_from_deck = function(self, card, context)
 		G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra.activeSlots
-    end
-}
+    end,
+	-- cry_credits = {
+	-- 	idea = {
+	-- 		"InspectorB"
+	-- 	},
+	-- 	art = {
+	-- 		"MarioFan597"
+	-- 	},
+	-- 	code = {
+	-- 		"InspectorB"
+	-- 	}
+	}
+
 
 SMODS.Joker {
 	key = 'kingbee',
 	loc_txt = {
 		name = 'King Bee',
 		text = {
-            "{C:mult}+#2#{} Mult for each {C:attention}Bee Joker{} ",
+            "This gains {C:mult}+#2#{} Mult for each {C:attention}Bee Joker{} ",
 			"you have whenever you score a {C:attention}King{}",
 			"{C:inactive}(Currently +#1# Mult)",
 			"{C:inactive}This counts as a Bee Joker"
@@ -469,7 +481,7 @@ SMODS.Joker {
 			"create #1# {C:attention}Jimbee{}"
 		}
 	},
-	config = { extra = { jimbeeCount = 1, bee = true, bold = 1} },
+	config = { extra = { jimbeeCount = 1, bee = false, bold = 1} },
 	rarity = 1,
 	atlas = 'beeatlas',
 	pos = { x = 0, y = 0 },
@@ -491,6 +503,58 @@ SMODS.Joker {
 			end
 
 			return {message = 'Created!', colour = G.C.FILTER,}
+		end
+    end
+}
+
+SMODS.Joker {
+	key = 'jollybee',
+	loc_txt = {
+		name = 'Jollybee',
+		text = {
+            "Whenever you play a {C:attention}Pair,",
+			"This gains {C:mult}+#2#{} Mult for each {C:attention}Bee Joker{} you have",
+			"{C:inactive}(Currently +#1# Mult)",
+			"{C:inactive}This counts as a Bee Joker"
+		}
+	},
+	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 4} },
+	rarity = 2,
+	atlas = 'beeatlas',
+	pos = { x = 0, y = 0 },
+	cost = 5,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+	end,
+	calculate = function(self, card, context)
+		if context.before and next(context.poker_hands['Pair']) then
+			local beeCount = 0
+			for i = 1, #G.jokers.cards do
+				if
+					G.jokers.cards[i]:is_bee()
+				then
+					beeCount = beeCount + 1
+				end
+			end
+
+			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod * beeCount
+			card_eval_status_text(
+					card,
+					"extra",
+					nil,
+					nil,
+					nil,
+					{
+						message = localize({ type = "variable", key = "a_mult", vars = { card.ability.extra.mult_mod * beeCount} }),
+						colour = G.C.MULT,
+					})
+		end
+
+		if context.joker_main then
+			return {
+				mult_mod = card.ability.extra.mult,
+                message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+			}
 		end
     end
 }

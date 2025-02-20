@@ -4,6 +4,7 @@
 --- MOD_AUTHOR: [InspectorB]
 --- MOD_DESCRIPTION: This Mod adds BEES !
 --- PREFIX: bee
+--- DEPENDENCIES:Cryptid>=0.5.3<=0.5.3c
 
 ----------------------------------------------
 ------------MOD CODE -------------------------
@@ -161,7 +162,7 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Spelling Bee',
 		text = {
-            "At the end of round, this gains {C:chips}+#2#{} Chips",
+            "When round ends, this gains {C:chips}+#2#{} Chips",
 			"for each {C:attention}Bee Joker{} you currently have",
 			"{C:inactive}(Currently +#1# Chips)",
 			"{C:inactive}This counts as a Bee Joker"
@@ -218,7 +219,7 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Big Bee',
 		text = {
-            "At the end of round, this gains {C:mult}+#2#{} Mult",
+            "When round ends, this gains {C:mult}+#2#{} Mult",
 			"for each {C:attention}Bee Joker{} you currently have",
 			"{C:inactive}(Currently +#1# Mult)",
 			"{C:inactive}This counts as a Bee Joker"
@@ -343,6 +344,154 @@ SMODS.Joker {
     end,
 	remove_from_deck = function(self, card, context)
 		G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra.activeSlots
+    end
+}
+
+SMODS.Joker {
+	key = 'kingbee',
+	loc_txt = {
+		name = 'King Bee',
+		text = {
+            "{C:mult}+#2#{} Mult for each {C:attention}Bee Joker{} ",
+			"you have whenever you score a {C:attention}King{}",
+			"{C:inactive}(Currently +#1# Mult)",
+			"{C:inactive}This counts as a Bee Joker"
+		}
+	},
+	config = { extra = { mult = 0, mult_mod = 1, bee = true, bold = 4} },
+	rarity = 2,
+	atlas = 'beeatlas',
+	pos = { x = 0, y = 3 },
+	cost = 5,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+	end,
+	calculate = function(self, card, context)
+		if context.cardarea == G.play and context.individual and not context.blueprint
+		then
+			local rank = SMODS.Ranks[context.other_card.base.value].key
+
+			if rank == "King" then
+				local beeCount = 0
+				for i = 1, #G.jokers.cards do
+					if
+						G.jokers.cards[i]:is_bee()
+					then
+						beeCount = beeCount + 1
+					end
+				end
+	
+				card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod * beeCount
+				card_eval_status_text(
+					card,
+					"extra",
+					nil,
+					nil,
+					nil,
+					{
+						message = localize({ type = "variable", key = "a_mult", vars = { card.ability.extra.mult_mod * beeCount} }),
+						colour = G.C.MULT,
+					}
+	
+				)
+			end
+		end
+
+		if context.joker_main then
+			return {
+				mult_mod = card.ability.extra.mult,
+				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+			}
+		end
+    end
+}
+
+SMODS.Joker {
+	key = 'beesknees',
+	loc_txt = {
+		name = 'Bee\'s Knees',
+		text = {
+            "After you play a hand, this gains {X:mult,C:white} X#1# {} Mult",
+			"for each {C:attention}Bee Joker{} you currently have",
+			"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+			"{C:inactive}This counts as a Bee Joker"
+		}
+	},
+	config = { extra = { extra = 0.1, x_mult = 1 , bee = true, bold = 3} },
+	rarity = 3,
+	atlas = 'beeatlas',
+	pos = { x = 0, y = 3 },
+	cost = 8,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.extra, card and card.ability.extra.x_mult, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+	end,
+	calculate = function(self, card, context)
+		if context.after
+		and not context.before			
+		and not context.blueprint
+		and not context.repetition
+		then
+			local beeCount = 0
+			for i = 1, #G.jokers.cards do
+				if
+					G.jokers.cards[i]:is_bee()
+				then
+					beeCount = beeCount + 1
+				end
+			end
+			card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.extra * beeCount
+			card_eval_status_text(
+				card,
+				"extra",
+				nil,
+				nil,
+				nil,
+				{ message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }) }
+			)
+			return nil, true	
+		end
+
+		if context.joker_main then
+			return {
+				message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }),
+				Xmult_mod = card.ability.extra.x_mult,
+			}
+		end
+    end
+}
+
+SMODS.Joker {
+	key = 'beehive',
+	loc_txt = {
+		name = 'Beehive',
+		text = {
+            "When round ends,",
+			"create #1# {C:attention}Jimbee{}"
+		}
+	},
+	config = { extra = { jimbeeCount = 1, bee = true, bold = 1} },
+	rarity = 1,
+	atlas = 'beeatlas',
+	pos = { x = 0, y = 0 },
+	cost = 2,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.jimbeeCount, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+	end,
+	calculate = function(self, card, context)
+		if context.end_of_round			
+		and not context.blueprint
+		and not context.repetition
+		and not context.individual
+		and not card.ability.extra.active
+		then
+			for i = 1, card.ability.extra.jimbeeCount do				
+				local card = create_card("Joker", G.joker, nil, nil, nil, nil, "j_bee_jimbee")
+				card:add_to_deck()
+				G.jokers:emplace(card)								
+			end
+
+			return {message = 'Created!', colour = G.C.FILTER,}
+		end
     end
 }
 

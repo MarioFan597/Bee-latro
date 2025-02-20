@@ -11,7 +11,8 @@
 function Card:is_bee()
 	local check = false
 
-	if self.ability.extra ~= nil and self.ability.extra.bee then
+	--self.ability.extra ~= nil and 
+	if not is_number(self.ability.extra) and self.ability.extra ~= nil and self.ability.extra.bee then
 		check = true
 	return check
 
@@ -32,7 +33,7 @@ SMODS.Joker {
 		text = {
             "{C:mult}+#1#{} Mult",
 			"\n",
-			"{C:inactive}This counts as a bee joker"
+			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
 	config = { extra = { mult = 4, bee = true, bold = 1} },
@@ -61,10 +62,10 @@ SMODS.Joker {
             "This has {C:mult}+#2#{} Mult for each ",
 			"{C:attention}bolded{} word or number your {C:attention}Bee Jokers{} have",
 			"{C:inactive}(Currently +#1# Mult)",
-			"{C:inactive}This counts as a bee joker"
+			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 3} },
+	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 4} },
 	rarity = 2,
 	atlas = 'beeatlas',
 	pos = { x = 0, y = 1 },
@@ -102,7 +103,7 @@ SMODS.Joker {
             "When {C:attention}Blind{} is selected,",
             "destroy Joker to the right",
         	"to create #1# {C:attention}Jimbee{}",
-			"{C:inactive}This counts as a bee joker"
+			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
     rarity = 2,
@@ -163,10 +164,10 @@ SMODS.Joker {
             "At the end of round, this gains {C:chips}+#2#{} Chips",
 			"for each {C:attention}Bee Joker{} you currently have",
 			"{C:inactive}(Currently +#1# Chips)",
-			"{C:inactive}This counts as a bee joker"
+			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { chips = 0, chip_mod = 10, bee = true, bold = 2} },
+	config = { extra = { chips = 0, chip_mod = 5, bee = true, bold = 3} },
 	rarity = 1,
 	atlas = 'beeatlas',
 	pos = { x = 0, y = 3 },
@@ -220,10 +221,10 @@ SMODS.Joker {
             "At the end of round, this gains {C:mult}+#2#{} Mult",
 			"for each {C:attention}Bee Joker{} you currently have",
 			"{C:inactive}(Currently +#1# Mult)",
-			"{C:inactive}This counts as a bee joker"
+			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { mult = 0, mult_mod = 1, bee = true, bold = 2} },
+	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 3} },
 	rarity = 1,
 	atlas = 'beeatlas',
 	pos = { x = 0, y = 3 },
@@ -276,14 +277,14 @@ SMODS.Joker {
 		text = {
             "When you play a {C:attention}Straight{}, create #1# {C:attention}Jimbee{}",
 			"When you play a {C:attention}Flush{}, retrigger your {C:attention}Bee Jokers{}",
-			"{C:inactive}This counts as a bee joker"
+			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { beecount = 1, bee = true, bold = 2} },
-	rarity = 1,
+	config = { extra = { beecount = 1, bee = true, bold = 5} },
+	rarity = 2,
 	atlas = 'beeatlas',
 	pos = { x = 0, y = 3 },
-	cost = 2,
+	cost = 6,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.beecount, card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
@@ -307,6 +308,41 @@ SMODS.Joker {
 				}
 			end
 		end
+    end
+}
+
+SMODS.Joker {
+	key = 'hivemind',
+	loc_txt = {
+		name = 'Hivemind',
+		text = {
+            "{C:attention}+#1# Joker Slots{} for each",
+			"{C:attention}Bee Joker{} you have when this is obtained",
+			"{C:inactive}(Granting +#2# Joker Slots)",
+			"{C:inactive}This counts as a Bee Joker"
+		}
+	},
+	config = { extra = { slots = 2, bee = true, bold = 5, beeCount = 1, activeSlots = 0} },
+	rarity = "cry_epic",
+	atlas = 'beeatlas',
+	pos = { x = 0, y = 0 },
+	cost = 15,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.slots, card and card.ability.extra.activeSlots, card and card.ability.extra.bee, card and card.ability.extra.bold, } }
+	end,
+	add_to_deck = function(self, card, context)
+		for i = 1, #G.jokers.cards do			
+			if
+				G.jokers.cards[i]:is_bee()
+			then
+				card.ability.extra.beeCount = card.ability.extra.beeCount + 1
+			end
+		end
+		card.ability.extra.activeSlots = card.ability.extra.slots * card.ability.extra.beeCount
+		G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.activeSlots
+    end,
+	remove_from_deck = function(self, card, context)
+		G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra.activeSlots
     end
 }
 

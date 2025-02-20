@@ -417,7 +417,7 @@ SMODS.Joker {
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { extra = 0.1, x_mult = 1 , bee = true, bold = 3} },
+	config = { extra = { extra = 0.1, x_mult = 1 , bee = true, bold = 4} },
 	rarity = 3,
 	atlas = 'beeatlas',
 	pos = { x = 0, y = 3 },

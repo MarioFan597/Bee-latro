@@ -171,7 +171,7 @@ SMODS.Joker {
 	config = { extra = { chips = 0, chip_mod = 5, bee = true, bold = 3} },
 	rarity = 1,
 	atlas = 'beeatlas',
-	pos = { x = 0, y = 3 },
+	pos = { x = 3, y = 0 },
 	cost = 2,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.chips, card and card.ability.extra.chip_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
@@ -228,7 +228,7 @@ SMODS.Joker {
 	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 3} },
 	rarity = 1,
 	atlas = 'beeatlas',
-	pos = { x = 0, y = 3 },
+	pos = { x = 4, y = 0 },
 	cost = 2,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
@@ -484,7 +484,7 @@ SMODS.Joker {
 	config = { extra = { jimbeeCount = 1, bee = false, bold = 1} },
 	rarity = 1,
 	atlas = 'beeatlas',
-	pos = { x = 0, y = 0 },
+	pos = { x = 3, y = 3 },
 	cost = 2,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.jimbeeCount, card and card.ability.extra.bee, card and card.ability.extra.bold } }
@@ -521,7 +521,7 @@ SMODS.Joker {
 	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 4} },
 	rarity = 2,
 	atlas = 'beeatlas',
-	pos = { x = 0, y = 0 },
+	pos = { x = 3, y = 3 },
 	cost = 5,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }

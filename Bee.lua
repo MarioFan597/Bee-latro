@@ -686,7 +686,7 @@ SMODS.Joker {
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { extra = 0.1, x_mult = 1 , bee = true, bold = 4} },
+	config = { extra = { extra = 0.05, x_mult = 1 , bee = true, bold = 4} },
 	rarity = 3,
 	atlas = 'beeatlas',
 	blueprint_compat = true,
@@ -744,7 +744,7 @@ SMODS.Joker {
 	pools = {["Bee"] = true},
 	atlas = 'beeatlas',
 	blueprint_compat = true,
-	pos = { x = 3, y = 3 },
+	pos = { x = 2, y = 1 },
 	cost = 2,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.jimbeeCount, card and card.ability.extra.bee, card and card.ability.extra.bold } }

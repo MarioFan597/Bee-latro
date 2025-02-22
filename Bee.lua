@@ -138,11 +138,43 @@ SMODS.Atlas {
 	py = 95
 }
 
+SMODS.Atlas {
+	key = "modicon",
+	path = "modicon.png",
+	px = 34,
+	py = 34
+}
+
 SMODS.Booster {
 	key = "bee_1",
 	kind = "Bee",
 	atlas = "beepackatlas",
 	pos = { x = 0, y = 0 },
+	order = 5,
+	config = { choose = 1, extra = 2 },
+	cost = 4,
+	weight = 2 * (0.4), 
+	create_card = function(self, card)
+		return Get_random_bee_card()
+	end,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.config.center.config.choose, card.ability.extra } }
+	end,
+	loc_txt = {
+		name = "Bee Pack",
+		text = {
+			"Choose {C:attention}#1#{} of",
+			"up to {C:attention}#2# Bee Jokers{}",
+		},
+	},
+	group_key = "k_bee_pack",
+}
+
+SMODS.Booster {
+	key = "bee_alt",
+	kind = "Bee",
+	atlas = "beepackatlas",
+	pos = { x = 0, y = 1 },
 	order = 5,
 	config = { choose = 1, extra = 2 },
 	cost = 4,
@@ -179,7 +211,7 @@ SMODS.Booster {
 		return { vars = { card.config.center.config.choose, card.ability.extra } }
 	end,
 	loc_txt = {
-		name = "Bee Pack",
+		name = "Jumbo Bee Pack",
 		text = {
 			"Choose {C:attention}#1#{} of",
 			"up to {C:attention}#2# Bee Jokers{}",
@@ -204,7 +236,7 @@ SMODS.Booster {
 		return { vars = { card.config.center.config.choose, card.ability.extra } }
 	end,
 	loc_txt = {
-		name = "Bee Pack",
+		name = "Mega Bee Pack",
 		text = {
 			"Choose {C:attention}#1#{} of",
 			"up to {C:attention}#2# Bee Jokers{}",
@@ -481,7 +513,7 @@ SMODS.Joker {
 	atlas = 'beeatlas',
 	pools = {["Bee"] = true},
 	blueprint_compat = true,
-	pos = { x = 0, y = 3 },
+	pos = { x = 4, y = 1 },
 	cost = 6,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.beecount, card and card.ability.extra.bee, card and card.ability.extra.bold } }
@@ -833,7 +865,7 @@ SMODS.Joker {
 	config = { extra = { rounds = 2, bee = true, bold = 2} },
 	rarity = 1,
 	atlas = 'beeatlas',
-	pos = { x = 3, y = 3 },
+	pos = { x = 3, y = 1 },
 	cost = 0,
 	pools = {["Bee"] = true},
 	loc_vars = function(self, info_queue, card)

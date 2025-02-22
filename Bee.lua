@@ -313,14 +313,14 @@ SMODS.Joker {
 		name = 'Bee-Bee Dagger',
 		text = {
             "When {C:attention}Blind{} is selected,",
-            "destroy Joker to the right",
-        	"to create #1# {C:attention}Jimbee{}",
+            "destroy Joker to the right if its not a ",
+        	"{C:attention}Bee Joker{} to create #1# {C:attention}Jimbee{}",
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
     rarity = 2,
     cost = 8,
-	config = { extra = {jimbeeCount = 2, bee = true, bold = 2} },
+	config = { extra = {jimbeeCount = 3, bee = true, bold = 2} },
     atlas = "beeatlas",
 	pools = {["Bee"] = true},
     blueprint_compat = true,
@@ -342,6 +342,7 @@ SMODS.Joker {
 			and G.jokers.cards[my_pos + 1]
 			and not G.jokers.cards[my_pos + 1].ability.eternal
 			and not G.jokers.cards[my_pos + 1].getting_sliced
+			and not G.jokers.cards[my_pos + 1]:is_bee()
 		then
 			local sliced_card = G.jokers.cards[my_pos + 1]
 			sliced_card.getting_sliced = true

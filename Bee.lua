@@ -505,17 +505,19 @@ SMODS.Joker {
 	pos = { x = 4, y = 1 },
 	cost = 6,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.beecount, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and math.min(100, card.ability.extra.beecount), card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
-		if context.before and next(context.poker_hands['Straight']) then
-			for i = 1, card.ability.extra.beecount do				
-				local card = create_card("Joker", G.joker, nil, nil, nil, nil, "j_bee_jimbee")
-				card:add_to_deck()
-				G.jokers:emplace(card)								
-			end
+		if context.before and not context.debuff then
+			if context.scoring_name == "Straight" then 
+				for i = 1, math.min(100, card.ability.extra.beecount) do				
+					local card = create_card("Joker", G.joker, nil, nil, nil, nil, "j_bee_jimbee")
+					card:add_to_deck()
+					G.jokers:emplace(card)								
+				end
 
 			return {message = 'Created!', colour = G.C.FILTER,}
+			end
 		end
 
 		if (context.retrigger_joker_check and not context.retrigger_joker and context.other_card ~= self and G.GAME.last_hand_played == 'Flush') then

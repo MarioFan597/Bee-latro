@@ -320,7 +320,7 @@ SMODS.Joker {
 	},
     rarity = 2,
     cost = 8,
-	config = { extra = {jimbeeCount = 3, bee = true, bold = 2} },
+	config = { extra = {jimbeeCount = 3, bee = true, bold = 4} },
     atlas = "beeatlas",
 	pools = {["Bee"] = true},
     blueprint_compat = true,

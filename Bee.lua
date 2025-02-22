@@ -11,19 +11,6 @@
 ---
 ---
 
-		--return create_card(nil, G.pack_cards, nil, nil, true, true, "j_bee_jimbee", nil)
-		--return create_card(nil, G.pack_cards, nil, nil, true, true, "j_bee_ctrlplusbee", nil)
-		--return create_card(nil, G.pack_cards, nil, nil, true, true, "j_bee_beebeedagger", nil)
-		--return create_card(nil, G.pack_cards, nil, nil, true, true, "j_bee_spellingbee", nil)
-		--return create_card(nil, G.pack_cards, nil, nil, true, true, "j_bee_ballofbees", nil)
-		--return create_card(nil, G.pack_cards, nil, nil, true, true, "j_bee_hivemind", nil)
-		--return create_card(nil, G.pack_cards, nil, nil, true, true, "j_bee_kingbee", nil)
-		--return create_card(nil, G.pack_cards, nil, nil, true, true, "j_bee_beesknees", nil)
-		--return create_card(nil, G.pack_cards, nil, nil, true, true, "j_bee_beehive", nil)
-		--return create_card(nil, G.pack_cards, nil, nil, true, true, "j_bee_jollybee", nil)
-		--return create_card(nil, G.pack_cards, nil, nil, true, true, "j_bee_queenbee", nil)
-		--return create_card(nil, G.pack_cards, nil, nil, true, true, "j_bee_larva", nil)
-
 function Card:is_bee()
 	local check = false
 
@@ -50,7 +37,8 @@ function Get_random_bee_card()
         "j_bee_jollybee",
         "j_bee_bigbee",
         "j_bee_larva",
-        "j_bee_queenbee"
+        "j_bee_queenbee",
+		"j_bee_honeycomb"
     }
 
     -- Define rare cards with their individual frequency (1 in X cycles)
@@ -164,7 +152,7 @@ SMODS.Booster {
 		name = "Bee Pack",
 		text = {
 			"Choose {C:attention}#1#{} of",
-			"up to {C:attention}#2# Bee Jokers{}",
+			"up to {C:attention}#2# Beelatro Jokers{}",
 		},
 	},
 	group_key = "k_bee_pack",
@@ -189,7 +177,7 @@ SMODS.Booster {
 		name = "Bee Pack",
 		text = {
 			"Choose {C:attention}#1#{} of",
-			"up to {C:attention}#2# Bee Jokers{}",
+			"up to {C:attention}#2# Beelatro Jokers{}",
 		},
 	},
 	group_key = "k_bee_pack",
@@ -214,7 +202,7 @@ SMODS.Booster {
 		name = "Jumbo Bee Pack",
 		text = {
 			"Choose {C:attention}#1#{} of",
-			"up to {C:attention}#2# Bee Jokers{}",
+			"up to {C:attention}#2# Beelatro Jokers{}",
 		},
 	},
 	group_key = "k_bee_pack",
@@ -239,7 +227,7 @@ SMODS.Booster {
 		name = "Mega Bee Pack",
 		text = {
 			"Choose {C:attention}#1#{} of",
-			"up to {C:attention}#2# Bee Jokers{}",
+			"up to {C:attention}#2# Beelatro Jokers{}",
 		},
 	},
 	group_key = "k_bee_pack",
@@ -926,6 +914,39 @@ SMODS.Joker {
 			end
 		end
 	end,
+}
+
+SMODS.Joker {
+	key = 'honeycomb',
+	loc_txt = {
+		name = 'Honeycomb',
+		text = {
+			"When round ends, ",
+            "earn {C:money}#1#${} for each {C:attention}Bee Joker{} you have",
+		}
+	},
+	config = { extra = { dollars = 3, bee = false, bold = 3} },
+	rarity = 2,
+	atlas = 'beeatlas',
+	blueprint_compat = true,
+	pools = {["Bee"] = true},
+	pos = { x = 5, y = 1 },
+	cost = 5,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.dollars, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+	end,
+	calc_dollar_bonus = function (self, card)
+		local beeCount = 0
+			for i = 1, #G.jokers.cards do
+				if
+					G.jokers.cards[i]:is_bee()
+				then
+					beeCount = beeCount + 1
+				end
+			end
+
+			return card.ability.extra.dollars * beeCount
+    end
 }
 
 ----------------------------------------------

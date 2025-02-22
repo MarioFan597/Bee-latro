@@ -794,8 +794,8 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Jollybee',
 		text = {
-            "Whenever you play a {C:attention}Pair,",
-			"This gains {C:mult}+#2#{} Mult for each {C:attention}Bee Joker{} you have",
+            "Whenever you play a hand that contains a {C:attention}Pair,",
+			"this gains {C:mult}+#2#{} Mult for each {C:attention}Bee Joker{} you have",
 			"{C:inactive}(Currently +#1# Mult)",
 			"{C:inactive}This counts as a Bee Joker"
 		}

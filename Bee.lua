@@ -325,7 +325,7 @@ SMODS.Joker {
 	pools = {["Bee"] = true},
     blueprint_compat = true,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.jimbeeCount, card and card.ability.extra.bee, card and card.ability.extra.bold }	}
+		return { vars = { card and math.min(100,card.ability.extra.jimbeeCount), card and card.ability.extra.bee, card and card.ability.extra.bold }	}
 	end,
     calculate = function(self, card, context)
         local my_pos = nil
@@ -359,7 +359,7 @@ SMODS.Joker {
 					return true
 				end,
 			}))
-			for i = 1, card.ability.extra.jimbeeCount do
+			for i = 1, math.min(100,card.ability.extra.jimbeeCount) do
 				local card = create_card("Joker", G.joker, nil, nil, nil, nil, "j_bee_jimbee")
 				card:add_to_deck()
 				G.jokers:emplace(card)
@@ -709,7 +709,7 @@ SMODS.Joker {
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { extra = 0.05, x_mult = 1 , bee = true, bold = 4} },
+	config = { extra = { extra = 0.06, x_mult = 1 , bee = true, bold = 4} },
 	rarity = 3,
 	atlas = 'beeatlas',
 	blueprint_compat = true,
@@ -770,7 +770,7 @@ SMODS.Joker {
 	pos = { x = 2, y = 1 },
 	cost = 2,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.jimbeeCount, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and math.min(100, card.ability.extra.jimbeeCount), card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
 		if context.end_of_round			
@@ -778,7 +778,7 @@ SMODS.Joker {
 		and not context.individual
 		and not card.ability.extra.active
 		then
-			for i = 1, card.ability.extra.jimbeeCount do				
+			for i = 1, math.min(100, card.ability.extra.jimbeeCount) do				
 				local card = create_card("Joker", G.joker, nil, nil, nil, nil, "j_bee_jimbee")
 				card:add_to_deck()
 				G.jokers:emplace(card)								

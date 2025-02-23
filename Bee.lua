@@ -419,7 +419,7 @@ SMODS.Joker {
 			)
 		end
 
-		if context.joker_main then
+		if context.joker_main and card.ability.extra.chips ~= 0 then
 			return {
 				chip_mod = card.ability.extra.chips,
 				message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
@@ -477,7 +477,7 @@ SMODS.Joker {
 			)
 		end
 
-		if context.joker_main then
+		if context.joker_main and card.ability.extra.mult ~= 0 then
 			return {
 				mult_mod = card.ability.extra.mult,
 				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
@@ -632,7 +632,7 @@ SMODS.Joker {
 			end
 		end
 
-		if context.joker_main then
+		if context.joker_main and card.ability.extra.mult ~= 0 then
 			return {
 				mult_mod = card.ability.extra.mult,
 				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
@@ -833,7 +833,7 @@ SMODS.Joker {
 					})
 		end
 
-		if context.joker_main then
+		if context.joker_main and card.ability.extra.mult ~= 0 then
 			return {
 				mult_mod = card.ability.extra.mult,
                 message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
@@ -926,6 +926,7 @@ SMODS.Joker {
 		text = {
 			"When round ends, ",
             "earn {C:money}#1#${} for each {C:attention}Bee Joker{} you have",
+			"{C:inactive}(minimum 1$){}"
 		}
 	},
 	config = { extra = { dollars = 3, bee = false, bold = 3} },
@@ -939,6 +940,7 @@ SMODS.Joker {
 		return { vars = { card and card.ability.extra.dollars, card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calc_dollar_bonus = function (self, card)
+		
 		local beeCount = 0
 			for i = 1, #G.jokers.cards do
 				if
@@ -946,6 +948,10 @@ SMODS.Joker {
 				then
 					beeCount = beeCount + 1
 				end
+			end
+
+			if beeCount == 0 then
+				return 1
 			end
 
 			return card.ability.extra.dollars * beeCount

@@ -10,6 +10,9 @@
 ------------MOD CODE -------------------------
 ---
 ---
+---
+
+
 
 function Card:is_bee()
 	local check = false
@@ -43,7 +46,8 @@ function Get_random_bee_card()
 
     -- Define rare cards with their individual frequency (1 in X cycles)
     local rare_cards = {
-        {name = "j_bee_hivemind", chance = 3} -- Appears once every 3 cycles
+        {name = "j_bee_hivemind", chance = 3}, -- Appears in pools once every 3 cycles
+		{name = "j_bee_benson", chance = 10} -- Appears in pools once every 10 cycles
     }
 
     -- Check if the player has a Showman Joker
@@ -141,7 +145,7 @@ SMODS.Booster {
 	order = 5,
 	config = { choose = 1, extra = 2 },
 	cost = 4,
-	weight = 2 * (0.4), 
+	weight = 2 * (0.3), 
 	create_card = function(self, card)
 		return Get_random_bee_card()
 	end,
@@ -166,7 +170,7 @@ SMODS.Booster {
 	order = 5,
 	config = { choose = 1, extra = 2 },
 	cost = 4,
-	weight = 2 * (0.4), 
+	weight = 2 * (0.3), 
 	create_card = function(self, card)
 		return Get_random_bee_card()
 	end,
@@ -191,7 +195,7 @@ SMODS.Booster {
 	order = 6,
 	config = { choose = 1, extra = 4 },
 	cost = 6,
-	weight = 2 * (0.3), 
+	weight = 2 * (0.2), 
 	create_card = function(self, card)
 		return Get_random_bee_card()
 	end,
@@ -216,7 +220,7 @@ SMODS.Booster {
 	order = 7,
 	config = { choose = 2, extra = 5 },
 	cost = 8,
-	weight = 2 * (0.3), 
+	weight = 2 * (0.2), 
 	create_card = function(self, card)
 		return Get_random_bee_card()
 	end,
@@ -495,7 +499,7 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Ball of Bees',
 		text = {
-            "When you play a {C:attention}Straight,{}", 
+            "When you play a {C:attention}Straight{},", 
             "create #1# {C:attention}Jimbee{}",
 			"When you play a {C:attention}Flush{},",
 			"retrigger your {C:attention}Bee Jokers{}",
@@ -962,6 +966,78 @@ SMODS.Joker {
 					end
     		end
 }
+
+SMODS.Joker {
+	key = 'benson',
+	loc_txt = {
+		name = 'Barry B. Benson',
+		text = {
+            "{C:attention}According{} to {C:attention}all{} known {C:attention}laws{} of {C:attention}aviation{}, there {C:attention}is{} no {C:attention}way{} a {C:attention}bee{} should {C:attention}be{} able {C:attention}to{} fly", 
+			"{C:attention}Its{} wings {C:attention}are{} too {C:attention}small{} to {C:attention}get{} its {C:attention}fat{} little {C:attention}body{} off {C:attention}the{} ground",
+			"{C:attention}The{} bee, {C:attention}of{} course, {C:attention}flies{} anyway {C:attention}because{} bees {C:attention}don't{} care {C:attention}what{} humans {C:attention}think{} is {C:attention}impossible{}",
+			"{C:inactive}This counts as a Bee Joker"
+		}
+	},                     
+	config = { extra = { bee = true, bold = 24} },
+	rarity = 4,
+	atlas = 'beeatlas',
+	blueprint_compat = true,
+	pools = {["Bee"] = true},
+	pos = { x = 0, y = 0 },
+	cost = 25,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.bee, card and card.ability.extra.bold } }
+	end,
+	calculate = function(self, card, context)
+		if 
+			context.before and not context.repetition and not context.individual 
+		then
+			local editions = {
+				{negative = true},
+				{cry_astral = true},
+				{polychrome = true},
+				{cry_noisy = true},
+				{cry_mosaic = true},
+				{cry_glitched = true},
+				{cry_oversat = true},
+				{cry_blur = true},
+				{cry_glass = true},
+				{cry_gold = true},
+				{holo = true},
+				{foil = true}
+			}
+
+			local randomIndex = math.random(1, #editions)
+			local selectedEdition = editions[randomIndex]
+
+			local card = create_card(
+					"Joker",
+					G.jokers,
+					nil,
+					nil,
+					nil,
+					nil,
+					"j_bee_jimbee"
+				)
+			
+			card:set_edition(selectedEdition)
+			card:add_to_deck()
+			G.jokers:emplace(card)
+
+			return {message = "You like jazz?",
+			colour = G.C.FILTER}
+		end
+
+		if context.joker_main then
+			return{
+				--spells   BEE
+				chip_mod = 833,
+				message = localize { type = 'variable', key = 'a_chips', vars = { 833 } }
+			}
+		end
+    end
+}
+
 
 ----------------------------------------------
 ------------MOD CODE END----------------------

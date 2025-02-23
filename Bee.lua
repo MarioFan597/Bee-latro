@@ -500,7 +500,7 @@ SMODS.Joker {
 		name = 'Ball of Bees',
 		text = {
             "When you play a {C:attention}Straight{},", 
-            "create #1# {C:attention}Jimbee{}",
+            "create #1# {C:attention}Jimbee{} {C:inactive}(Must have room)",
 			"When you play a {C:attention}Flush{},",
 			"retrigger your {C:attention}Bee Jokers{}",
 			"{C:inactive}This counts as a Bee Joker"
@@ -517,7 +517,7 @@ SMODS.Joker {
 		return { vars = { card and math.min(100, card.ability.extra.beecount), card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
-		if context.before and not context.debuff then
+		if context.before and not context.debuff and (#G.jokers.cards + G.GAME.joker_buffer) < G.jokers.config.card_limit then
 			if context.scoring_name == "Straight" then 
 				for i = 1, math.min(100, card.ability.extra.beecount) do				
 					local card = create_card("Joker", G.joker, nil, nil, nil, nil, "j_bee_jimbee")
@@ -525,7 +525,7 @@ SMODS.Joker {
 					G.jokers:emplace(card)								
 				end
 
-			return {message = 'Created!', colour = G.C.FILTER,}
+			return {message = 'Bzzzzz! Bzzzzz!', colour = G.C.FILTER,}
 			end
 		end
 
@@ -990,7 +990,8 @@ SMODS.Joker {
 	end,
 	calculate = function(self, card, context)
 		if 
-			context.before and not context.repetition and not context.individual 
+			context.before and not context.repetition and not context.individual and
+			#G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit
 		then
 			local editions = {
 				{negative = true},
@@ -1026,14 +1027,6 @@ SMODS.Joker {
 
 			return {message = "You like jazz?",
 			colour = G.C.FILTER}
-		end
-
-		if context.joker_main then
-			return{
-				--spells   BEE
-				chip_mod = 833,
-				message = localize { type = 'variable', key = 'a_chips', vars = { 833 } }
-			}
 		end
     end
 }

@@ -240,8 +240,8 @@ SMODS.Joker {
 		name = 'Jimbee',
 		text = {
             "{C:mult}+#1#{} Mult",
-			"\n",
-			"{C:inactive}This counts as a Bee Joker"
+			"{C:inactive}This counts as",
+			"{C:inactive}a Bee Joker"
 		}
 	},
 	config = { extra = { mult = 4, bee = true, bold = 1} },
@@ -269,13 +269,13 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Ctrl + Bee',
 		text = {
-            "This has {C:mult}+#2#{} Mult for each ",
-			"{C:attention}bolded{} word or number your {C:attention}Bee Jokers{} have",
-			"{C:inactive}(Currently +#1# Mult)",
+            "This has {C:mult}+#2#{} Mult for each {C:attention}bolded{} word",
+			"or number your {C:attention}Bee Jokers{} have",
+			"{C:inactive}(Currently {C:mult}+#1# {C:inactive}Mult)",
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 4} },
+	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 5} },
 	rarity = 2,
 	atlas = 'beeatlas',
 	pos = { x = 1, y = 1 },
@@ -377,11 +377,11 @@ SMODS.Joker {
 		text = {
             "When round ends, this gains {C:chips}+#2#{} Chips",
 			"for each {C:attention}Bee Joker{} you currently have",
-			"{C:inactive}(Currently +#1# Chips)",
+			"{C:inactive}(Currently {C:chips}+#1# {C:inactive}Chips)",
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { chips = 0, chip_mod = 5, bee = true, bold = 3} },
+	config = { extra = { chips = 0, chip_mod = 5, bee = true, bold = 4} },
 	rarity = 1,
 	atlas = 'beeatlas',
 	blueprint_compat = true,
@@ -419,11 +419,13 @@ SMODS.Joker {
 			)
 		end
 
-		if context.joker_main and card.ability.extra.chips ~= 0 then
-			return {
-				chip_mod = card.ability.extra.chips,
-				message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
-			}
+		if context.joker_main then
+			if card.ability.extra.chips > 0 then
+				return {
+					chip_mod = card.ability.extra.chips,
+					message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
+				}
+			end
 		end
     end
 }
@@ -435,11 +437,11 @@ SMODS.Joker {
 		text = {
             "When round ends, this gains {C:mult}+#2#{} Mult",
 			"for each {C:attention}Bee Joker{} you currently have",
-			"{C:inactive}(Currently +#1# Mult)",
+			"{C:inactive}(Currently {C:mult}+#1# {C:inactive}Mult)",
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 3} },
+	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 4} },
 	rarity = 1,
 	atlas = 'beeatlas',
 	pos = { x = 4, y = 0 },
@@ -477,11 +479,13 @@ SMODS.Joker {
 			)
 		end
 
-		if context.joker_main and card.ability.extra.mult ~= 0 then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
+		if context.joker_main then
+			if card.ability.extra.mult > 0 then
+				return {
+					mult_mod = card.ability.extra.mult,
+					message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+				}
+			end
 		end
     end
 }
@@ -491,9 +495,10 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Ball of Bees',
 		text = {
-            "When you play a {C:attention}Straight{}, create #1# {C:attention}Jimbee{}",
-			"When you play a {C:attention}Flush{}, retrigger your {C:attention}Bee Jokers{}",
-			"",
+            "When you play a {C:attention}Straight,{}", 
+            "create #1# {C:attention}Jimbee{}",
+			"When you play a {C:attention}Flush{},",
+			"retrigger your {C:attention}Bee Jokers{}",
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
@@ -539,11 +544,11 @@ SMODS.Joker {
 		text = {
             "{C:attention}+#1# Joker Slots{} for each",
 			"{C:attention}Bee Joker{} you have when this is obtained",
-			"{C:inactive}(Granting +#2# Joker Slots)",
+			"{C:inactive}(Granting {C:attention}+#2# {C:inactive}Joker Slots)",
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { slots = 2, bee = true, bold = 5, beeCount = 1, activeSlots = 0} },
+	config = { extra = { slots = 2, bee = true, bold = 6, beeCount = 1, activeSlots = 0} },
 	rarity = "cry_epic",
 	atlas = 'beeatlas',
 	blueprint_compat = false,
@@ -586,12 +591,12 @@ SMODS.Joker {
 		name = 'King Bee',
 		text = {
             "This gains {C:mult}+#2#{} Mult for each {C:attention}Bee Joker{} ",
-			"you have whenever you score a {C:attention}King{}",
-			"{C:inactive}(Currently +#1# Mult)",
+			"you have whenever a {C:attention}King{} is scored",
+			"{C:inactive}(Currently {C:mult}+#1# {C:inactive}Mult)",
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { mult = 0, mult_mod = 1, bee = true, bold = 4} },
+	config = { extra = { mult = 0, mult_mod = 1, bee = true, bold = 5} },
 	rarity = 2,
 	atlas = 'beeatlas',
 	blueprint_compat = true,
@@ -632,7 +637,7 @@ SMODS.Joker {
 			end
 		end
 
-		if context.joker_main and card.ability.extra.mult ~= 0 then
+		if context.joker_main then
 			return {
 				mult_mod = card.ability.extra.mult,
 				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
@@ -656,7 +661,7 @@ SMODS.Joker {
 	rarity = 3,
 	atlas = 'beeatlas',
 	blueprint_compat = true,
-	pos = { x = 3, y = 3 },
+	pos = { x = 0, y = 2 },
 	cost = 5,
 	pools = {["Bee"] = true},
 	loc_vars = function(self, info_queue, card)
@@ -794,13 +799,13 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Jollybee',
 		text = {
-            "Whenever you play a hand that contains a {C:attention}Pair,",
-			"this gains {C:mult}+#2#{} Mult for each {C:attention}Bee Joker{} you have",
-			"{C:inactive}(Currently +#1# Mult)",
+            "If played hand contains a {C:attention}Pair{}, this gains",
+			"{C:mult}+#2#{} Mult for each {C:attention}Bee Joker{} you have",
+			"{C:inactive}(Currently {C:mult}+#1# {C:inactive}Mult)",
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
-	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 4} },
+	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 5} },
 	rarity = 2,
 	atlas = 'beeatlas',
 	pos = { x = 5, y = 0 },
@@ -833,7 +838,7 @@ SMODS.Joker {
 					})
 		end
 
-		if context.joker_main and card.ability.extra.mult ~= 0 then
+		if context.joker_main then
 			return {
 				mult_mod = card.ability.extra.mult,
                 message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
@@ -847,9 +852,9 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Larva',
 		text = {
-            "In {C:attention}#1#{} rounds, create a {C:attention}Holographic Jimbee",
+            "In {C:attention}#1#{} rounds,", 
+            "create a {C:attention}Holographic Jimbee",
 			"{C:red,E:2}self destructs{}",
-			"",
 			"{C:inactive}This counts as a Bee Joker"
 		}
 	},
@@ -925,8 +930,8 @@ SMODS.Joker {
 		name = 'Honeycomb',
 		text = {
 			"When round ends, ",
-            "earn {C:money}#1#${} for each {C:attention}Bee Joker{} you have",
-			"{C:inactive}(minimum 1$){}"
+            "earn {C:money}#1#${} for each",
+            "{C:attention}Bee Joker{} you have",
 		}
 	},
 	config = { extra = { dollars = 3, bee = false, bold = 3} },
@@ -937,25 +942,25 @@ SMODS.Joker {
 	pos = { x = 5, y = 1 },
 	cost = 5,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.dollars, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and card.ability.extra.dollars,card and card.ability.extra.bee, card and card.ability.extra.bold} }
 	end,
+
+
+
 	calc_dollar_bonus = function (self, card)
-		
-		local beeCount = 0
-			for i = 1, #G.jokers.cards do
-				if
-					G.jokers.cards[i]:is_bee()
-				then
-					beeCount = beeCount + 1
-				end
-			end
+				local beeCount = 0
+					for i = 1, #G.jokers.cards do
+						if
+							G.jokers.cards[i]:is_bee()
+						then
+							beeCount = beeCount + 1
+						end
+					end
 
-			if beeCount == 0 then
-				return 1
-			end
-
-			return card.ability.extra.dollars * beeCount
-    end
+					if beeCount > 0 then
+						return card.ability.extra.dollars * beeCount
+					end
+    		end
 }
 
 ----------------------------------------------

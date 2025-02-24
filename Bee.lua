@@ -987,7 +987,8 @@ SMODS.Joker {
 	atlas = 'beeatlas',
 	blueprint_compat = true,
 	pools = {["Bee"] = true},
-	pos = { x = 0, y = 0 },
+	pos = { x = 2, y = 2 },
+	soul_pos = { x = 3, y = 2 },
 	cost = 25,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.bee, card and card.ability.extra.bold } }

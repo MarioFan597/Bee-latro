@@ -2,7 +2,7 @@
 --- MOD_NAME: Bee-latro
 --- MOD_ID: Beelatro
 --- MOD_AUTHOR: [InspectorB]
---- MOD_DESCRIPTION: This Mod adds BEES !
+--- MOD_DESCRIPTION: This Mod adds BEES!
 --- PREFIX: bee
 --- DEPENDENCIES:Cryptid>=0.5.3<=0.5.3c
 
@@ -116,6 +116,7 @@ function Get_random_bee_card()
     return create_card(nil, G.pack_cards, nil, nil, true, true, chosen_card, nil)
 end
 
+----------Defining Atlases------------------
 SMODS.Atlas {
 	key = "beeatlas",
 	path = "beeatlas.png",
@@ -137,6 +138,7 @@ SMODS.Atlas {
 	py = 34
 }
 
+----------Defining Boosterpacks------------------
 SMODS.Booster {
 	key = "bee_1",
 	kind = "Bee",
@@ -237,6 +239,7 @@ SMODS.Booster {
 	group_key = "k_bee_pack",
 }
 
+----------Defining Jokers------------------
 
 SMODS.Joker {
 	key = 'jimbee',
@@ -1029,6 +1032,68 @@ SMODS.Joker {
 			colour = G.C.FILTER}
 		end
     end
+}
+
+SMODS.Joker {
+	key = 'weebee',
+	loc_txt = {
+		name = 'Wee Bee',
+		text = {
+            "This gains {C:chips}+#2#{} Chips for each {C:attention}Bee Joker{}",
+            "you have when each {C:attention}2{} is scored",
+            "{C:inactive}(Currently {C:chips}+#1# {C:inactive}Chips)",
+			"{C:inactive}This counts as a Bee Joker"
+		}
+	},
+	config = { extra = { chips = 0, chip_mod = 4, bee = true, bold = 5} },
+	rarity = 3,
+	atlas = 'beeatlas',
+	blueprint_compat = true,
+	pools = {["Bee"] = true},
+	pos = { x = 1, y = 2 },
+	cost = 8,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.chips, card and card.ability.extra.chip_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+	end,
+	calculate = function(self, card, context)
+		if context.cardarea == G.play and context.individual
+		then
+			local rank = SMODS.Ranks[context.other_card.base.value].key
+
+			if rank == "2" then
+				local beeCount = 0
+				for i = 1, #G.jokers.cards do
+					if
+						G.jokers.cards[i]:is_bee()
+					then
+						beeCount = beeCount + 1
+					end
+				end
+	
+			card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod * beeCount
+			card_eval_status_text(
+				card,
+				"extra",
+				nil,
+				nil,
+				nil,
+				{ 
+					message = localize({ type = "variable", key = "a_chips", vars = { card.ability.extra.chip_mod * beeCount } }),
+					colour = G.C.CHIPS,
+				}
+			)
+		end
+	end
+
+	if context.joker_main then
+		if card.ability.extra.chips > 0 then
+			return {
+				chip_mod = card.ability.extra.chips,
+				message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
+				}
+			end
+		end
+	end
 }
 
 

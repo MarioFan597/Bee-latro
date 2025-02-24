@@ -148,7 +148,7 @@ SMODS.Booster {
 	order = 5,
 	config = { choose = 1, extra = 2 },
 	cost = 4,
-	weight = 2 * (0.3), 
+	weight = 2 * (0.5), 
 	create_card = function(self, card)
 		return Get_random_bee_card()
 	end,
@@ -173,7 +173,7 @@ SMODS.Booster {
 	order = 5,
 	config = { choose = 1, extra = 2 },
 	cost = 4,
-	weight = 2 * (0.3), 
+	weight = 2 * (0.5), 
 	create_card = function(self, card)
 		return Get_random_bee_card()
 	end,
@@ -198,7 +198,7 @@ SMODS.Booster {
 	order = 6,
 	config = { choose = 1, extra = 4 },
 	cost = 6,
-	weight = 2 * (0.2), 
+	weight = 2 * (0.4), 
 	create_card = function(self, card)
 		return Get_random_bee_card()
 	end,
@@ -223,7 +223,7 @@ SMODS.Booster {
 	order = 7,
 	config = { choose = 2, extra = 5 },
 	cost = 8,
-	weight = 2 * (0.2), 
+	weight = 2 * (0.3), 
 	create_card = function(self, card)
 		return Get_random_bee_card()
 	end,

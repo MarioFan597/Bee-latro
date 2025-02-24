@@ -41,13 +41,14 @@ function Get_random_bee_card()
         "j_bee_bigbee",
         "j_bee_larva",
         "j_bee_queenbee",
-		"j_bee_honeycomb"
+		"j_bee_honeycomb",
+		"j_bee_weebee"
     }
 
     -- Define rare cards with their individual frequency (1 in X cycles)
     local rare_cards = {
         {name = "j_bee_hivemind", chance = 3}, -- Appears in pools once every 3 cycles
-		{name = "j_bee_benson", chance = 10} -- Appears in pools once every 10 cycles
+		{name = "j_bee_benson", chance = 100} -- Appears in pools once every 100 cycles
     }
 
     -- Check if the player has a Showman Joker

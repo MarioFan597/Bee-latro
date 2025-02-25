@@ -35,12 +35,10 @@ function Get_random_bee_card()
         "j_bee_spellingbee",
         "j_bee_ballofbees",
         "j_bee_kingbee",
-        "j_bee_beesknees",
         "j_bee_beehive",
         "j_bee_jollybee",
         "j_bee_bigbee",
         "j_bee_larva",
-        "j_bee_queenbee",
 		"j_bee_honeycomb",
 		"j_bee_weebee",
 		"j_bee_honeypot"
@@ -48,6 +46,8 @@ function Get_random_bee_card()
 
     -- Define rare cards with their individual frequency (1 in X cycles)
     local rare_cards = {
+		{name = "j_bee_beesknees", chance = 2},
+		{name = "j_bee_queenbee", chance = 2},
         {name = "j_bee_hivemind", chance = 3}, -- Appears in pools once every 3 cycles
 		{name = "j_bee_benson", chance = 100} -- Appears in pools once every 100 cycles
     }
@@ -1105,9 +1105,9 @@ SMODS.Joker {
 		name = 'Honeypot',
 		text = {
             "{C:mult}+#1#{} Mult",
-            "{C:mult}-#3#{} Mult per round played",
+            "{C:mult}-#3#{} Mult per round",
 			"For each {C:attention}Bee Joker{} you have:",
-			"{C:mult}+#2#{} Mult per round played"
+			"{C:mult}+#2#{} Mult per round"
 		}
 	},
 	config = { extra = { mult = 30, mult_mod = 2, mult_loss = 5, bold = 5} },

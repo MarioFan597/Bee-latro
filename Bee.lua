@@ -1049,7 +1049,7 @@ SMODS.Joker {
 		}
 	},
 	config = { extra = { chips = 0, chip_mod = 4, bee = true, bold = 5} },
-	rarity = 3,
+	rarity = 2,
 	atlas = 'beeatlas',
 	blueprint_compat = true,
 	pools = {["Bee"] = true},

@@ -46,9 +46,9 @@ function Get_random_bee_card()
 
     -- Define rare cards with their individual frequency (1 in X cycles)
     local rare_cards = {
-		{name = "j_bee_beesknees", chance = 2},
-		{name = "j_bee_queenbee", chance = 2},
-        {name = "j_bee_hivemind", chance = 3}, -- Appears in pools once every 3 cycles
+		{name = "j_bee_beesknees", chance = 3},
+		{name = "j_bee_queenbee", chance = 3},
+        {name = "j_bee_hivemind", chance = 5}, -- Appears in pools once every 3 cycles
 		{name = "j_bee_benson", chance = 100} -- Appears in pools once every 100 cycles
     }
 

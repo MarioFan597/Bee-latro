@@ -42,7 +42,8 @@ function Get_random_bee_card()
         "j_bee_larva",
         "j_bee_queenbee",
 		"j_bee_honeycomb",
-		"j_bee_weebee"
+		"j_bee_weebee",
+		"j_bee_honeypot"
     }
 
     -- Define rare cards with their individual frequency (1 in X cycles)
@@ -1098,6 +1099,108 @@ SMODS.Joker {
 	end
 }
 
-
+SMODS.Joker {
+	key = 'honeypot',
+	loc_txt = {
+		name = 'Honeypot',
+		text = {
+            "{C:mult}+#1#{} Mult",
+            "{C:mult}-#3#{} Mult per round played",
+			"For each {C:attention}Bee Joker{} you have:",
+			"{C:mult}+#2#{} Mult per round played"
+		}
+	},
+	config = { extra = { mult = 30, mult_mod = 2, mult_loss = 5, bold = 5} },
+	rarity = 2,
+	atlas = 'beeatlas',
+	pos = { x = 4, y = 2 },
+	cost = 7,
+	pools = {["Bee"] = true},
+	blueprint_compat = true,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.mult_loss, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+	end,
+	calculate = function(self, card, context)
+		if context.end_of_round			
+		and not context.repetition
+		and not context.individual
+		and not card.ability.extra.active
+		then
+			local beeCount = 0
+			local mult_total_loss = 0
+			for i = 1, #G.jokers.cards do
+				if
+					G.jokers.cards[i]:is_bee()
+				then
+					beeCount = beeCount + 1
+				end
+			end
+			card.ability.extra.mult = card.ability.extra.mult + (card.ability.extra.mult_mod * beeCount) - card.ability.extra.mult_loss
+			if card.ability.extra.mult > 0 and card.ability.extra.mult_mod * beeCount - card.ability.extra.mult_loss >= 0
+			then
+			card_eval_status_text(
+				card,
+				"extra",
+				nil,
+				nil,
+				nil,
+				{
+						message = localize({ type = "variable", key = "a_mult", vars = { (card.ability.extra.mult_mod * beeCount) - card.ability.extra.mult_loss} }),
+						colour = G.C.MULT
+				}
+			)
+			else if card.ability.extra.mult > 0 and card.ability.extra.mult_mod * beeCount - card.ability.extra.mult_loss < 0
+			then
+				mult_total_loss = (card.ability.extra.mult_mod * beeCount) - card.ability.extra.mult_loss
+				card_eval_status_text(
+				card,
+				"extra",
+				nil,
+				nil,
+				nil,
+				{message =  ""..mult_total_loss, colour = G.C.MULT}
+			)
+			--This part borrowed from SMOD Example Jokers
+			else
+				-- This part plays the animation.
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						play_sound('tarot1')
+						card.T.r = -0.2
+						card:juice_up(0.3, 0.4)
+						card.states.drag.is = true
+						card.children.center.pinch.x = true
+						-- This part destroys the card.
+						G.E_MANAGER:add_event(Event({
+							trigger = 'after',
+							delay = 0.3,
+							blockable = false,
+							func = function()
+								G.jokers:remove_card(card)
+								card:remove()
+								card = nil
+								return true;
+							end
+						}))
+						return true
+				end
+				}))
+				return {
+					message = 'Eaten!'
+				}
+			end
+		end
+	end
+		
+		if context.joker_main then
+			if card.ability.extra.mult > 0 then
+				return {
+					mult_mod = card.ability.extra.mult,
+					message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+					}
+				end
+		end
+end
+}
 ----------------------------------------------
 ------------MOD CODE END----------------------

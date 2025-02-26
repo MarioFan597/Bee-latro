@@ -1283,5 +1283,59 @@ SMODS.Joker {
 		end
     end
 }
+
+SMODS.Joker {
+	key = 'buzzkill',
+	loc_txt = {
+		name = 'Buzz-Kill',
+		text = {
+			"When this is sold:",
+            "Destroys all {C:attention}Bee Jokers.{}",
+            "For each one destroyed this way,",
+            "receive a {C:attention}Buffoon Tag"
+
+		}
+	},
+	config = { extra = {bee = false,} },
+	rarity = 3,
+	atlas = 'beeatlas',
+	blueprint_compat = true,
+	pools = {["Bee"] = true},
+	pos = { x = 0, y = 3 },
+	cost = 8,
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_TAGS.tag_buffoon
+	end,
+	calculate = function(self, card, context)
+		if context.selling_self and not context.blueprint
+		then
+			local tag_count = 0
+			for i = 1, #G.jokers.cards do
+				if
+					G.jokers.cards[i]:is_bee()
+				then
+					add_tag(Tag('tag_buffoon'))
+					local sliced_card = G.jokers.cards[i]
+					sliced_card.getting_sliced = true
+					if sliced_card.config.center.rarity == "cry_exotic" 
+					then
+						check_for_unlock({ type = "what_have_you_done" })
+					end
+					G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+					G.E_MANAGER:add_event(Event({
+					func = function()
+					G.GAME.joker_buffer = 0
+					card:juice_up(0.8, 0.8)
+					sliced_card:start_dissolve({ HEX("f6fa00") }, nil, 1.6)
+					play_sound("slice1", 0.96 + math.random() * 0.08)
+					return true
+					end,
+					}))
+				end
+			end
+
+		end
+	end
+}
 ----------------------------------------------
 ------------MOD CODE END----------------------

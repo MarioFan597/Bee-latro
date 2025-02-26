@@ -41,7 +41,8 @@ function Get_random_bee_card()
         "j_bee_larva",
 		"j_bee_honeycomb",
 		"j_bee_weebee",
-		"j_bee_honeypot"
+		"j_bee_honeypot",
+		"j_bee_nostalgic_jimbee"
     }
 
     -- Define rare cards with their individual frequency (1 in X cycles)
@@ -1112,7 +1113,7 @@ SMODS.Joker {
 			"{C:mult}+#2#{} Mult per round"
 		}
 	},
-	config = { extra = { mult = 30, mult_mod = 2, mult_loss = 5, bold = 5} },
+	config = { extra = { mult = 30, mult_mod = 5, mult_loss = 10, bold = 5} },
 	rarity = 2,
 	atlas = 'beeatlas',
 	pos = { x = 4, y = 2 },
@@ -1201,8 +1202,48 @@ SMODS.Joker {
 					message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
 					}
 				end
-		end
+		end	
 end
+}
+
+SMODS.Joker {
+	key = 'nostalgic_jimbee',
+	loc_txt = {
+		name = 'Nostalgic Jimbee',
+		text = {
+            "{C:mult}+#1#{} Mult",
+			"Retrigger your {C:attention}Jimbee",
+			"{C:inactive}This counts as",
+			"{C:inactive}a Bee Joker"
+		}
+	},
+	config = { extra = { mult = 4, bee = true, bold = 1} },
+	rarity = 1,
+	atlas = 'beeatlas',
+	blueprint_compat = true,
+	pools = {["Bee"] = true},
+	pos = { x = 5, y = 2 },
+	cost = 2,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+	end,
+	calculate = function(self, card, context)
+		if context.joker_main then
+			return {
+				mult_mod = card.ability.extra.mult,
+                message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+			}
+		end
+		-- and context.other_card.ability.name == "j_bee_jimbee"
+		if (context.retrigger_joker_check and not context.retrigger_joker and 
+			(context.other_card.ability.name == "j_bee_jimbee" or context.other_card.ability.name == "j_bee_nostalgic_jimbee")) then
+				return {
+					message = localize("k_again_ex"),
+					repetitions = 1,
+					card = card,
+				}
+		end
+    end
 }
 ----------------------------------------------
 ------------MOD CODE END----------------------

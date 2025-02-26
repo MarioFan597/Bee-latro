@@ -48,7 +48,7 @@ function Get_random_bee_card()
     local rare_cards = {
 		{name = "j_bee_beesknees", chance = 3},
 		{name = "j_bee_queenbee", chance = 3},
-        {name = "j_bee_hivemind", chance = 5}, -- Appears in pools once every 3 cycles
+        {name = "j_bee_hivemind", chance = 5}, -- Appears in pools once every 5 cycles
 		{name = "j_bee_benson", chance = 100} -- Appears in pools once every 100 cycles
     }
 
@@ -773,7 +773,8 @@ SMODS.Joker {
 		name = 'Beehive',
 		text = {
             "When round ends,",
-			"create #1# {C:attention}Jimbee{}"
+			"create #1# {C:attention}Jimbee{}",
+			"{C:inactive}(Must have room)"
 		}
 	},
 	config = { extra = { jimbeeCount = 1, bee = false, bold = 1} },
@@ -791,6 +792,7 @@ SMODS.Joker {
 		and not context.repetition
 		and not context.individual
 		and not card.ability.extra.active
+		and (#G.jokers.cards + G.GAME.joker_buffer) < G.jokers.config.card_limit
 		then
 			for i = 1, math.min(100, card.ability.extra.jimbeeCount) do				
 				local card = create_card("Joker", G.joker, nil, nil, nil, nil, "j_bee_jimbee")

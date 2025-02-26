@@ -25,32 +25,21 @@ function Card:is_bee()
 	end
 end
 
---todo Sometimes duplicate cards appear, although this seems to be an edge case for when you have all of the bee jokers. Will fix later.
 function Get_random_bee_card()
     -- Define standard cards (each appears once per cycle)
     local bee_cards = {
-        "j_bee_jimbee",
-        "j_bee_ctrlplusbee",
-        "j_bee_beebeedagger",
-        "j_bee_spellingbee",
-        "j_bee_ballofbees",
-        "j_bee_kingbee",
-        "j_bee_beehive",
-        "j_bee_jollybee",
-        "j_bee_bigbee",
-        "j_bee_larva",
-		"j_bee_honeycomb",
-		"j_bee_weebee",
-		"j_bee_honeypot",
-		"j_bee_nostalgic_jimbee"
+        "j_bee_jimbee", "j_bee_ctrlplusbee", "j_bee_beebeedagger", "j_bee_spellingbee",
+        "j_bee_ballofbees", "j_bee_kingbee", "j_bee_beehive", "j_bee_jollybee",
+        "j_bee_bigbee", "j_bee_larva", "j_bee_honeycomb", "j_bee_weebee",
+        "j_bee_honeypot", "j_bee_nostalgic_jimbee"
     }
 
     -- Define rare cards with their individual frequency (1 in X cycles)
     local rare_cards = {
-		{name = "j_bee_beesknees", chance = 3},
-		{name = "j_bee_queenbee", chance = 3},
-        {name = "j_bee_hivemind", chance = 5}, -- Appears in pools once every 5 cycles
-		{name = "j_bee_benson", chance = 100} -- Appears in pools once every 100 cycles
+        {name = "j_bee_beesknees", chance = 3},
+        {name = "j_bee_queenbee", chance = 3},
+        {name = "j_bee_hivemind", chance = 5},
+        {name = "j_bee_benson", chance = 100}
     }
 
     -- Check if the player has a Showman Joker
@@ -66,55 +55,40 @@ function Get_random_bee_card()
         return false
     end
 
-    -- Function to reset the Bee Joker pool
-    local function reset_bee_pool()
-        G.remaining_bee_cards = {}
-        local added_cards = {} -- Tracks which cards have been added to prevent duplicates
+    -- Generate a fresh pool of Bee Jokers every time the function is called
+    local available_bee_cards = {}
 
-        -- Add standard cards if not already found or held (unless Showman exists)
+    -- Add standard cards if they haven't been used or held (unless Showman exists)
+    for _, card in ipairs(bee_cards) do
+        if has_showman or (not G.GAME.used_jokers[card] and not is_in_hand(card)) then
+            table.insert(available_bee_cards, card)
+        end
+    end
+
+    -- Add rare cards with their probability
+    for _, rare in ipairs(rare_cards) do
+        if math.random(rare.chance) == 1 then
+            if has_showman or (not G.GAME.used_jokers[rare.name] and not is_in_hand(rare.name)) then
+                table.insert(available_bee_cards, rare.name)
+            end
+        end
+    end
+
+    -- Ensure there is at least one card in the pool
+    if #available_bee_cards == 0 then
         for _, card in ipairs(bee_cards) do
-            if not ((G.GAME.used_jokers[card] or is_in_hand(card)) and not has_showman) then
-                table.insert(G.remaining_bee_cards, card)
-                added_cards[card] = true
-            end
-        end
-
-        -- Add rare cards with their probability, ensuring no duplicates in this cycle
-        for _, rare in ipairs(rare_cards) do
-            if math.random(rare.chance) == 1 and not ((G.GAME.used_jokers[rare.name] or is_in_hand(rare.name)) and not has_showman) then
-                if not added_cards[rare.name] then
-                    table.insert(G.remaining_bee_cards, rare.name)
-                    added_cards[rare.name] = true
-                end
-            end
-        end
-
-        -- If after filtering, the pool is **still empty**, add all Bee Jokers back to prevent crashing
-        if #G.remaining_bee_cards == 0 then
-            for _, card in ipairs(bee_cards) do
-                table.insert(G.remaining_bee_cards, card)
-            end
-        end
-
-        -- Shuffle the list to ensure randomness per cycle
-        for i = #G.remaining_bee_cards, 2, -1 do
-            local j = math.random(i)
-            G.remaining_bee_cards[i], G.remaining_bee_cards[j] = G.remaining_bee_cards[j], G.remaining_bee_cards[i]
+            table.insert(available_bee_cards, card)
         end
     end
 
-    -- If no valid choices remain, reset the pool
-    if not G.remaining_bee_cards or #G.remaining_bee_cards == 0 then
-        reset_bee_pool()
+    -- Shuffle the available cards
+    for i = #available_bee_cards, 2, -1 do
+        local j = math.random(i)
+        available_bee_cards[i], available_bee_cards[j] = available_bee_cards[j], available_bee_cards[i]
     end
 
-    -- If the pool somehow ended up empty, reset it again
-    if #G.remaining_bee_cards == 0 then
-        reset_bee_pool()
-    end
-
-    -- Select a random card and remove it from the available pool
-    local chosen_card = table.remove(G.remaining_bee_cards)
+    -- Select a random card
+    local chosen_card = available_bee_cards[1]
 
     return create_card(nil, G.pack_cards, nil, nil, true, true, chosen_card, nil)
 end
@@ -1217,13 +1191,13 @@ SMODS.Joker {
 			"{C:inactive}a Bee Joker"
 		}
 	},
-	config = { extra = { mult = 4, bee = true, bold = 1} },
+	config = { extra = { mult = 4, bee = true, bold = 2} },
 	rarity = 1,
 	atlas = 'beeatlas',
 	blueprint_compat = true,
 	pools = {["Bee"] = true},
 	pos = { x = 5, y = 2 },
-	cost = 2,
+	cost = 3,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
@@ -1242,6 +1216,69 @@ SMODS.Joker {
 					repetitions = 1,
 					card = card,
 				}
+		end
+    end
+}
+
+SMODS.Joker {
+	key = 'grim_queen',
+	loc_txt = {
+		name = 'Grim Queen',
+		text = {
+            "For each {C:attention}Bee Joker{} you have,",
+			"convert the leftmost scored card ",
+			"into a {C:attention}Stone Card",
+			"{C:inactive}This counts as a Bee Joker"
+		}
+	},
+	config = { extra = { mult = 4, bee = true, bold = 4} },
+	rarity = 3,
+	atlas = 'beeatlas',
+	blueprint_compat = false,
+	pools = {["Bee"] = true},
+	pos = { x = 5, y = 2 },
+	cost = 8,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+	end,
+	calculate = function(self, card, context)
+		if
+			context.cardarea == G.jokers
+			and context.before
+			and not context.blueprint_card
+			and not context.retrigger_joker
+		then
+			local beeCount = 0
+			local converted = false
+			for i = 1, #G.jokers.cards do
+				if
+					G.jokers.cards[i]:is_bee()
+				then
+					beeCount = beeCount + 1
+				end
+			end
+
+			for i = 1, #context.scoring_hand do	
+			converted = true
+			if beeCount < i then break end
+			local _card = context.scoring_hand[i]
+				local enhancement = "m_stone"
+				if _card.ability.effect ~= "Stone Card" then
+					_card:set_ability(G.P_CENTERS[enhancement], nil, true)
+				end
+				G.E_MANAGER:add_event(Event({
+					delay = 0.6,
+					func = function()	
+						_card:juice_up()
+						play_sound("tarot1")
+						return true
+					end,
+				}))
+			end
+
+			if converted then
+				return {message = 'Stoned!', colour = G.C.FILTER,}
+			end
 		end
     end
 }

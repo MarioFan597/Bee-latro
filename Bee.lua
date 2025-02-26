@@ -118,7 +118,7 @@ SMODS.Atlas {
 
 ----------Defining Boosterpacks------------------
 SMODS.Booster {
-	key = "bee_1",
+	key = "normal_pack",
 	kind = "Bee",
 	atlas = "beepackatlas",
 	pos = { x = 0, y = 0 },
@@ -132,18 +132,11 @@ SMODS.Booster {
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.config.center.config.choose, card.ability.extra } }
 	end,
-	loc_txt = {
-		name = "Bee Pack",
-		text = {
-			"Choose {C:attention}#1#{} of",
-			"up to {C:attention}#2# Beelatro Jokers{}",
-		},
-	},
 	group_key = "k_bee_pack",
 }
 
 SMODS.Booster {
-	key = "bee_alt",
+	key = "alt_pack",
 	kind = "Bee",
 	atlas = "beepackatlas",
 	pos = { x = 0, y = 1 },
@@ -157,18 +150,11 @@ SMODS.Booster {
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.config.center.config.choose, card.ability.extra } }
 	end,
-	loc_txt = {
-		name = "Bee Pack",
-		text = {
-			"Choose {C:attention}#1#{} of",
-			"up to {C:attention}#2# Beelatro Jokers{}",
-		},
-	},
 	group_key = "k_bee_pack",
 }
 
 SMODS.Booster {
-	key = "bee_2",
+	key = "jumbo_pack",
 	kind = "Bee",
 	atlas = "beepackatlas",
 	pos = { x = 1, y = 0 },
@@ -182,18 +168,11 @@ SMODS.Booster {
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.config.center.config.choose, card.ability.extra } }
 	end,
-	loc_txt = {
-		name = "Jumbo Bee Pack",
-		text = {
-			"Choose {C:attention}#1#{} of",
-			"up to {C:attention}#2# Beelatro Jokers{}",
-		},
-	},
 	group_key = "k_bee_pack",
 }
 
 SMODS.Booster {
-	key = "bee_3",
+	key = "mega_pack",
 	kind = "Bee",
 	atlas = "beepackatlas",
 	pos = { x = 2, y = 0 },
@@ -207,28 +186,61 @@ SMODS.Booster {
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.config.center.config.choose, card.ability.extra } }
 	end,
-	loc_txt = {
-		name = "Mega Bee Pack",
-		text = {
-			"Choose {C:attention}#1#{} of",
-			"up to {C:attention}#2# Beelatro Jokers{}",
-		},
-	},
 	group_key = "k_bee_pack",
 }
+
+---------------Defining Seals-------------------
+
+-- SMODS.Seal = {
+-- 	name = "cry-Azure-Seal",
+-- 	key = "azure",
+-- 	badge_colour = HEX("1d4fd7"),
+-- 	config = { planets_amount = 3 },
+-- 	loc_vars = function(self, info_queue)
+-- 		return { vars = { self.config.planets_amount } }
+-- 	end,
+-- 	atlas = "cry_misc",
+-- 	pos = { x = 0, y = 2 },
+-- 	-- This is still quite jank
+-- 	calculate = function(self, card, context)
+-- 		if context.destroying_card and not card.will_shatter then
+-- 			card.will_shatter = true
+-- 			G.E_MANAGER:add_event(Event({
+-- 				trigger = "before",
+-- 				delay = 0.0,
+-- 				func = function()
+-- 					local card_type = "Planet"
+-- 					local _planet = nil
+-- 					if G.GAME.last_hand_played then
+-- 						for k, v in pairs(G.P_CENTER_POOLS.Planet) do
+-- 							if v.config.hand_type == G.GAME.last_hand_played then
+-- 								_planet = v.key
+-- 								break
+-- 							end
+-- 						end
+-- 					end
+
+-- 					for i = 1, self.config.planets_amount do
+-- 						local card = create_card(card_type, G.consumeables, nil, nil, nil, nil, _planet, "cry_azure")
+
+-- 						card:set_edition({ negative = true }, true)
+-- 						card:add_to_deck()
+-- 						G.consumeables:emplace(card)
+-- 					end
+-- 					return true
+-- 				end,
+-- 			}))
+
+-- 			return { remove = true }
+-- 		end
+-- 	end,
+-- }
+
 
 ----------Defining Jokers------------------
 
 SMODS.Joker {
 	key = 'jimbee',
-	loc_txt = {
-		name = 'Jimbee',
-		text = {
-            "{C:mult}+#1#{} Mult",
-			"{C:inactive}This counts as",
-			"{C:inactive}a Bee Joker"
-		}
-	},
 	config = { extra = { mult = 4, bee = true, bold = 1} },
 	rarity = 1,
 	atlas = 'beeatlas',
@@ -251,15 +263,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'ctrlplusbee',
-	loc_txt = {
-		name = 'Ctrl + Bee',
-		text = {
-            "This has {C:mult}+#2#{} Mult for each {C:attention}bolded{} word",
-			"or number your {C:attention}Bee Jokers{} have",
-			"{C:inactive}(Currently {C:mult}+#1# {C:inactive}Mult)",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
 	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 5} },
 	rarity = 2,
 	atlas = 'beeatlas',
@@ -294,15 +297,6 @@ SMODS.Joker {
 SMODS.Joker {
     key = "beebeedagger",
     pos = { x = 2, y = 0 },
-	loc_txt = {
-		name = 'Bee-Bee Dagger',
-		text = {
-            "When {C:attention}Blind{} is selected,",
-            "destroy Joker to the right if its not a ",
-        	"{C:attention}Bee Joker{} to create #1# {C:attention}Jimbee{}",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
     rarity = 2,
     cost = 8,
 	config = { extra = {jimbeeCount = 3, bee = true, bold = 4} },
@@ -357,15 +351,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'spellingbee',
-	loc_txt = {
-		name = 'Spelling Bee',
-		text = {
-            "When round ends, this gains {C:chips}+#2#{} Chips",
-			"for each {C:attention}Bee Joker{} you currently have",
-			"{C:inactive}(Currently {C:chips}+#1# {C:inactive}Chips)",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
 	config = { extra = { chips = 0, chip_mod = 5, bee = true, bold = 4} },
 	rarity = 1,
 	atlas = 'beeatlas',
@@ -417,15 +402,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'bigbee',
-	loc_txt = {
-		name = 'Big Bee',
-		text = {
-            "When round ends, this gains {C:mult}+#2#{} Mult",
-			"for each {C:attention}Bee Joker{} you currently have",
-			"{C:inactive}(Currently {C:mult}+#1# {C:inactive}Mult)",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
 	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 4} },
 	rarity = 1,
 	atlas = 'beeatlas',
@@ -477,16 +453,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'ballofbees',
-	loc_txt = {
-		name = 'Ball of Bees',
-		text = {
-            "When you play a {C:attention}Straight{},", 
-            "create #1# {C:attention}Jimbee{} {C:inactive}(Must have room)",
-			"When you play a {C:attention}Flush{},",
-			"retrigger your {C:attention}Bee Jokers{}",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
 	config = { extra = { beecount = 1, bee = true, bold = 5} },
 	rarity = 2,
 	atlas = 'beeatlas',
@@ -524,15 +490,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'hivemind',
-	loc_txt = {
-		name = 'Hivemind',
-		text = {
-            "{C:attention}+#1# Joker Slots{} for each",
-			"{C:attention}Bee Joker{} you have when this is obtained",
-			"{C:inactive}(Granting {C:attention}+#2# {C:inactive}Joker Slots)",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
 	config = { extra = { slots = 2, bee = true, bold = 6, beeCount = 1, activeSlots = 0} },
 	rarity = "cry_epic",
 	atlas = 'beeatlas',
@@ -557,30 +514,11 @@ SMODS.Joker {
 	remove_from_deck = function(self, card, context)
 		G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra.activeSlots
     end,
-	-- cry_credits = {
-	-- 	idea = {
-	-- 		"InspectorB"
-	-- 	},
-	-- 	art = {
-	-- 		"MarioFan597"
-	-- 	},
-	-- 	code = {
-	-- 		"InspectorB"
-	-- 	}
 	}
 
 
 SMODS.Joker {
 	key = 'kingbee',
-	loc_txt = {
-		name = 'King Bee',
-		text = {
-            "This gains {C:mult}+#2#{} Mult for each {C:attention}Bee Joker{} ",
-			"you have whenever a {C:attention}King{} is scored",
-			"{C:inactive}(Currently {C:mult}+#1# {C:inactive}Mult)",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
 	config = { extra = { mult = 0, mult_mod = 1, bee = true, bold = 5} },
 	rarity = 2,
 	atlas = 'beeatlas',
@@ -633,15 +571,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'queenbee',
-	loc_txt = {
-		name = 'Queen Bee',
-		text = {
-            "This gains {X:mult,C:white} X#1# {} Mult for each {C:attention}Bee Joker{} ",
-			"you have whenever you score a {C:attention}Queen{}",
-			"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
 	config = { extra = { extra = 0.1, x_mult = 1 , bee = true, bold = 4} },
 	rarity = 3,
 	atlas = 'beeatlas',
@@ -690,15 +619,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'beesknees',
-	loc_txt = {
-		name = 'Bee\'s Knees',
-		text = {
-            "After you play a hand, this gains {X:mult,C:white} X#1# {} Mult",
-			"for each {C:attention}Bee Joker{} you currently have",
-			"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
 	config = { extra = { extra = 0.06, x_mult = 1 , bee = true, bold = 4} },
 	rarity = 3,
 	atlas = 'beeatlas',
@@ -745,14 +665,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'beehive',
-	loc_txt = {
-		name = 'Beehive',
-		text = {
-            "When round ends,",
-			"create #1# {C:attention}Jimbee{}",
-			"{C:inactive}(Must have room)"
-		}
-	},
 	config = { extra = { jimbeeCount = 1, bee = false, bold = 1} },
 	rarity = 1,
 	pools = {["Bee"] = true},
@@ -783,15 +695,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'jollybee',
-	loc_txt = {
-		name = 'Jollybee',
-		text = {
-            "If played hand contains a {C:attention}Pair{}, this gains",
-			"{C:mult}+#2#{} Mult for each {C:attention}Bee Joker{} you have",
-			"{C:inactive}(Currently {C:mult}+#1# {C:inactive}Mult)",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
 	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 5} },
 	rarity = 2,
 	atlas = 'beeatlas',
@@ -836,15 +739,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'larva',
-	loc_txt = {
-		name = 'Larva',
-		text = {
-            "In {C:attention}#1#{} rounds,", 
-            "create a {C:attention}Holographic Jimbee",
-			"{C:red,E:2}self destructs{}",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
 	config = { extra = { rounds = 2, bee = true, bold = 2} },
 	rarity = 1,
 	atlas = 'beeatlas',
@@ -913,14 +807,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'honeycomb',
-	loc_txt = {
-		name = 'Honeycomb',
-		text = {
-			"When round ends, ",
-            "earn {C:money}#1#${} for each",
-            "{C:attention}Bee Joker{} you have",
-		}
-	},
 	config = { extra = { dollars = 3, bee = false, bold = 3} },
 	rarity = 2,
 	atlas = 'beeatlas',
@@ -931,9 +817,6 @@ SMODS.Joker {
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.dollars,card and card.ability.extra.bee, card and card.ability.extra.bold} }
 	end,
-
-
-
 	calc_dollar_bonus = function (self, card)
 				local beeCount = 0
 					for i = 1, #G.jokers.cards do
@@ -951,16 +834,7 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
-	key = 'benson',
-	loc_txt = {
-		name = 'Barry B. Benson',
-		text = {
-            "{C:attention}According{} to {C:attention}all{} known {C:attention}laws{} of {C:attention}aviation{}, there {C:attention}is{} no {C:attention}way{} a {C:attention}bee{} should {C:attention}be{} able {C:attention}to{} fly", 
-			"{C:attention}Its{} wings {C:attention}are{} too {C:attention}small{} to {C:attention}get{} its {C:attention}fat{} little {C:attention}body{} off {C:attention}the{} ground",
-			"{C:attention}The{} bee, {C:attention}of{} course, {C:attention}flies{} anyway {C:attention}because{} bees {C:attention}don't{} care {C:attention}what{} humans {C:attention}think{} is {C:attention}impossible{}",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},                     
+	key = 'benson',                    
 	config = { extra = { bee = true, bold = 24} },
 	rarity = 4,
 	atlas = 'beeatlas',
@@ -1017,15 +891,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'weebee',
-	loc_txt = {
-		name = 'Wee Bee',
-		text = {
-            "This gains {C:chips}+#2#{} Chips for each {C:attention}Bee Joker{}",
-            "you have when each {C:attention}2{} is scored",
-            "{C:inactive}(Currently {C:chips}+#1# {C:inactive}Chips)",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
 	config = { extra = { chips = 0, chip_mod = 4, bee = true, bold = 5} },
 	rarity = 2,
 	atlas = 'beeatlas',
@@ -1079,15 +944,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'honeypot',
-	loc_txt = {
-		name = 'Honeypot',
-		text = {
-            "{C:mult}+#1#{} Mult",
-            "{C:mult}-#3#{} Mult per round played",
-			"For each {C:attention}Bee Joker{} you have:",
-			"{C:mult}+#2#{} Mult per round played"
-		}
-	},
 	config = { extra = { mult = 30, mult_mod = 5, mult_loss = 10, bold = 5} },
 	rarity = 2,
 	atlas = 'beeatlas',
@@ -1183,15 +1039,6 @@ end
 
 SMODS.Joker {
 	key = 'nostalgic_jimbee',
-	loc_txt = {
-		name = 'Nostalgic Jimbee',
-		text = {
-            "{C:mult}+#1#{} Mult",
-			"Retrigger your {C:attention}Jimbee",
-			"{C:inactive}This counts as",
-			"{C:inactive}a Bee Joker"
-		}
-	},
 	config = { extra = { mult = 4, bee = true, bold = 2} },
 	rarity = 1,
 	atlas = 'beeatlas',
@@ -1223,15 +1070,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'grim_queen',
-	loc_txt = {
-		name = 'Grim Queen',
-		text = {
-            "For each {C:attention}Bee Joker{} you have,",
-			"convert the leftmost scored card ",
-			"into a {C:attention}Stone Card",
-			"{C:inactive}This counts as a Bee Joker"
-		}
-	},
 	config = { extra = { mult = 4, bee = true, bold = 4} },
 	rarity = 3,
 	atlas = 'beeatlas',
@@ -1286,15 +1124,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'buzzkill',
-	loc_txt = {
-		name = 'Buzz-Kill',
-		text = {
-			"When this is sold:",
-            "Destroys all {C:attention}Bee Jokers.{}",
-            "For each one destroyed this way,",
-            "receive a {C:attention} Buffoon Tag"
-		}
-	},
 	config = { extra = {bee = false,} },
 	rarity = 3,
 	atlas = 'beeatlas',

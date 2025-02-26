@@ -1083,9 +1083,9 @@ SMODS.Joker {
 		name = 'Honeypot',
 		text = {
             "{C:mult}+#1#{} Mult",
-            "{C:mult}-#3#{} Mult per round",
+            "{C:mult}-#3#{} Mult per round played",
 			"For each {C:attention}Bee Joker{} you have:",
-			"{C:mult}+#2#{} Mult per round"
+			"{C:mult}+#2#{} Mult per round played"
 		}
 	},
 	config = { extra = { mult = 30, mult_mod = 5, mult_loss = 10, bold = 5} },
@@ -1292,8 +1292,7 @@ SMODS.Joker {
 			"When this is sold:",
             "Destroys all {C:attention}Bee Jokers.{}",
             "For each one destroyed this way,",
-            "receive a {C:attention}Buffoon Tag"
-
+            "receive a {C:attention}Mega Buffoon Tag"
 		}
 	},
 	config = { extra = {bee = false,} },

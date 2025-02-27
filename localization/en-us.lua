@@ -215,6 +215,14 @@ return {
 			        "up to {C:attention}#2# Beelatro Jokers{}",
 		        },
 			},
+            bee_honey_seal = {
+				name = "Honey Seal",
+				text = {
+					"Retrigger this {C:attention}#1#{} time for each",
+					"{C:attention}Bee Joker{} you have",
+				},
+			},
+
         },
         Planet={},
         Spectral={},
@@ -228,6 +236,9 @@ return {
             k_bee_pack = "Bee Pack",
             k_bee_jumbo_pack = "Jumbo Bee Pack",
             k_bee_mega_pack = "Mega Bee Pack"
-        }
+        },
+		labels = {
+			bee_honey_seal = "Honey Seal",
+		}
     }
 }

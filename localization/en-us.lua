@@ -237,8 +237,8 @@ return {
 			c_bee_egregore = {
 				name = "Egregore",
 				text = {
-					"Select a {C:attention}Joker{} to apply an ",
-					"{C:attention}Apian Sticker{}",
+					"Select a {C:attention}Joker{}",
+					" to make {C:attention}Apian{}",
 				},
 			},
 		},

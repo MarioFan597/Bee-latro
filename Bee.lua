@@ -525,7 +525,7 @@ SMODS.Joker {
 		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
-		if context.cardarea == G.play and context.individual
+		if context.cardarea == G.play and context.individual and not context.blueprint
 		then
 			local rank = SMODS.Ranks[context.other_card.base.value].key
 
@@ -577,7 +577,7 @@ SMODS.Joker {
 		return { vars = { card and card.ability.extra.extra, card and card.ability.extra.x_mult, card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
-		if context.cardarea == G.play and context.individual
+		if context.cardarea == G.play and context.individual and not context.blueprint
 		then
 			local rank = SMODS.Ranks[context.other_card.base.value].key
 
@@ -628,6 +628,7 @@ SMODS.Joker {
 		if context.after
 		and not context.before			
 		and not context.repetition
+		and not context.blueprint
 		then
 			local beeCount = 0
 			for i = 1, #G.jokers.cards do
@@ -700,7 +701,7 @@ SMODS.Joker {
 		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
-		if context.before and next(context.poker_hands['Pair']) then
+		if context.before and next(context.poker_hands['Pair']) and not context.blueprint then
 			local beeCount = 0
 			for i = 1, #G.jokers.cards do
 				if
@@ -897,7 +898,7 @@ SMODS.Joker {
 		return { vars = { card and card.ability.extra.chips, card and card.ability.extra.chip_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
-		if context.cardarea == G.play and context.individual
+		if context.cardarea == G.play and context.individual and not context.blueprint
 		then
 			local rank = SMODS.Ranks[context.other_card.base.value].key
 

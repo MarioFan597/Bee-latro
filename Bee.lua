@@ -366,6 +366,7 @@ SMODS.Joker {
 		and not context.repetition
 		and not context.individual
 		and not card.ability.extra.active
+		and not context.blueprint
 		then
 			local beeCount = 0
 			for i = 1, #G.jokers.cards do
@@ -417,6 +418,7 @@ SMODS.Joker {
 		and not context.repetition
 		and not context.individual
 		and not card.ability.extra.active
+		and not context.blueprint
 		then
 			local beeCount = 0
 			for i = 1, #G.jokers.cards do
@@ -892,7 +894,7 @@ SMODS.Joker {
 SMODS.Joker {
 	key = 'weebee',
 	config = { extra = { chips = 0, chip_mod = 4, bee = true, bold = 5} },
-	rarity = 2,
+	rarity = 3,
 	atlas = 'beeatlas',
 	blueprint_compat = true,
 	pools = {["Bee"] = true},
@@ -1129,7 +1131,7 @@ SMODS.Joker {
 	config = { extra = {bee = false,} },
 	rarity = 3,
 	atlas = 'beeatlas',
-	blueprint_compat = true,
+	blueprint_compat = false,
 	pools = {["Bee"] = true},
 	pos = { x = 0, y = 3 },
 	cost = 8,

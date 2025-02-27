@@ -110,6 +110,13 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
+	key = "beemiscatlas",
+	path = "beemiscatlas.png",
+	px = 71,
+	py = 95
+}
+
+SMODS.Atlas {
 	key = "modicon",
 	path = "modicon.png",
 	px = 34,
@@ -191,50 +198,36 @@ SMODS.Booster {
 
 ---------------Defining Seals-------------------
 
--- SMODS.Seal = {
--- 	name = "cry-Azure-Seal",
--- 	key = "azure",
--- 	badge_colour = HEX("1d4fd7"),
--- 	config = { planets_amount = 3 },
--- 	loc_vars = function(self, info_queue)
--- 		return { vars = { self.config.planets_amount } }
--- 	end,
--- 	atlas = "cry_misc",
--- 	pos = { x = 0, y = 2 },
--- 	-- This is still quite jank
--- 	calculate = function(self, card, context)
--- 		if context.destroying_card and not card.will_shatter then
--- 			card.will_shatter = true
--- 			G.E_MANAGER:add_event(Event({
--- 				trigger = "before",
--- 				delay = 0.0,
--- 				func = function()
--- 					local card_type = "Planet"
--- 					local _planet = nil
--- 					if G.GAME.last_hand_played then
--- 						for k, v in pairs(G.P_CENTER_POOLS.Planet) do
--- 							if v.config.hand_type == G.GAME.last_hand_played then
--- 								_planet = v.key
--- 								break
--- 							end
--- 						end
--- 					end
-
--- 					for i = 1, self.config.planets_amount do
--- 						local card = create_card(card_type, G.consumeables, nil, nil, nil, nil, _planet, "cry_azure")
-
--- 						card:set_edition({ negative = true }, true)
--- 						card:add_to_deck()
--- 						G.consumeables:emplace(card)
--- 					end
--- 					return true
--- 				end,
--- 			}))
-
--- 			return { remove = true }
--- 		end
--- 	end,
--- }
+SMODS.Seal {
+	key = "honey",
+	badge_colour = HEX("f08a0e"),
+	config = { retriggersPerBee = 1 },
+	loc_vars = function(self, info_queue)
+		return { vars = { self.config.retriggersPerBee } }
+	end,
+	atlas = "beemiscatlas",
+	pos = { x = 0, y = 0 },
+	calculate = function(self, card, context)
+		if  context.repetition
+			and context.cardarea == G.play then
+			local beeCount = 0
+			for i = 1, #G.jokers.cards do
+				if
+					G.jokers.cards[i]:is_bee()
+				then
+					beeCount = beeCount + 1
+				end
+			end
+			
+			return {
+				message = localize("k_again_ex"),
+				repetitions = beeCount * self.config.retriggersPerBee,
+				card = card,
+			}
+		end
+	end,
+	group_key = "k_bee_pack"
+}
 
 
 ----------Defining Jokers------------------
@@ -1081,7 +1074,7 @@ SMODS.Joker {
 	cost = 8,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
-		
+
 		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)

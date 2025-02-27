@@ -253,7 +253,7 @@ SMODS.Sticker {
 ----------Defining Consumables------------------
 
 SMODS.Consumable {
-	key = "beeifier",
+	key = "egregore",
 	set = "Spectral",
 	atlas = 'beemiscatlas',
 	pos = { x = 2, y = 0 },
@@ -263,7 +263,6 @@ SMODS.Consumable {
 	end,
 	use = function(self, card, area, copier)
 		local used_consumable = copier or card
-
 		local highlighted = G.jokers.highlighted[1]
 		--flip card
 		G.E_MANAGER:add_event(Event({

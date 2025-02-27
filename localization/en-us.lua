@@ -234,11 +234,11 @@ return {
         },
         Planet={},
         Spectral={
-			c_bee_beeifier = {
-				name = "Beeifier",
+			c_bee_egregore = {
+				name = "Egregore",
 				text = {
-					"Select a joker to apply an ",
-					"{C:attention}Apian Sticker{} to",
+					"Select a {C:attention}Joker{} to apply an ",
+					"{C:attention}Apian Sticker{}",
 				},
 			},
 		},

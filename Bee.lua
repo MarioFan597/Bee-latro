@@ -18,7 +18,7 @@ function Card:is_bee()
 	local check = false
 
 	--self.ability.extra ~= nil and 
-	if not is_number(self.ability.extra) and self.ability.extra ~= nil and self.ability.extra.bee then
+	if (not is_number(self.ability.extra) and self.ability.extra ~= nil and self.ability.extra.bee) or self.ability.bee_apian == true then
 		check = true
 	return check
 
@@ -121,6 +121,13 @@ SMODS.Atlas {
 	path = "modicon.png",
 	px = 34,
 	py = 34
+}
+
+SMODS.Atlas {
+	key = "beestickeratlas",
+	path = "beesticker.png",
+	px = 71,
+	py = 95
 }
 
 ----------Defining Boosterpacks------------------
@@ -229,6 +236,82 @@ SMODS.Seal {
 	group_key = "k_bee_pack"
 }
 
+
+----------Defining Stickers------------------
+
+SMODS.Sticker {
+	key = "apian",
+	badge_colour = HEX("f08a0e"),
+	sets = {
+		Joker = true
+	},
+	atlas = 'beestickeratlas',
+	pos = { x = 0, y = 0 },
+	rate = 0.3
+}
+
+----------Defining Consumables------------------
+
+SMODS.Consumable {
+	key = "beeifier",
+	set = "Spectral",
+	atlas = 'beemiscatlas',
+	pos = { x = 2, y = 0 },
+	cost = 3,
+	can_use = function(self, card)
+		return #G.jokers.highlighted == 1
+	end,
+	use = function(self, card, area, copier)
+		local used_consumable = copier or card
+
+		local highlighted = G.jokers.highlighted[1]
+		--flip card
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.1,
+			func = function()	
+				if highlighted then				
+					highlighted:flip()
+				end
+				return true
+			end,
+		}))
+
+		--play sound
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.3,
+			func = function()
+				play_sound("gold_seal", 1.2, 0.4)
+				highlighted:juice_up(0.3, 0.3)
+				return true
+			end,
+		}))
+
+		--add sticker to joker
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.1,
+			func = function()
+				if highlighted then
+					highlighted.ability.bee_apian = true	
+				end
+				return true
+			end,
+		}))
+
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.1,
+			func = function()	
+				if highlighted then				
+					highlighted:flip()
+				end
+				return true
+			end,
+		}))
+	end,
+}
 
 ----------Defining Jokers------------------
 

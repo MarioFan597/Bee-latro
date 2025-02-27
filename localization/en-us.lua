@@ -222,10 +222,26 @@ return {
 					"{C:attention}Bee Joker{} you have",
 				},
 			},
+			bee_apian = {
+				name = "Apian",
+				text = {
+					"This card counts as a",
+					"{C:attention} Bee Joker",
+				},
+			},
+
 
         },
         Planet={},
-        Spectral={},
+        Spectral={
+			c_bee_beeifier = {
+				name = "Beeifier",
+				text = {
+					"Select a joker to apply an ",
+					"{C:attention}Apian Sticker{} to",
+				},
+			},
+		},
         Stake={},
         Tag={},
         Tarot={},
@@ -239,6 +255,7 @@ return {
         },
 		labels = {
 			bee_honey_seal = "Honey Seal",
+			bee_apian = "Apian"
 		}
     }
 }

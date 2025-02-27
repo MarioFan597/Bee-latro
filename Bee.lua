@@ -1078,6 +1078,8 @@ SMODS.Joker {
 	pos = { x = 5, y = 2 },
 	cost = 8,
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
+		
 		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)

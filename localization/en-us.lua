@@ -237,6 +237,14 @@ return {
 			c_bee_egregore = {
 				name = "Egregore",
 				text = {
+					"Add a {C:attention}Honey Seal{}",
+                    "to {C:attention}#1#{} selected",
+                    "card in your hand",
+				},
+			},
+			c_bee_infestation = {
+				name = "Infestation",
+				text = {
 					"Select a {C:attention}Joker{}",
 					" to make {C:attention}Apian{}",
 				},

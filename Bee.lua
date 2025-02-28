@@ -210,7 +210,7 @@ SMODS.Seal {
 	badge_colour = HEX("f08a0e"),
 	config = { retriggersPerBee = 1 },
 	loc_vars = function(self, info_queue)
-		return { vars = { self.config.retriggersPerBee } }
+		return { vars = { self.config.retriggersPerBee or 1 } }
 	end,
 	atlas = "beemiscatlas",
 	pos = { x = 0, y = 0 },
@@ -257,6 +257,61 @@ SMODS.Consumable {
 	set = "Spectral",
 	atlas = 'beemiscatlas',
 	pos = { x = 2, y = 0 },
+	cost = 3,
+	config = {
+		-- This will add a tooltip.
+		mod_conv = "bee_honey_seal",
+		-- Tooltip args
+		max_highlighted = 1,
+	},
+	loc_vars = function (self, info_queue)
+		info_queue[#info_queue + 1] = { key = "bee_honey_seal", set = "Other", vars = {self.config.max_highlighted or 1}}
+		return { vars = {card and card.ability.max_highlighted or 1} }
+	end,
+	can_use = function(self, card)
+		return #G.hand.highlighted <= card.ability.max_highlighted and #G.hand.highlighted ~= 0
+	end,
+	use = function(self, card, area, copier)
+		local used_consumable = copier or card
+
+		for i = 1, #G.hand.highlighted do
+			local highlighted = G.hand.highlighted[i]
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					play_sound("tarot1")
+					highlighted:juice_up(0.3, 0.5)
+					return true
+				end,
+			}))
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.1,
+				func = function()
+					if highlighted then
+						highlighted:set_seal("bee_honey")
+					end
+					return true
+				end
+			}))
+			delay(0.5)
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.2,
+				func = function()
+					G.hand:unhighlight_all()
+					return true
+				end,
+			}))
+		end
+	end,
+}
+
+
+SMODS.Consumable {
+	key = "infestation",
+	set = "Spectral",
+	atlas = 'beemiscatlas',
+	pos = { x = 3, y = 0 },
 	cost = 3,
 	loc_vars = function (self, info_queue)
 		info_queue[#info_queue + 1] = { key = "bee_apian", set = "Other", vars = {} }

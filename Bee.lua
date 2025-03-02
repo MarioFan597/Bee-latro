@@ -263,10 +263,11 @@ SMODS.Consumable {
 		mod_conv = "bee_honey_seal",
 		-- Tooltip args
 		max_highlighted = 1,
+		bees = 2
 	},
 	loc_vars = function (self, info_queue)
-		info_queue[#info_queue + 1] = { key = "bee_honey_seal", set = "Other", vars = {self.config.max_highlighted or 1}}
-		return { vars = {card and card.ability.max_highlighted or 1} }
+		info_queue[#info_queue + 1] = { key = "bee_honey_seal", set = "Other", vars = {self.config.bees or 1, self.config.max_highlighted or 1}}
+		return { vars = {card and self.config.bees or 1, card and card.ability.max_highlighted or 1} }
 	end,
 	can_use = function(self, card)
 		return #G.hand.highlighted <= card.ability.max_highlighted and #G.hand.highlighted ~= 0
@@ -588,7 +589,7 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'ballofbees',
-	config = { extra = { beecount = 1, bee = true, bold = 5} },
+	config = {extra = { beecount = 1, bee = true, bold = 5, jim = 4} },
 	rarity = 2,
 	atlas = 'beeatlas',
 	pools = {["Bee"] = true},
@@ -596,7 +597,7 @@ SMODS.Joker {
 	pos = { x = 4, y = 1 },
 	cost = 6,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and math.min(100, card.ability.extra.beecount), card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and math.min(100, card.ability.extra.beecount), card and card.ability.extra.bee, card and card.ability.extra.bold} }
 	end,
 	calculate = function(self, card, context)
 		if context.before and not context.debuff and (#G.jokers.cards + G.GAME.joker_buffer) < G.jokers.config.card_limit then

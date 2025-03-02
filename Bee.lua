@@ -208,9 +208,9 @@ SMODS.Booster {
 SMODS.Seal {
 	key = "honey",
 	badge_colour = HEX("f08a0e"),
-	config = { retriggersPerBee = 1 },
+	config = { beePerRetrigger = 2, retriggers = 1 },
 	loc_vars = function(self, info_queue)
-		return { vars = { self.config.retriggersPerBee or 1 } }
+		return { vars = { self.config.beePerRetrigger or 1, retriggers or 1 } }
 	end,
 	atlas = "beemiscatlas",
 	pos = { x = 0, y = 0 },
@@ -228,7 +228,7 @@ SMODS.Seal {
 			
 			return {
 				message = localize("k_again_ex"),
-				repetitions = beeCount * self.config.retriggersPerBee,
+				repetitions = math.floor(beeCount / self.config.beePerRetrigger),
 				card = card,
 			}
 		end

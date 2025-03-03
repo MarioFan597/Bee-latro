@@ -217,8 +217,9 @@ return {
             bee_honey_seal = {
 				name = "Honey Seal",
 				text = {
-					"Retrigger this {C:attention}#1#{} time for each",
-					"{C:attention}Bee Joker{} you have",
+					"Retrigger this card {C:attention}#2#{}",
+					"time for every {C:attention}#1#{}",
+					"{C:attention}Bee Jokers{} you have"
 				},
 			},
 			bee_apian = {

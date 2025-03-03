@@ -264,13 +264,13 @@ SMODS.Consumable {
 		-- Tooltip args
 		max_highlighted = 1,
 	},
-	loc_vars = function (self, info_queue)
+	loc_vars = function (self, info_queue, center)
 		info_queue[#info_queue + 1] = { key = "bee_honey_seal", set = "Other", vars = {self.config.max_highlighted or 1}}
-		return { vars = {card and card.ability.max_highlighted or 1} }
+		return { vars = {center and center.ability.max_highlighted or 1} }
 	end,
-	can_use = function(self, card)
-		return #G.hand.highlighted <= card.ability.max_highlighted and #G.hand.highlighted ~= 0
-	end,
+	-- can_use = function(self, card)
+	-- 	return #G.hand.highlighted <= card.ability.max_highlighted and #G.hand.highlighted ~= 0
+	-- end,
 	use = function(self, card, area, copier)
 		local used_consumable = copier or card
 
@@ -313,7 +313,7 @@ SMODS.Consumable {
 	atlas = 'beemiscatlas',
 	pos = { x = 3, y = 0 },
 	cost = 3,
-	loc_vars = function (self, info_queue)
+	loc_vars = function (self, info_queue, center)
 		info_queue[#info_queue + 1] = { key = "bee_apian", set = "Other", vars = {} }
 	end,
 	can_use = function(self, card)

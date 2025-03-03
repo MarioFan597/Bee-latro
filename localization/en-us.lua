@@ -5,7 +5,6 @@ return {
         Edition={},
         Enhanced={},
         Joker={
-
         j_bee_jimbee = {
             name = 'Jimbee',
 		    text = {
@@ -229,8 +228,6 @@ return {
 					"{C:attention} Bee Joker",
 				},
 			},
-
-
         },
         Planet={},
         Spectral={

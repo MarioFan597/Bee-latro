@@ -210,7 +210,7 @@ SMODS.Seal {
 	badge_colour = HEX("f08a0e"),
 	config = { beePerRetrigger = 2, retriggers = 1 },
 	loc_vars = function(self, info_queue)
-		return { vars = { self.config.beePerRetrigger or 1, retriggers or 1 } }
+		return { vars = { self.config.beePerRetrigger or 2, retriggers or 1 } }
 	end,
 	atlas = "beemiscatlas",
 	pos = { x = 0, y = 0 },
@@ -266,7 +266,7 @@ SMODS.Consumable {
 		bees = 2
 	},
 	loc_vars = function (self, info_queue, center)
-		info_queue[#info_queue + 1] = { key = "bee_honey_seal", set = "Other", vars = {self.config.max_highlighted or 1}}
+		info_queue[#info_queue + 1] = { key = "bee_honey_seal", set = "Other", vars = {self.config.bees or 2, self.config.retriggers or 1}}
 		return { vars = {center and center.ability.max_highlighted or 1} }
 	end,
 	-- can_use = function(self, card)

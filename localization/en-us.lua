@@ -178,7 +178,7 @@ return {
             name = 'Buzz-Kill',
 		    text = {
 			    "When this is sold:",
-                "Destroys all {C:attention}Bee Jokers.{}",
+                "Destroys all {C:attention}Bee Jokers{}",
                 "For each one destroyed this way,",
                 "receive a{C:attention} Buffoon Tag"
 		    }

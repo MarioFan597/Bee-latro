@@ -318,7 +318,7 @@ SMODS.Consumable {
 		info_queue[#info_queue + 1] = { key = "bee_apian", set = "Other", vars = {} }
 	end,
 	can_use = function(self, card)
-		return #G.jokers.highlighted == 1
+		return #G.jokers.highlighted == 1 and G.jokers.highlighted[1]:is_bee() ~= true
 	end,
 	use = function(self, card, area, copier)
 		local used_consumable = copier or card
@@ -414,7 +414,12 @@ SMODS.Joker {
 			if
 				G.jokers.cards[i]:is_bee()
 			then
-				boldCount = boldCount + G.jokers.cards[i].ability.extra.bold
+				if G.jokers.cards[i].ability.bee_apian == true then
+					boldCount = boldCount + 2
+					print ("Apian Sticker Calculated")
+				else
+					boldCount = boldCount + G.jokers.cards[i].ability.extra.bold
+				end
 			end
 		end
 		card.ability.extra.mult = card.ability.extra.mult_mod * boldCount

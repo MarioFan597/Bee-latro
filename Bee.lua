@@ -30,12 +30,13 @@ function Get_random_bee_card()
     local bee_cards = {
         "j_bee_jimbee", "j_bee_ctrlplusbee", "j_bee_beebeedagger", "j_bee_spellingbee",
         "j_bee_ballofbees", "j_bee_kingbee", "j_bee_beehive", "j_bee_jollybee",
-        "j_bee_bigbee", "j_bee_larva", "j_bee_honeycomb", "j_bee_weebee",
+        "j_bee_bigbee", "j_bee_larva", "j_bee_honeycomb", 
         "j_bee_honeypot", "j_bee_nostalgic_jimbee"
     }
 
     -- Define rare cards with their individual frequency (1 in X cycles)
     local rare_cards = {
+		{name = "j_bee_weebee", chance = 3},
         {name = "j_bee_beesknees", chance = 3},
         {name = "j_bee_queenbee", chance = 3},
 		{name = "j_bee_grim_queen", chance = 3},

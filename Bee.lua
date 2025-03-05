@@ -760,7 +760,7 @@ SMODS.Joker {
 	atlas = 'beeatlas',
 	blueprint_compat = true,
 	pools = {["Bee"] = true},
-	pos = { x = 4, y = 3 },
+	pos = { x = 2, y = 3 },
 	cost = 8,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.extra, card and card.ability.extra.x_mult, card and card.ability.extra.bee, card and card.ability.extra.bold } }
@@ -1212,7 +1212,7 @@ SMODS.Joker {
 	atlas = 'beeatlas',
 	blueprint_compat = false,
 	pools = {["Bee"] = true},
-	pos = { x = 5, y = 2 },
+	pos = { x = 1, y = 3 },
 	cost = 8,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_stone

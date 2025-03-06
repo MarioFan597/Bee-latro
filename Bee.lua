@@ -1272,6 +1272,7 @@ SMODS.Joker {
 	cost = 7,
 	pools = {["Bee"] = true},
 	blueprint_compat = true,
+	pools = { ["Food"] = true },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.mult_loss, card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,

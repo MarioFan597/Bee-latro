@@ -1,9 +1,10 @@
 --- STEAMODDED HEADER
 --- MOD_NAME: Bee-latro
 --- MOD_ID: Beelatro
---- MOD_AUTHOR: [InspectorB]
+--- MOD_AUTHOR: [InspectorB and MarioFan597]
 --- MOD_DESCRIPTION: This Mod adds BEES!
 --- PREFIX: bee
+--- BADGE_COLOUR: 708b91
 --- DEPENDENCIES:Cryptid>=0.5.3<=0.5.3c
 
 ----------------------------------------------
@@ -394,7 +395,18 @@ SMODS.Joker {
                 message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
 			}
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"Kryppe"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -432,7 +444,18 @@ SMODS.Joker {
                 message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
 			}
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"George the Rat"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -488,6 +511,17 @@ SMODS.Joker {
 			return nil, true
 		end
     end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"MarioFan597"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -539,7 +573,18 @@ SMODS.Joker {
 				}
 			end
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"MarioFan597"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -591,7 +636,18 @@ SMODS.Joker {
 				}
 			end
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"Kryppe"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -628,7 +684,18 @@ SMODS.Joker {
 				}
 			end
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"Shadow"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -657,6 +724,17 @@ SMODS.Joker {
 	remove_from_deck = function(self, card, context)
 		G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra.activeSlots
     end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"MarioFan597"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 	}
 
 
@@ -709,7 +787,18 @@ SMODS.Joker {
 				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
 			}
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"Glitchkat10"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -757,7 +846,18 @@ SMODS.Joker {
 				Xmult_mod = card.ability.extra.x_mult,
 			}
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"MarioFan597"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -804,7 +904,18 @@ SMODS.Joker {
 				Xmult_mod = card.ability.extra.x_mult,
 			}
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"Unexian and MarioFan597"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -834,7 +945,18 @@ SMODS.Joker {
 
 			return {message = 'Created!', colour = G.C.FILTER,}
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"Glitchkat10"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -878,7 +1000,18 @@ SMODS.Joker {
                 message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
 			}
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"MarioFan597"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -947,6 +1080,17 @@ SMODS.Joker {
 			end
 		end
 	end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"George the Rat"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -974,7 +1118,18 @@ SMODS.Joker {
 					if beeCount > 0 then
 						return card.ability.extra.dollars * beeCount
 					end
-    		end
+    		end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"George the Rat"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -1030,7 +1185,18 @@ SMODS.Joker {
 			return {message = "You like jazz?",
 			colour = G.C.FILTER}
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"Inspector_B and MarioFan597"
+			},
+			art = {
+				"MarioFan597"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -1083,7 +1249,18 @@ SMODS.Joker {
 				}
 			end
 		end
-	end
+	end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"MarioFan597"
+			},
+			code = {
+				"MarioFan597"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -1095,6 +1272,7 @@ SMODS.Joker {
 	cost = 7,
 	pools = {["Bee"] = true},
 	blueprint_compat = true,
+	pools = { ["Food"] = true },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.mult_loss, card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
@@ -1178,7 +1356,18 @@ SMODS.Joker {
 					}
 				end
 		end	
-end
+end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"MarioFan597"
+			},
+			code = {
+				"MarioFan597"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -1209,7 +1398,18 @@ SMODS.Joker {
 					card = card,
 				}
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"MarioFan597"
+			},
+			art = {
+				"Inspector_B"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -1265,7 +1465,18 @@ SMODS.Joker {
 				return {message = 'Stoned!', colour = G.C.FILTER,}
 			end
 		end
-    end
+    end,
+    cry_credits = {
+			idea = {
+				"MarioFan597"
+			},
+			art = {
+				"MarioFan597"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
 }
 
 SMODS.Joker {
@@ -1309,7 +1520,18 @@ SMODS.Joker {
 			end
 
 		end
-	end
+	end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"MarioFan597"
+			},
+			code = {
+				"MarioFan597"
+			}
+		},
 }
 ----------------------------------------------
 ------------MOD CODE END----------------------

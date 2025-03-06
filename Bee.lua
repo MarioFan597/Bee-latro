@@ -13,7 +13,18 @@
 ---
 ---
 
+function GetBees()
+	local beeCount = 0
+	for i = 1, #G.jokers.cards do
+		if
+			G.jokers.cards[i]:is_bee()
+		then
+			beeCount = beeCount + 1
+		end
+	end
 
+	return beeCount
+end
 
 function Card:is_bee()
 	local check = false
@@ -220,14 +231,7 @@ SMODS.Seal {
 	calculate = function(self, card, context)
 		if  context.repetition
 			and context.cardarea == G.play then
-			local beeCount = 0
-			for i = 1, #G.jokers.cards do
-				if
-					G.jokers.cards[i]:is_bee()
-				then
-					beeCount = beeCount + 1
-				end
-			end
+			local beeCount = GetBees()
 			
 			return {
 				message = localize("k_again_ex"),
@@ -272,9 +276,6 @@ SMODS.Consumable {
 		info_queue[#info_queue + 1] = { key = "bee_honey_seal", set = "Other", vars = {self.config.bees or 2, self.config.retriggers or 1}}
 		return { vars = {center and center.ability.max_highlighted or 1} }
 	end,
-	-- can_use = function(self, card)
-	-- 	return #G.hand.highlighted <= card.ability.max_highlighted and #G.hand.highlighted ~= 0
-	-- end,
 	use = function(self, card, area, copier)
 		local used_consumable = copier or card
 
@@ -430,7 +431,6 @@ SMODS.Joker {
 			then
 				if G.jokers.cards[i].ability.bee_apian == true then
 					boldCount = boldCount + 2
-					print ("Apian Sticker Calculated")
 				else
 					boldCount = boldCount + G.jokers.cards[i].ability.extra.bold
 				end
@@ -543,14 +543,8 @@ SMODS.Joker {
 		and not card.ability.extra.active
 		and not context.blueprint
 		then
-			local beeCount = 0
-			for i = 1, #G.jokers.cards do
-				if
-					G.jokers.cards[i]:is_bee()
-				then
-					beeCount = beeCount + 1
-				end
-			end
+			local beeCount = GetBees()
+			
 			card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod * beeCount
 			card_eval_status_text(
 				card,
@@ -606,14 +600,8 @@ SMODS.Joker {
 		and not card.ability.extra.active
 		and not context.blueprint
 		then
-			local beeCount = 0
-			for i = 1, #G.jokers.cards do
-				if
-					G.jokers.cards[i]:is_bee()
-				then
-					beeCount = beeCount + 1
-				end
-			end
+			local beeCount = GetBees()
+			
 			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod * beeCount
 			card_eval_status_text(
 				card,
@@ -711,13 +699,8 @@ SMODS.Joker {
 		return { vars = { card and card.ability.extra.slots, card and card.ability.extra.activeSlots, card and card.ability.extra.bee, card and card.ability.extra.bold, } }
 	end,
 	add_to_deck = function(self, card, context)
-		for i = 1, #G.jokers.cards do			
-			if
-				G.jokers.cards[i]:is_bee()
-			then
-				card.ability.extra.beeCount = card.ability.extra.beeCount + 1
-			end
-		end
+		card.ability.extra.beeCount = GetBees()
+
 		card.ability.extra.activeSlots = card.ability.extra.slots * card.ability.extra.beeCount
 		G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.activeSlots
     end,
@@ -756,14 +739,7 @@ SMODS.Joker {
 			local rank = SMODS.Ranks[context.other_card.base.value].key
 
 			if rank == "King" then
-				local beeCount = 0
-				for i = 1, #G.jokers.cards do
-					if
-						G.jokers.cards[i]:is_bee()
-					then
-						beeCount = beeCount + 1
-					end
-				end
+				local beeCount = GetBees()
 	
 				card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod * beeCount
 				card_eval_status_text(
@@ -819,14 +795,7 @@ SMODS.Joker {
 			local rank = SMODS.Ranks[context.other_card.base.value].key
 
 			if rank == "Queen" then
-				local beeCount = 0
-				for i = 1, #G.jokers.cards do
-					if
-						G.jokers.cards[i]:is_bee()
-					then
-						beeCount = beeCount + 1
-					end
-				end
+				local beeCount = GetBees()
 	
 				card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.extra * beeCount
 				card_eval_status_text(
@@ -878,14 +847,7 @@ SMODS.Joker {
 		and not context.repetition
 		and not context.blueprint
 		then
-			local beeCount = 0
-			for i = 1, #G.jokers.cards do
-				if
-					G.jokers.cards[i]:is_bee()
-				then
-					beeCount = beeCount + 1
-				end
-			end
+			local beeCount = GetBees()
 			card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.extra * beeCount
 			card_eval_status_text(
 				card,
@@ -972,14 +934,7 @@ SMODS.Joker {
 	end,
 	calculate = function(self, card, context)
 		if context.before and next(context.poker_hands['Pair']) and not context.blueprint then
-			local beeCount = 0
-			for i = 1, #G.jokers.cards do
-				if
-					G.jokers.cards[i]:is_bee()
-				then
-					beeCount = beeCount + 1
-				end
-			end
+			local beeCount = GetBees()
 
 			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod * beeCount
 			card_eval_status_text(
@@ -1106,19 +1061,12 @@ SMODS.Joker {
 		return { vars = { card and card.ability.extra.dollars,card and card.ability.extra.bee, card and card.ability.extra.bold} }
 	end,
 	calc_dollar_bonus = function (self, card)
-				local beeCount = 0
-					for i = 1, #G.jokers.cards do
-						if
-							G.jokers.cards[i]:is_bee()
-						then
-							beeCount = beeCount + 1
-						end
-					end
+		local beeCount = GetBees()
 
-					if beeCount > 0 then
-						return card.ability.extra.dollars * beeCount
-					end
-    		end,
+		if beeCount > 0 then
+			return card.ability.extra.dollars * beeCount
+		end
+    end,
     cry_credits = {
 			idea = {
 				"Inspector_B"
@@ -1217,36 +1165,29 @@ SMODS.Joker {
 			local rank = SMODS.Ranks[context.other_card.base.value].key
 
 			if rank == "2" then
-				local beeCount = 0
-				for i = 1, #G.jokers.cards do
-					if
-						G.jokers.cards[i]:is_bee()
-					then
-						beeCount = beeCount + 1
-					end
-				end
+				local beeCount = GetBees()
 	
-			card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod * beeCount
-			card_eval_status_text(
-				card,
-				"extra",
-				nil,
-				nil,
-				nil,
-				{ 
-					message = localize({ type = "variable", key = "a_chips", vars = { card.ability.extra.chip_mod * beeCount } }),
-					colour = G.C.CHIPS,
-				}
-			)
+				card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod * beeCount
+				card_eval_status_text(
+					card,
+					"extra",
+					nil,
+					nil,
+					nil,
+					{ 
+						message = localize({ type = "variable", key = "a_chips", vars = { card.ability.extra.chip_mod * beeCount } }),
+						colour = G.C.CHIPS,
+					}
+				)
+			end
 		end
-	end
 
-	if context.joker_main then
-		if card.ability.extra.chips > 0 then
-			return {
-				chip_mod = card.ability.extra.chips,
-				message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
-				}
+		if context.joker_main then
+			if card.ability.extra.chips > 0 then
+				return {
+					chip_mod = card.ability.extra.chips,
+					message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
+					}
 			end
 		end
 	end,
@@ -1282,15 +1223,8 @@ SMODS.Joker {
 		and not context.individual
 		and not card.ability.extra.active
 		then
-			local beeCount = 0
+			local beeCount = GetBees()
 			local mult_total_loss = 0
-			for i = 1, #G.jokers.cards do
-				if
-					G.jokers.cards[i]:is_bee()
-				then
-					beeCount = beeCount + 1
-				end
-			end
 			card.ability.extra.mult = card.ability.extra.mult + (card.ability.extra.mult_mod * beeCount) - card.ability.extra.mult_loss
 			if card.ability.extra.mult > 0 and card.ability.extra.mult_mod * beeCount - card.ability.extra.mult_loss >= 0
 			then
@@ -1433,15 +1367,8 @@ SMODS.Joker {
 			and not context.blueprint_card
 			and not context.retrigger_joker
 		then
-			local beeCount = 0
+			local beeCount = GetBees()
 			local converted = false
-			for i = 1, #G.jokers.cards do
-				if
-					G.jokers.cards[i]:is_bee()
-				then
-					beeCount = beeCount + 1
-				end
-			end
 
 			for i = 1, #context.scoring_hand do	
 			converted = true

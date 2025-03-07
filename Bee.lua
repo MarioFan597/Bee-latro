@@ -19,7 +19,7 @@ function GetBees()
 		if 
 			G.jokers.cards[i]:bonus_bees() > 0
 		then
-			beeCount = beeCount + G.jokers.cards[i]G.jokers.cards[i]:bonus_bees()
+			beeCount = beeCount + G.jokers.cards[i]:bonus_bees()
 		elseif
 			G.jokers.cards[i]:is_bee()
 		then

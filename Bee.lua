@@ -17,9 +17,9 @@ function GetBees()
 	local beeCount = 0
 	for i = 1, #G.jokers.cards do
 		if 
-			not (G.jokers.cards[i].ability.extra.bee_total == nil)
+			G.jokers.cards[i]:bonus_bees() > 0
 		then
-			beeCount = beeCount + G.jokers.cards[i].ability.extra.bee_total
+			beeCount = beeCount + G.jokers.cards[i]G.jokers.cards[i]:bonus_bees()
 		elseif
 			G.jokers.cards[i]:is_bee()
 		then
@@ -39,6 +39,14 @@ function Card:is_bee()
 		check = true
 	return check
 
+	end
+end
+
+function Card:bonus_bees()
+	if (not is_number(self.ability.extra) and self.ability.extra ~= nil and self.ability.extra.total_bees) then
+		return self.ability.extra.total_bees
+	else
+		return 0
 	end
 end
 
@@ -1467,7 +1475,7 @@ SMODS.Joker {
 }
 SMODS.Joker {
 	key = 'trenchcoat',
-	config = { extra = {bee = true, bee_total = 41290, bold = 2} },
+	config = { extra = {bee = true, total_bees = 41290, bold = 2} },
 	rarity = "cry_exotic",
 	atlas = 'beeatlas',
 	blueprint_compat = false,
@@ -1475,7 +1483,7 @@ SMODS.Joker {
 	pos = { x = 4, y = 3 },
 	cost = 50,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.bee_total} }
+		return { vars = { card and card.ability.extra.total_bees} }
 	end,
     cry_credits = {
 			idea = {

@@ -184,7 +184,7 @@ return {
 		    }
         },
         j_bee_trenchcoat = {
-        	name = '41,290 Bees in a Trenchcoat',
+        	name = '#1# Bees in a Trenchcoat',
         	text = {
 			    "This counts as",
                 "{C:attention}#1# Bees{}",

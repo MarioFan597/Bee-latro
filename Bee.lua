@@ -16,11 +16,16 @@
 function GetBees()
 	local beeCount = 0
 	for i = 1, #G.jokers.cards do
-		if
+		if 
+			not (G.jokers.cards[i].ability.extra.bee_total == nil)
+		then
+			beeCount = beeCount + G.jokers.cards[i].ability.extra.bee_total
+		elseif
 			G.jokers.cards[i]:is_bee()
 		then
 			beeCount = beeCount + 1
 		end
+
 	end
 
 	return beeCount
@@ -1454,6 +1459,30 @@ SMODS.Joker {
 			},
 			art = {
 				"MarioFan597"
+			},
+			code = {
+				"MarioFan597"
+			}
+		},
+}
+SMODS.Joker {
+	key = 'trenchcoat',
+	config = { extra = {bee = true, bee_total = 41290, bold = 2} },
+	rarity = "cry_exotic",
+	atlas = 'beeatlas',
+	blueprint_compat = false,
+	pools = {["Bee"] = true},
+	pos = { x = 4, y = 3 },
+	cost = 50,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and card.ability.extra.bee_total} }
+	end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"Inspector_B"
 			},
 			code = {
 				"MarioFan597"

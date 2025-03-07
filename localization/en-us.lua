@@ -183,6 +183,14 @@ return {
                 "receive a{C:attention} Buffoon Tag"
 		    }
         },
+        j_bee_trenchcoat = {
+        	name = '41,290 Bees in a Trenchcoat',
+        	text = {
+			    "This counts as",
+                "{C:attention}#1# Bees{}",
+                "{C:inactive}This counts as a Bee Joker"
+		    }
+        }
 
         },
         Other={

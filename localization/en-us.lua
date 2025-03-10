@@ -198,28 +198,28 @@ return {
 				name = "Bee Pack",
 		        text = {
 			        "Choose {C:attention}#1#{} of",
-			        "up to {C:attention}#2# Beelatro Jokers{}",
+			        "up to {C:attention}#2# Bee Jokers{}",
 		        },
 			},
             p_bee_alt_pack = {
 				name = "Bee Pack",
 		        text = {
 			        "Choose {C:attention}#1#{} of",
-			        "up to {C:attention}#2# Beelatro Jokers{}",
+			        "up to {C:attention}#2# Bee Jokers{}",
 		        },
 			},
             p_bee_jumbo_pack = {
 				name = "Jumbo Bee Pack",
 		        text = {
 			        "Choose {C:attention}#1#{} of",
-			        "up to {C:attention}#2# Beelatro Jokers{}",
+			        "up to {C:attention}#2# Bee Jokers{}",
 		        },
 			},
             p_bee_mega_pack = {
 				name = "Mega Bee Pack",
 		        text = {
 			        "Choose {C:attention}#1#{} of",
-			        "up to {C:attention}#2# Beelatro Jokers{}",
+			        "up to {C:attention}#2# Bee Jokers{}",
 		        },
 			},
             bee_honey_seal = {

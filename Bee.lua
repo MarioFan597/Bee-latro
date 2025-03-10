@@ -52,7 +52,7 @@ end
 
 function Get_random_bee_card()
 
-	if math.random(4) ~= 1 then --3 in 4 chance to use primary generation
+	if math.random(2) ~= 1 then --1 in 2 chance to use primary generation
     	-- Define standard cards (each appears once per cycle)
     	local bee_cards = {
         	"j_bee_jimbee", "j_bee_ctrlplusbee", "j_bee_beebeedagger", "j_bee_spellingbee",
@@ -122,7 +122,7 @@ function Get_random_bee_card()
 
     	return create_card(nil, G.pack_cards, nil, nil, true, true, chosen_card, nil)
 
-	else -- 1 in 4 chance to use this side generation
+	else -- 1 in 2 chance to use this side generation
 		card = create_card("Joker", G.pack_cards, nil, nil, true, true, nil, nil)
 		if not card:is_bee() then
 			card.ability.bee_apian = true

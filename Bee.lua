@@ -1157,6 +1157,27 @@ SMODS.Joker {
 
 			return {message = "You like jazz?",
 			colour = G.C.FILTER}
+
+		elseif context.before and not context.repetition and not context.individual and
+		#G.jokers.cards + G.GAME.joker_buffer >= G.jokers.config.card_limit 
+		then
+
+			local card = create_card(
+				"Joker",
+				G.jokers,
+				nil,
+				nil,
+				nil,
+				nil,
+				"j_bee_jimbee"
+			)
+
+			card:set_edition({negative = true})
+			card:add_to_deck()
+			G.jokers:emplace(card)
+
+			return {message = "You like jazz?",
+			colour = G.C.FILTER}
 		end
     end,
     cry_credits = {

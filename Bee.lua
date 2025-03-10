@@ -51,74 +51,86 @@ function Card:bonus_bees()
 end
 
 function Get_random_bee_card()
-    -- Define standard cards (each appears once per cycle)
-    local bee_cards = {
-        "j_bee_jimbee", "j_bee_ctrlplusbee", "j_bee_beebeedagger", "j_bee_spellingbee",
-        "j_bee_ballofbees", "j_bee_kingbee", "j_bee_beehive", "j_bee_jollybee",
-        "j_bee_bigbee", "j_bee_larva", "j_bee_honeycomb", 
-        "j_bee_honeypot", "j_bee_nostalgic_jimbee"
-    }
 
-    -- Define rare cards with their individual frequency (1 in X cycles)
-    local rare_cards = {
-		{name = "j_bee_weebee", chance = 3},
-        {name = "j_bee_beesknees", chance = 3},
-        {name = "j_bee_queenbee", chance = 3},
-		{name = "j_bee_grim_queen", chance = 3},
-		{name = "j_bee_buzzkill", chance = 3},
-        {name = "j_bee_hivemind", chance = 5},
-        {name = "j_bee_benson", chance = 100}
-    }
+	if math.random(4) ~= 1 then --3 in 4 chance to use primary generation
+    	-- Define standard cards (each appears once per cycle)
+    	local bee_cards = {
+        	"j_bee_jimbee", "j_bee_ctrlplusbee", "j_bee_beebeedagger", "j_bee_spellingbee",
+        	"j_bee_ballofbees", "j_bee_kingbee", "j_bee_beehive", "j_bee_jollybee",
+        	"j_bee_bigbee", "j_bee_larva", "j_bee_honeycomb", 
+        	"j_bee_honeypot", "j_bee_nostalgic_jimbee"
+    	}
 
-    -- Check if the player has a Showman Joker
-    local has_showman = next(find_joker("Showman")) ~= nil
+    	-- Define rare cards with their individual frequency (1 in X cycles)
+    	local rare_cards = {
+			{name = "j_bee_weebee", chance = 3},
+        	{name = "j_bee_beesknees", chance = 3},
+        	{name = "j_bee_queenbee", chance = 3},
+			{name = "j_bee_grim_queen", chance = 3},
+			{name = "j_bee_buzzkill", chance = 3},
+        	{name = "j_bee_hivemind", chance = 5},
+        	{name = "j_bee_benson", chance = 100}
+    	}
 
-    -- Function to check if a card is already in the player's hand
-    local function is_in_hand(card_name)
-        for _, card in ipairs(G.jokers.cards) do
-            if card and card.key == card_name then
-                return true
-            end
-        end
-        return false
-    end
+    	-- Check if the player has a Showman Joker
+    	local has_showman = next(find_joker("Showman")) ~= nil
 
-    -- Generate a fresh pool of Bee Jokers every time the function is called
-    local available_bee_cards = {}
+    	-- Function to check if a card is already in the player's hand
+    	local function is_in_hand(card_name)
+        	for _, card in ipairs(G.jokers.cards) do
+            	if card and card.key == card_name then
+                	return true
+            	end
+        	end
+        	return false
+    	end
 
-    -- Add standard cards if they haven't been used or held (unless Showman exists)
-    for _, card in ipairs(bee_cards) do
-        if has_showman or (not G.GAME.used_jokers[card] and not is_in_hand(card)) then
-            table.insert(available_bee_cards, card)
-        end
-    end
+    	-- Generate a fresh pool of Bee Jokers every time the function is called
+    	local available_bee_cards = {}
 
-    -- Add rare cards with their probability
-    for _, rare in ipairs(rare_cards) do
-        if math.random(rare.chance) == 1 then
-            if has_showman or (not G.GAME.used_jokers[rare.name] and not is_in_hand(rare.name)) then
-                table.insert(available_bee_cards, rare.name)
-            end
-        end
-    end
+    	-- Add standard cards if they haven't been used or held (unless Showman exists)
+    	for _, card in ipairs(bee_cards) do
+        	if has_showman or (not G.GAME.used_jokers[card] and not is_in_hand(card)) then
+            	table.insert(available_bee_cards, card)
+        	end
+    	end
 
-    -- Ensure there is at least one card in the pool
-    if #available_bee_cards == 0 then
-        for _, card in ipairs(bee_cards) do
-            table.insert(available_bee_cards, card)
-        end
-    end
+    	-- Add rare cards with their probability
+    	for _, rare in ipairs(rare_cards) do
+        	if math.random(rare.chance) == 1 then
+            	if has_showman or (not G.GAME.used_jokers[rare.name] and not is_in_hand(rare.name)) then
+                	table.insert(available_bee_cards, rare.name)
+            	end
+        	end
+    	end
 
-    -- Shuffle the available cards
-    for i = #available_bee_cards, 2, -1 do
-        local j = math.random(i)
-        available_bee_cards[i], available_bee_cards[j] = available_bee_cards[j], available_bee_cards[i]
-    end
+    	-- Ensure there is at least one card in the pool
+    	if #available_bee_cards == 0 then
+        	for _, card in ipairs(bee_cards) do
+            	table.insert(available_bee_cards, card)
+        	end
+    	end
 
-    -- Select a random card
-    local chosen_card = available_bee_cards[1]
+   	 	-- Shuffle the available cards
+  		for i = #available_bee_cards, 2, -1 do
+     	   local j = math.random(i)
+     	   available_bee_cards[i], available_bee_cards[j] = available_bee_cards[j], available_bee_cards[i]
+   		end
 
-    return create_card(nil, G.pack_cards, nil, nil, true, true, chosen_card, nil)
+   		 -- Select a random card
+   	 	local chosen_card = available_bee_cards[1]
+
+    	return create_card(nil, G.pack_cards, nil, nil, true, true, chosen_card, nil)
+
+	else -- 1 in 4 chance to use this side generation
+		card = create_card("Joker", G.pack_cards, nil, nil, true, true, nil, nil)
+		if not card:is_bee() then
+			card.ability.bee_apian = true
+			return card
+		else
+			return card
+		end
+	end
 end
 
 ----------Defining Atlases------------------

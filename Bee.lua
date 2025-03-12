@@ -169,6 +169,9 @@ SMODS.Atlas {
 	py = 95
 }
 
+----------Digital Hallucinations Compat----------
+----------Taken from Cryptid's misc.lua----------
+
 ----------Defining Boosterpacks------------------
 SMODS.Booster {
 	key = "normal_pack",
@@ -186,6 +189,17 @@ SMODS.Booster {
 		return { vars = { card.config.center.config.choose, card.ability.extra } }
 	end,
 	group_key = "k_bee_pack",
+	cry_credits = {
+		idea = {
+			"Inspector_B",
+		},
+		art = {
+			"MarioFan597",
+		},
+		code = {
+			"Inspector_B",
+		},
+	},
 }
 
 SMODS.Booster {
@@ -204,6 +218,17 @@ SMODS.Booster {
 		return { vars = { card.config.center.config.choose, card.ability.extra } }
 	end,
 	group_key = "k_bee_pack",
+	cry_credits = {
+		idea = {
+			"Inspector_B",
+		},
+		art = {
+			"MarioFan597",
+		},
+		code = {
+			"Inspector_B",
+		},
+	},
 }
 
 SMODS.Booster {
@@ -222,6 +247,17 @@ SMODS.Booster {
 		return { vars = { card.config.center.config.choose, card.ability.extra } }
 	end,
 	group_key = "k_bee_pack",
+	cry_credits = {
+		idea = {
+			"Inspector_B",
+		},
+		art = {
+			"MarioFan597",
+		},
+		code = {
+			"Inspector_B",
+		},
+	},
 }
 
 SMODS.Booster {
@@ -240,6 +276,17 @@ SMODS.Booster {
 		return { vars = { card.config.center.config.choose, card.ability.extra } }
 	end,
 	group_key = "k_bee_pack",
+	cry_credits = {
+		idea = {
+			"Inspector_B",
+		},
+		art = {
+			"MarioFan597",
+		},
+		code = {
+			"Inspector_B",
+		},
+	},
 }
 
 ---------------Defining Seals-------------------
@@ -334,6 +381,17 @@ SMODS.Consumable {
 			}))
 		end
 	end,
+	cry_credits = {
+		idea = {
+			"MarioFan597",
+		},
+		art = {
+			"MarioFan597",
+		},
+		code = {
+			"Inspector_B",
+		},
+	},
 }
 
 
@@ -398,6 +456,18 @@ SMODS.Consumable {
 			end,
 		}))
 	end,
+	cry_credits = {
+		idea = {
+			"Inspector_B",
+		},
+		art = {
+			"MarioFan597",
+		},
+		code = {
+			"Inspector_B",
+		},
+	},
+
 }
 
 ----------Defining Jokers------------------

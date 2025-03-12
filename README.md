@@ -1,4 +1,4 @@
-# Bee-latro
+# Beelatro
 Mod for Balatro with BEES
 
 

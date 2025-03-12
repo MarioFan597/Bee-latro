@@ -1,5 +1,5 @@
 --- STEAMODDED HEADER
---- MOD_NAME: Bee-latro
+--- MOD_NAME: Beelatro
 --- MOD_ID: Beelatro
 --- MOD_AUTHOR: [InspectorB and MarioFan597]
 --- MOD_DESCRIPTION: This Mod adds BEES!

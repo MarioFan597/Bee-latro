@@ -184,7 +184,7 @@ return {
 		    }
         },
         j_bee_trenchcoat = {
-        	name = '#1# Bees in a Trenchcoat',
+        	name = '(XLI)CCXC Apes in Tunica',
         	text = {
 			    "This counts as",
                 "{C:attention}#1# Bees{}",

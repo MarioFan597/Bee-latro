@@ -1583,7 +1583,8 @@ SMODS.Joker {
 	atlas = 'beeatlas',
 	blueprint_compat = false,
 	pools = {["Bee"] = true},
-	pos = { x = 4, y = 3 },
+	pos = { x = 3, y = 3 },
+	soul_pos = { x = 5, y = 3, extra = { x = 4, y = 3 } },
 	cost = 50,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.total_bees} }
@@ -1593,7 +1594,7 @@ SMODS.Joker {
 				"Inspector_B"
 			},
 			art = {
-				"Inspector_B"
+				"MarioFan597"
 			},
 			code = {
 				"MarioFan597"

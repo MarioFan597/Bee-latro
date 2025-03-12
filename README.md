@@ -1,5 +1,5 @@
 # Beelatro
-Mod for Balatro with BEES
+Cryptid-based Addon for Balatro with BEES
 
 
 

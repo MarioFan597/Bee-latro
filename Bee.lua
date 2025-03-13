@@ -17,11 +17,11 @@ function GetBees()
 	local beeCount = 0
 	for i = 1, #G.jokers.cards do
 		if 
-			G.jokers.cards[i]:bonus_bees() > 0
+			G.jokers.cards[i]:bonus_bees() > 0 and not G.jokers.cards[i].debuff
 		then
 			beeCount = beeCount + G.jokers.cards[i]:bonus_bees()
 		elseif
-			G.jokers.cards[i]:is_bee()
+			G.jokers.cards[i]:is_bee() and not G.jokers.cards[i].debuff
 		then
 			beeCount = beeCount + 1
 		end

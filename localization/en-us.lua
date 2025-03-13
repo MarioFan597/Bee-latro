@@ -1,7 +1,15 @@
 return {
     descriptions = {
         Back={},
-        Blind={},
+        Blind={
+        bl_bee_smoker = {
+				name = "The Smoker",
+				text = {
+					"All Bee Jokers",
+					"are debuffed",
+				},
+			},
+        },
         Edition={},
         Enhanced={},
         Joker={

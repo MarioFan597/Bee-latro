@@ -169,8 +169,33 @@ SMODS.Atlas {
 	py = 95
 }
 
-----------Digital Hallucinations Compat----------
-----------Taken from Cryptid's misc.lua----------
+SMODS.Atlas {
+	key = "beeblinds",
+	path = "beeblinds.png",
+	px = 714,
+	py = 34
+}
+
+----------Defining Blinds------------------
+SMODS.Blind{
+	key = "smoker",
+	--atlas = "beeblinds",    --This is the code officer!!!!
+	--pos = { x = 0, y = 0 },
+	name = "bee-smoker",
+	boss_colour = HEX("cac2b1"),
+	boss = {
+		min = 1,
+		max = 10,
+	},
+	recalc_debuff = function(self, card, from_blind)
+		if (card.area == G.jokers) and not G.GAME.blind.disabled and card:is_bee() == true then --card.is_bee()
+			return true
+		end
+		return false
+	end,
+}
+
+
 
 ----------Defining Boosterpacks------------------
 SMODS.Booster {

@@ -170,18 +170,19 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
-	key = "beeblinds",
+	key = "beeblindatlas",
 	path = "beeblinds.png",
-	px = 714,
+	atlas_table = "ANIMATION_ATLAS",
+	frames = 21,
+	px = 34,
 	py = 34
 }
 
 ----------Defining Blinds------------------
 SMODS.Blind{
 	key = "smoker",
-	--atlas = "beeblinds",    --This is the code officer!!!!
-	--pos = { x = 0, y = 0 },
-	name = "bee-smoker",
+	atlas = "beeblindatlas",    
+	pos = { x = 0, y = 0 },
 	boss_colour = HEX("cac2b1"),
 	boss = {
 		min = 1,

@@ -925,7 +925,7 @@ SMODS.Joker {
 		then
 			local rank = SMODS.Ranks[context.other_card.base.value].key
 
-			if rank == "Queen" then
+			if rank == "Queen" and not (HasMaximized()) then
 				local beeCount = GetBees()
 	
 				card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.extra * beeCount

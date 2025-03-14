@@ -839,17 +839,17 @@ SMODS.Joker {
 		G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra.activeSlots
     end,
     cry_credits = {
-			idea = {
-				"Inspector_B"
-			},
-			art = {
-				"MarioFan597"
-			},
-			code = {
-				"Inspector_B"
-			}
+		idea = {
+			"Inspector_B"
 		},
-	}
+		art = {
+			"MarioFan597"
+		},
+		code = {
+			"Inspector_B"
+		}
+	},
+}
 
 
 SMODS.Joker {
@@ -868,9 +868,8 @@ SMODS.Joker {
 		if context.cardarea == G.play and context.individual and not context.blueprint
 		then
 			local rank = SMODS.Ranks[context.other_card.base.value].key
-			local hasMaximized = HasMaximized()
-
-			if rank == "King" or ((rank == "Queen" or rank == "Jack") and hasMaximized) then
+			
+			if rank == "King" or ((rank == "Queen" or rank == "Jack") and HasMaximized()) then
 				local beeCount = GetBees()
 	
 				card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod * beeCount

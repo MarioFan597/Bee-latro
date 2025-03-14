@@ -31,6 +31,16 @@ function GetBees()
 	return beeCount
 end
 
+function HasMaximized()
+	local has_maximized = false
+	for i = 1, #G.jokers.cards do
+		if G.jokers.cards[i].config.center_key == "j_cry_maximized" then
+			has_maximized = true
+		end
+	end
+	return has_maximized
+end
+
 function Card:is_bee()
 	local check = false
 
@@ -858,8 +868,9 @@ SMODS.Joker {
 		if context.cardarea == G.play and context.individual and not context.blueprint
 		then
 			local rank = SMODS.Ranks[context.other_card.base.value].key
+			local hasMaximized = HasMaximized()
 
-			if rank == "King" then
+			if rank == "King" or ((rank == "Queen" or rank == "Jack") and hasMaximized) then
 				local beeCount = GetBees()
 	
 				card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod * beeCount
@@ -878,7 +889,7 @@ SMODS.Joker {
 			end
 		end
 
-		if context.joker_main then
+		if context.joker_main and card.ability.extra.mult ~= 0 then
 			return {
 				mult_mod = card.ability.extra.mult,
 				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }

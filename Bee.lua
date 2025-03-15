@@ -1044,7 +1044,7 @@ SMODS.Joker {
 				"Inspector_B"
 			},
 			art = {
-				"Glitchkat10"
+				"Shadow"
 			},
 			code = {
 				"Inspector_B"

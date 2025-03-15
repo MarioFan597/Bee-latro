@@ -1622,6 +1622,7 @@ SMODS.Joker {
 	pos = { x = 3, y = 3 },
 	soul_pos = { x = 5, y = 3, extra = { x = 4, y = 3 } },
 	cost = 50,
+	immutable = true,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.total_bees} }
 	end,

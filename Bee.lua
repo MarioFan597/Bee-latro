@@ -435,7 +435,7 @@ SMODS.Consumable {
 	key = "infestation",
 	set = "Spectral",
 	atlas = 'beemiscatlas',
-	pos = { x = 3, y = 0 },
+	pos = { x = 1, y = 0 },
 	cost = 3,
 	loc_vars = function (self, info_queue, center)
 		info_queue[#info_queue + 1] = { key = "bee_apian", set = "Other", vars = {} }
@@ -509,7 +509,7 @@ SMODS.Consumable {
 	key = "bug",
 	set = "Code",
 	name = "c_bee_bug",
-	atlas = 'beeatlas',
+	atlas = 'beemiscatlas',
 	pos = { x = 1, y = 0 },
 	cost = 3,
 	loc_vars = function (self, info_queue, center)
@@ -560,7 +560,7 @@ SMODS.Consumable {
 			"Mr. Dingus",
 		},
 		art = {
-			"Placeholder",
+			"Inspector_B",
 		},
 		code = {
 			"Mr. Dingus",

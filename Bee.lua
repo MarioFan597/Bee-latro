@@ -505,6 +505,68 @@ SMODS.Consumable {
 	},
 
 }
+SMODS.Consumable {
+	key = "bug",
+	set = "Code",
+	name = "c_bee_bug",
+	atlas = 'beeatlas',
+	pos = { x = 1, y = 0 },
+	cost = 3,
+	loc_vars = function (self, info_queue, center)
+		info_queue[#info_queue + 1] = { key = "bee_apian", set = "Other", vars = {} }
+	end,
+	can_use = function(self, card)
+		return #G.jokers.highlighted == 1 and G.jokers.highlighted[1]:is_bee() ~= true
+	end,
+	use = function(self, card, area, copier)
+		local used_consumable = copier or card
+		local highlighted = G.jokers.highlighted[1]
+		--flip card
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.1,
+			func = function()	
+				if highlighted then				
+					highlighted:flip()
+				end
+				return true
+			end,
+		}))
+		--add sticker to joker
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.1,
+			func = function()
+				if highlighted then
+					highlighted.ability.bee_apian = true	
+				end
+				return true
+			end,
+		}))
+
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.1,
+			func = function()	
+				if highlighted then				
+					highlighted:flip()
+				end
+				return true
+			end,
+		}))
+	end,
+	cry_credits = {
+		idea = {
+			"Mr. Dingus",
+		},
+		art = {
+			"Placeholder",
+		},
+		code = {
+			"Mr. Dingus",
+		},
+	},
+}
 
 ----------Defining Jokers------------------
 

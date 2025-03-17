@@ -541,7 +541,7 @@ SMODS.Consumable {
 			func = function()
 				if highlighted then
 					highlighted.ability.bee_apian = true	
-					highlighted.ability.cry_flickering = true
+					highlighted.ability.cry_flickering = true --currently bugged, doesn't actually count down
 				end
 				return true
 			end,

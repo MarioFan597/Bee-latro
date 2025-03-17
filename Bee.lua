@@ -435,7 +435,7 @@ SMODS.Consumable {
 	key = "infestation",
 	set = "Spectral",
 	atlas = 'beemiscatlas',
-	pos = { x = 1, y = 0 },
+	pos = { x = 3, y = 0 },
 	cost = 3,
 	loc_vars = function (self, info_queue, center)
 		info_queue[#info_queue + 1] = { key = "bee_apian", set = "Other", vars = {} }
@@ -505,6 +505,7 @@ SMODS.Consumable {
 	},
 
 }
+
 SMODS.Consumable {
 	key = "bug",
 	set = "Code",
@@ -514,9 +515,10 @@ SMODS.Consumable {
 	cost = 3,
 	loc_vars = function (self, info_queue, center)
 		info_queue[#info_queue + 1] = { key = "bee_apian", set = "Other", vars = {} }
+		info_queue[#info_queue + 1] = { key = "cry_flickering", set = "Other", vars = {5,5}}
 	end,
 	can_use = function(self, card)
-		return #G.jokers.highlighted == 1 and G.jokers.highlighted[1]:is_bee() ~= true
+		return #G.jokers.highlighted == 1
 	end,
 	use = function(self, card, area, copier)
 		local used_consumable = copier or card
@@ -532,13 +534,14 @@ SMODS.Consumable {
 				return true
 			end,
 		}))
-		--add sticker to joker
+		--add stickers to joker
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
 			delay = 0.1,
 			func = function()
 				if highlighted then
 					highlighted.ability.bee_apian = true	
+					highlighted.ability.cry_flickering = true
 				end
 				return true
 			end,
@@ -550,6 +553,17 @@ SMODS.Consumable {
 			func = function()	
 				if highlighted then				
 					highlighted:flip()
+				end
+				return true
+			end,
+		}))
+
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.1,
+			func = function()	
+				if highlighted then				
+					highlighted:set_edition({ cry_glitched = true })
 				end
 				return true
 			end,

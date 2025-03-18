@@ -1719,7 +1719,7 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'honeydrops',
-	config = { extra = {bee = true, chips = 50, chip_mod = -5, total_bees = 0, last_threshold = 50, bold = 2} },
+	config = { extra = {bee = true, chips = 50, chip_mod = 5, total_bees = 0, last_threshold = 50, bold = 2} },
 	rarity = "cry_candy",
 	atlas = 'beeatlas',
 	blueprint_compat = false,
@@ -1735,7 +1735,7 @@ SMODS.Joker {
 			local previous_chips = card.ability.extra.chips
 	
 			-- Apply the chip modifier to the chips value
-			card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
+			card.ability.extra.chips = card.ability.extra.chips - card.ability.extra.chip_mod
 	
 			-- Check if we crossed a multiple of 10 threshold (i.e., from 45 to 40, 35 to 30, etc.)
 			-- Calculate the previous and new multiples of 10
@@ -1769,7 +1769,7 @@ SMODS.Joker {
 				nil,
 				nil,
 				{
-					message = localize({ type = "variable", key = "a_chips", vars = { card.ability.extra.chip_mod } }),
+					message = localize({ type = "variable", key = "a_chips_minus", vars = { card.ability.extra.chip_mod } }),
 				}
 			)
 		end

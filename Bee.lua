@@ -152,6 +152,13 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
+	key = "beeatlas2",
+	path = "beeatlas2.png",
+	px = 71,
+	py = 95
+}
+
+SMODS.Atlas {
 	key = "beepackatlas",
 	path = "beepackatlas.png",
 	px = 71,
@@ -1721,10 +1728,10 @@ SMODS.Joker {
 	key = 'honeydrops',
 	config = { extra = {bee = true, chips = 50, chip_mod = 5, total_bees = 0, last_threshold = 50, bold = 2} },
 	rarity = "cry_candy",
-	atlas = 'beeatlas',
+	atlas = 'beeatlas2',
 	blueprint_compat = false,
 	pools = {["Bee"] = true},
-	pos = { x = 5, y = 2 },
+	pos = { x = 0, y = 0 },
 	cost = 8,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.chips, card and card.ability.extra.chip_mod, card and card.ability.extra.total_bees} }
@@ -1817,7 +1824,7 @@ SMODS.Joker {
 				"MarioFan597"
 			},
 			art = {
-				"Placeholder"
+				"MarioFan597"
 			},
 			code = {
 				"Inspector_B"

@@ -198,6 +198,15 @@ return {
                 "{C:attention}#1# Bees{}",
                 "{C:inactive}This counts as a Bee Joker"
 		    }
+        },
+		j_bee_honeydrops = {
+        	name = 'Honey Drops',
+        	text = {
+			    "{C:chips}+#1#{} Chips",
+                "After you play a hand, {C:chips}#2#{} Chips",
+                "Every {C:chips}-10{} Chips, this counts as an additional {C:attention}Bee Joker{}",
+				"(Currently #3# Bees)"
+		    }
         }
 
         },

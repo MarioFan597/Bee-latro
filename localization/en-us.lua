@@ -114,9 +114,9 @@ return {
         j_bee_jollybee = {
             name = 'Jollybee',
 		    text = {
-                "If played hand contains a {C:attention}Pair{}, this gains",
-			    "{C:mult}+#2#{} Mult for each {C:attention}Bee Joker{} you have",
-			    "{C:inactive}(Currently {C:mult}+#1# {C:inactive}Mult)",
+                "Once every 5 rounds minus your {C:attention}Bee Jokers{},",
+			    "if played hand is a {C:attention}Pair{}, make scored cards {C:attention}Jolly{}",
+			    "{C:inactive}(Rounds left till active = #1#)",
 			    "{C:inactive}This counts as a Bee Joker"
 		    }
         },

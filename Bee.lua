@@ -1139,37 +1139,53 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'jollybee',
-	config = { extra = { mult = 0, mult_mod = 2, bee = true, bold = 5} },
+	config = { extra = { rounds = 1, active = false, bee = true, bold = 5} },
 	rarity = 2,
 	atlas = 'beeatlas',
 	pos = { x = 5, y = 0 },
 	cost = 5,
 	pools = {["Bee"] = true},
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and card.ability.extra.rounds, card and card.ability.extra.active }}
 	end,
 	calculate = function(self, card, context)
-		if context.before and next(context.poker_hands['Pair']) and not context.blueprint then
-			local beeCount = GetBees()
-
-			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod * beeCount
-			card_eval_status_text(
-					card,
-					"extra",
-					nil,
-					nil,
-					nil,
-					{
-						message = localize({ type = "variable", key = "a_mult", vars = { card.ability.extra.mult_mod * beeCount} }),
-						colour = G.C.MULT,
-					})
+		if card.ability.extra.rounds == 0
+		then
+			card.ability.extra.active = true
 		end
 
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-                message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-			}
+		if
+			context.cardarea == G.jokers
+			and context.before
+			and not context.blueprint_card
+			and not context.retrigger_joker
+		then
+			if context.scoring_name == "Pair" and card.ability.extra.active
+			then
+				for i = 1, #context.scoring_hand do
+					local _card = context.scoring_hand[i]
+					_card:set_edition({ cry_m = true })
+
+				G.E_MANAGER:add_event(Event({
+					delay = 0.6,
+					func = function()	
+						_card:juice_up()
+						play_sound("tarot1")
+						return true
+					end,
+				}))
+				end
+
+				local beeCount = GetBees()
+				card.ability.extra.rounds = math.max(1, (5 - beeCount))
+				card.ability.extra.active = false
+			end
+		end	
+
+		if 
+			context.end_of_round and not context.individual and not context.repetition and not context.blueprint and card.ability.extra.rounds > 0
+		then
+			card.ability.extra.rounds = card.ability.extra.rounds - 1
 		end
     end,
     cry_credits = {

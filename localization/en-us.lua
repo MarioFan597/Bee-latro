@@ -203,8 +203,8 @@ return {
         	name = 'Honey Drops',
         	text = {
 			    "{C:chips}+#1#{} Chips",
-                "After you play a hand, {C:chips}#2#{} Chips",
-                "Each time the chips drop below a multiple of 10,",
+                "After you play a hand, {C:chips}-#2#{} Chips",
+                "Each time this card's chips drop below a multiple of 10,",
 				"this counts as an additional {C:attention}Bee Joker{}",
 				"(Currently #3# Bees)"
 		    }

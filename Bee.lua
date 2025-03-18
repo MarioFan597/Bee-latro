@@ -1737,14 +1737,16 @@ SMODS.Joker {
 			-- Apply the chip modifier to the chips value
 			card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
 	
-			-- Check if we've crossed a multiple of -10
-			local prev_threshold = math.floor(previous_chips / 10)
-			local new_threshold = math.floor(card.ability.extra.chips / 10)
+			-- Check if we crossed a multiple of 10 threshold (i.e., from 45 to 40, 35 to 30, etc.)
+			-- Calculate the previous and new multiples of 10
+			local prev_multiple_of_10 = math.floor(previous_chips / 10) * 10
+			local new_multiple_of_10 = math.floor(card.ability.extra.chips / 10) * 10
 	
-			-- If we crossed a multiple of -10 (moving downward), increment total_bees
-			if new_threshold < prev_threshold and card.ability.extra.chips ~= 45 then
-				local crosses = prev_threshold - new_threshold
-				card.ability.extra.total_bees = (card.ability.extra.total_bees or 0) + crosses
+			-- If we crossed into a new multiple of 10, increment total_bees
+			if new_multiple_of_10 < prev_multiple_of_10 then
+				-- Increment the total_bees for each crossed multiple of 10
+				local crossed_thresholds = (prev_multiple_of_10 - new_multiple_of_10) / 10
+				card.ability.extra.total_bees = (card.ability.extra.total_bees or 0) + crossed_thresholds
 	
 				-- Display "Bee Added" message
 				card_eval_status_text(
@@ -1759,7 +1761,7 @@ SMODS.Joker {
 				)
 			end
 	
-			-- Display evaluation message
+			-- Display evaluation message (for chips)
 			card_eval_status_text(
 				card,
 				"extra",

@@ -204,7 +204,8 @@ return {
         	text = {
 			    "{C:chips}+#1#{} Chips",
                 "After you play a hand, {C:chips}#2#{} Chips",
-                "Every {C:chips}-10{} Chips, this counts as an additional {C:attention}Bee Joker{}",
+                "Each time the chips drop below a multiple of 10,",
+				"this counts as an additional {C:attention}Bee Joker{}",
 				"(Currently #3# Bees)"
 		    }
         }

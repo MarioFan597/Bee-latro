@@ -12,6 +12,7 @@
 ---
 ---
 ---
+local Global_Cap = 1000000
 
 function GetBees()
 	local beeCount = 0
@@ -603,13 +604,13 @@ SMODS.Joker {
 	pos = { x = 0, y = 0 },
 	cost = 2,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and math.min(card.ability.extra.mult, Global_Cap), card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
 		if context.joker_main then
 			return {
-				mult_mod = card.ability.extra.mult,
-                message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+				mult_mod = math.min(card.ability.extra.mult, Global_Cap),
+                message = localize { type = 'variable', key = 'a_mult', vars = { math.min(card.ability.extra.mult, Global_Cap) } }
 			}
 		end
     end,
@@ -636,7 +637,7 @@ SMODS.Joker {
 	cost = 5,
 	blueprint_compat = true,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.bee, card and card.ability.extra.bold }	}
+		return { vars = { card and math.min(card.ability.extra.mult, Global_Cap), card and math.min(card.ability.extra.mult_mod, Global_Cap), card and card.ability.extra.bee, card and card.ability.extra.bold }	}
 	end,
 	calculate = function(self, card, context)
 
@@ -656,8 +657,8 @@ SMODS.Joker {
 
 		if context.joker_main then			
 			return {
-				mult_mod = card.ability.extra.mult,
-                message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+				mult_mod = math.min(card.ability.extra.mult, Global_Cap),
+                message = localize { type = 'variable', key = 'a_mult', vars = { math.min(card.ability.extra.mult, Global_Cap) } }
 			}
 		end
     end,
@@ -750,7 +751,7 @@ SMODS.Joker {
 	pos = { x = 3, y = 0 },
 	cost = 2,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.chips, card and card.ability.extra.chip_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and math.min(card.ability.extra.chips, Global_Cap), card and math.min(card.ability.extra.chip_mod, Global_Cap), card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
 		if context.end_of_round			
@@ -761,7 +762,7 @@ SMODS.Joker {
 		then
 			local beeCount = GetBees()
 			
-			card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod * beeCount
+			card.ability.extra.chips = math.min((card.ability.extra.chips + card.ability.extra.chip_mod * beeCount), Global_Cap)
 			card_eval_status_text(
 				card,
 				"extra",
@@ -769,7 +770,7 @@ SMODS.Joker {
 				nil,
 				nil,
 				{
-					message = localize({ type = "variable", key = "a_chips", vars = { card.ability.extra.chip_mod * beeCount} }),
+					message = localize({ type = "variable", key = "a_chips", vars = { math.min((card.ability.extra.chip_mod * beeCount), Global_Cap)} }),
 					colour = G.C.CHIPS,
 				}
 			)
@@ -778,8 +779,8 @@ SMODS.Joker {
 		if context.joker_main then
 			if card.ability.extra.chips > 0 then
 				return {
-					chip_mod = card.ability.extra.chips,
-					message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
+					chip_mod =  math.min(card.ability.extra.chips, Global_Cap),
+					message = localize { type = 'variable', key = 'a_chips', vars = { math.min(card.ability.extra.chips, Global_Cap) } }
 				}
 			end
 		end
@@ -807,7 +808,8 @@ SMODS.Joker {
 	pools = {["Bee"] = true},
 	blueprint_compat = true,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and math.min(card.ability.extra.mult, Global_Cap), card and math.min(card.ability.extra.mult_mod, Global_Cap),
+		card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
 		if context.end_of_round			
@@ -818,7 +820,7 @@ SMODS.Joker {
 		then
 			local beeCount = GetBees()
 			
-			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod * beeCount
+			card.ability.extra.mult =  math.min(card.ability.extra.mult + card.ability.extra.mult_mod * beeCount, Global_Cap)
 			card_eval_status_text(
 				card,
 				"extra",
@@ -826,7 +828,7 @@ SMODS.Joker {
 				nil,
 				nil,
 				{
-					message = localize({ type = "variable", key = "a_mult", vars = { card.ability.extra.mult_mod * beeCount} }),
+					message = localize({ type = "variable", key = "a_mult", vars = { math.min((card.ability.extra.mult_mod * beeCount), Global_Cap)} }),
 					colour = G.C.MULT,
 				}
 			)
@@ -835,8 +837,8 @@ SMODS.Joker {
 		if context.joker_main then
 			if card.ability.extra.mult > 0 then
 				return {
-					mult_mod = card.ability.extra.mult,
-					message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+					mult_mod = math.min(card.ability.extra.mult, Global_Cap),
+					message = localize { type = 'variable', key = 'a_mult', vars = { math.min(card.ability.extra.mult, Global_Cap) } }
 				}
 			end
 		end
@@ -909,6 +911,7 @@ SMODS.Joker {
 	atlas = 'beeatlas',
 	blueprint_compat = false,
 	pos = { x = 1, y = 0 },
+	immutable = true,
 	cost = 15,
 	pools = {["Bee"] = true},
 	loc_vars = function(self, info_queue, card)
@@ -947,7 +950,8 @@ SMODS.Joker {
 	cost = 5,
 	pools = {["Bee"] = true},
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.mult_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and math.min(card.ability.extra.mult, Global_Cap), card and math.min(card.ability.extra.mult_mod, Global_Cap),
+		card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
 		if context.cardarea == G.play and context.individual and not context.blueprint
@@ -957,7 +961,7 @@ SMODS.Joker {
 			if rank == "King" or ((rank == "Queen" or rank == "Jack") and HasMaximized()) then
 				local beeCount = GetBees()
 	
-				card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod * beeCount
+				card.ability.extra.mult = math.min((card.ability.extra.mult + card.ability.extra.mult_mod * beeCount), Global_Cap)
 				card_eval_status_text(
 					card,
 					"extra",
@@ -965,7 +969,7 @@ SMODS.Joker {
 					nil,
 					nil,
 					{
-						message = localize({ type = "variable", key = "a_mult", vars = { card.ability.extra.mult_mod * beeCount} }),
+						message = localize({ type = "variable", key = "a_mult", vars = { math.min((card.ability.extra.mult_mod * beeCount), Global_Cap)} }),
 						colour = G.C.MULT,
 					}
 	
@@ -975,8 +979,8 @@ SMODS.Joker {
 
 		if context.joker_main and card.ability.extra.mult ~= 0 then
 			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+				mult_mod = math.min(card.ability.extra.mult, Global_Cap),
+				message = localize { type = 'variable', key = 'a_mult', vars = { math.min(card.ability.extra.mult, Global_Cap) } }
 			}
 		end
     end,
@@ -1003,7 +1007,7 @@ SMODS.Joker {
 	cost = 5,
 	pools = {["Bee"] = true},
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.extra, card and card.ability.extra.x_mult, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and math.min(card.ability.extra.extra, Global_Cap), card and math.min(card.ability.extra.x_mult, Global_Cap), card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
 		if context.cardarea == G.play and context.individual and not context.blueprint
@@ -1013,22 +1017,22 @@ SMODS.Joker {
 			if rank == "Queen" and not (HasMaximized()) then
 				local beeCount = GetBees()
 	
-				card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.extra * beeCount
+				card.ability.extra.x_mult = math.min((card.ability.extra.x_mult + card.ability.extra.extra * beeCount), Global_Cap)
 				card_eval_status_text(
 				card,
 				"extra",
 				nil,
 				nil,
 				nil,
-				{ message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }) }
+				{ message = localize({ type = "variable", key = "a_xmult", vars = { math.min(card.ability.extra.x_mult, Global_Cap) } }) }
 				)
 			end
 		end
 
 		if context.joker_main then
 			return {
-				message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }),
-				Xmult_mod = card.ability.extra.x_mult,
+				message = localize({ type = "variable", key = "a_xmult", vars = { math.min(card.ability.extra.x_mult, Global_Cap) } }),
+				Xmult_mod = math.min(card.ability.extra.x_mult, Global_Cap),
 			}
 		end
     end,
@@ -1055,7 +1059,7 @@ SMODS.Joker {
 	pos = { x = 2, y = 3 },
 	cost = 8,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.extra, card and card.ability.extra.x_mult, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and math.min(card.ability.extra.extra, Global_Cap), card and math.min(card.ability.extra.x_mult, Global_Cap), card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
 		if context.after
@@ -1064,22 +1068,22 @@ SMODS.Joker {
 		and not context.blueprint
 		then
 			local beeCount = GetBees()
-			card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.extra * beeCount
+			card.ability.extra.x_mult = math.min((card.ability.extra.x_mult + card.ability.extra.extra * beeCount), Global_Cap)
 			card_eval_status_text(
 				card,
 				"extra",
 				nil,
 				nil,
 				nil,
-				{ message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }) }
+				{ message = localize({ type = "variable", key = "a_xmult", vars = { math.min(card.ability.extra.x_mult, Global_Cap) } }) }
 			)
 			return nil, true	
 		end
 
 		if context.joker_main then
 			return {
-				message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }),
-				Xmult_mod = card.ability.extra.x_mult,
+				message = localize({ type = "variable", key = "a_xmult", vars = { math.min(card.ability.extra.x_mult, Global_Cap) } }),
+				Xmult_mod = math.min(card.ability.extra.x_mult, Global_Cap),
 			}
 		end
     end,
@@ -1145,6 +1149,7 @@ SMODS.Joker {
 	pos = { x = 5, y = 0 },
 	cost = 5,
 	pools = {["Bee"] = true},
+	immutable = true,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.rounds, card and card.ability.extra.active }}
 	end,
@@ -1227,6 +1232,7 @@ SMODS.Joker {
 	pos = { x = 3, y = 1 },
 	cost = 0,
 	pools = {["Bee"] = true},
+	immutable = true,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.rounds, card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
@@ -1308,13 +1314,13 @@ SMODS.Joker {
 	pos = { x = 5, y = 1 },
 	cost = 5,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.dollars,card and card.ability.extra.bee, card and card.ability.extra.bold} }
+		return { vars = { card and math.min(card.ability.extra.dollars, Global_Cap) ,card and card.ability.extra.bee, card and card.ability.extra.bold} }
 	end,
 	calc_dollar_bonus = function (self, card)
 		local beeCount = GetBees()
 
 		if beeCount > 0 then
-			return card.ability.extra.dollars * beeCount
+			return math.min((card.ability.extra.dollars * beeCount), Global_Cap)
 		end
     end,
     cry_credits = {
@@ -1340,6 +1346,7 @@ SMODS.Joker {
 	pos = { x = 2, y = 2 },
 	soul_pos = { x = 3, y = 2 },
 	cost = 25,
+	immutable = true,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
@@ -1428,7 +1435,8 @@ SMODS.Joker {
 	pos = { x = 1, y = 2 },
 	cost = 8,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.chips, card and card.ability.extra.chip_mod, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and math.min(card.ability.extra.chips, Global_Cap), card and math.min(card.ability.extra.chip_mod, Global_Cap),
+		card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
 		if context.cardarea == G.play and context.individual and not context.blueprint
@@ -1438,7 +1446,7 @@ SMODS.Joker {
 			if rank == "2" then
 				local beeCount = GetBees()
 	
-				card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod * beeCount
+				card.ability.extra.chips = math.min((card.ability.extra.chips + card.ability.extra.chip_mod * beeCount), Global_Cap)
 				card_eval_status_text(
 					card,
 					"extra",
@@ -1446,7 +1454,7 @@ SMODS.Joker {
 					nil,
 					nil,
 					{ 
-						message = localize({ type = "variable", key = "a_chips", vars = { card.ability.extra.chip_mod * beeCount } }),
+						message = localize({ type = "variable", key = "a_chips", vars = { math.min((card.ability.extra.chip_mod * beeCount), Global_Cap) } }),
 						colour = G.C.CHIPS,
 					}
 				)
@@ -1456,8 +1464,8 @@ SMODS.Joker {
 		if context.joker_main then
 			if card.ability.extra.chips > 0 then
 				return {
-					chip_mod = card.ability.extra.chips,
-					message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
+					chip_mod = math.min(card.ability.extra.chips, Global_Cap),
+					message = localize { type = 'variable', key = 'a_chips', vars = { math.min(card.ability.extra.chips, Global_Cap) } }
 					}
 			end
 		end
@@ -1482,6 +1490,7 @@ SMODS.Joker {
 	atlas = 'beeatlas',
 	pos = { x = 4, y = 2 },
 	cost = 7,
+	immutable = true,
 	pools = {["Bee"] = true},
 	blueprint_compat = true,
 	pools = { ["Food"] = true },
@@ -1585,13 +1594,13 @@ SMODS.Joker {
 	pos = { x = 5, y = 2 },
 	cost = 3,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card and card.ability.extra.mult, card and card.ability.extra.bee, card and card.ability.extra.bold } }
+		return { vars = { card and math.min(card.ability.extra.mult, Global_Cap), card and card.ability.extra.bee, card and card.ability.extra.bold } }
 	end,
 	calculate = function(self, card, context)
 		if context.joker_main then
 			return {
-				mult_mod = card.ability.extra.mult,
-                message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+				mult_mod = math.min(card.ability.extra.mult, Global_Cap),
+                message = localize { type = 'variable', key = 'a_mult', vars = { math.min(card.ability.extra.mult, Global_Cap) } }
 			}
 		end
 		-- and context.other_card.ability.name == "j_bee_jimbee"
@@ -1625,6 +1634,7 @@ SMODS.Joker {
 	blueprint_compat = false,
 	pools = {["Bee"] = true},
 	pos = { x = 1, y = 3 },
+	immutable = true,
 	cost = 8,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
@@ -1686,6 +1696,7 @@ SMODS.Joker {
 	pools = {["Bee"] = true},
 	pos = { x = 0, y = 3 },
 	cost = 8,
+	immutable = true,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue+1] = G.P_TAGS.tag_buffoon
 	end,
@@ -1764,6 +1775,7 @@ SMODS.Joker {
 	rarity = "cry_candy",
 	atlas = 'beeatlas2',
 	blueprint_compat = false,
+	immutable = true,
 	pools = {["Bee"] = true},
 	pos = { x = 0, y = 0 },
 	cost = 8,

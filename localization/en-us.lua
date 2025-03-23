@@ -208,6 +208,15 @@ return {
 				"this counts as an additional {C:attention}Bee Joker{}",
 				"{C:inactive}(Currently #3# Bees)"
 		    }
+        },
+		j_bee_twobee = {
+        	name = 'Two Bee, or Not Two Bee',
+        	text = {
+			    "{C:green}#1# in #2#{} chance when selecting blind",
+				" of counting as {C:attention}two{} bees instead of {C:attention}one{}",
+				"{C:inactive}(Currently #3# Bees)",
+				"{C:inactive}This counts as a Bee Joker"
+		    }
         }
 
         },

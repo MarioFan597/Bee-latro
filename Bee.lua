@@ -706,7 +706,7 @@ SMODS.Joker {
 		then
 			local sliced_card = G.jokers.cards[my_pos + 1]
 			sliced_card.getting_sliced = true
-			if sliced_card.config.center.rarity == "cry_exotic" then
+			if sliced_card.config.center.rarity == "cry_exotic" then --Taken from Cryptid
 				check_for_unlock({ type = "what_have_you_done" })
 			end
 			G.GAME.joker_buffer = G.GAME.joker_buffer - 1
@@ -1877,5 +1877,100 @@ SMODS.Joker {
 			}
 		},
 }
+
+SMODS.Joker {
+	key = 'twobee',
+	config = { extra = {bee = true, total_bees = 1, bold = 5}, odds = 2 },
+	rarity = 1,
+	atlas = 'beeatlas2',
+	blueprint_compat = false,
+	pools = {["Bee"] = true},
+	pos = { x = 0, y = 1 },
+	cost = 4,
+	immutable = true,
+	loc_vars = function(self, info_queue, card)
+		return { vars = {cry_prob(card.ability.cry_prob, card.ability.odds, card.ability.cry_rigged), card and card.ability.odds, card and card.ability.extra.total_bees} }
+	end,
+	calculate = function(self, card, context)
+		if 
+			context.setting_blind
+			and (
+					pseudorandom("2bee") < cry_prob(card.ability.cry_prob, card.ability.odds, card.ability.cry_rigged) / card.ability.odds
+				)	
+		then
+			card.ability.extra.total_bees = 2 
+			card_eval_status_text(
+				card,
+				"extra",
+				nil,
+				nil,
+				nil,
+				{ message = "Two Bee!" }
+				)
+		elseif
+		context.setting_blind
+		then
+			card.ability.extra.total_bees = 1
+			card_eval_status_text(
+				card,
+				"extra",
+				nil,
+				nil,
+				nil,
+				{ message = "Not Two Bee!" }
+				)
+		end
+	end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"MarioFan597"
+			},
+			code = {
+				"MarioFan597"
+			}
+		},
+}
+
+-- SMODS.Joker {
+-- 	key = '2bee',
+-- 	config = { extra = {bee = true, total_bees = 0, bold = 2}, odds = 2 },
+-- 	rarity = "1",
+-- 	atlas = 'beeatlas2',
+-- 	blueprint_compat = false,
+-- 	pools = {["Bee"] = true},
+-- 	pos = { x = 1, y = 0 },
+-- 	cost = 5,
+-- 	loc_vars = function(self, info_queue, card)
+-- 		return { vars = {cry_prob(card.ability.cry_prob, card.ability.odds, card.ability.cry_rigged), card and card.ability.odds, card and card.ability.extra.total_bees} }
+-- 	end,
+-- 	calculate = function(self, card, context)
+-- 		if 
+-- 			context.setting_blind
+-- 			and (
+-- 				pseudorandom("2bee") < cry_prob(card.ability.cry_prob, card.ability.odds, card.ability.cry_rigged) / card.ability.odds
+-- 			)
+-- 		then
+-- 			card.ability.total_bees = 2 
+-- 		else
+-- 			card.ability.total_bees = 1
+-- 		end
+-- 	end,
+--     cry_credits = {
+-- 			idea = {
+-- 				"MarioFan597"
+-- 			},
+-- 			art = {
+-- 				"MarioFan597"
+-- 			},
+-- 			code = {
+-- 				"Inspector_B"
+-- 			}
+-- 		},
+-- }
+
+
 ----------------------------------------------
 ------------MOD CODE END----------------------

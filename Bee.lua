@@ -523,7 +523,8 @@ SMODS.Consumable {
 	cost = 3,
 	loc_vars = function (self, info_queue, center)
 		info_queue[#info_queue + 1] = { key = "bee_apian", set = "Other", vars = {} }
-		info_queue[#info_queue + 1] = { key = "cry_flickering", set = "Other", vars = {5,5}}
+		info_queue[#info_queue + 1] = { key = "cry_perishable_voucher", set = "Other", vars = {5,5}}
+		info_queue[#info_queue + 1] = G.P_CENTERS.e_cry_glitched
 	end,
 	can_use = function(self, card)
 		return #G.jokers.highlighted == 1
@@ -551,11 +552,12 @@ SMODS.Consumable {
 					if not highlighted:is_bee() then 
 						highlighted.ability.bee_apian = true
 					end	
-					highlighted.ability.cry_flickering = true
 				end
 				return true
 			end,
 		}))
+
+		
 
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
@@ -578,6 +580,19 @@ SMODS.Consumable {
 				return true
 			end,
 		}))
+
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.1,
+			func = function()
+				if highlighted then
+					highlighted.ability.perishable = true
+					highlighted.ability.perish_tally = G.GAME.perishable_rounds
+				end
+				return true
+			end,
+		}))
+		
 	end,
 	cry_credits = {
 		idea = {

@@ -346,7 +346,7 @@ SMODS.Seal {
 	pos = { x = 0, y = 0 },
 	calculate = function(self, card, context)
 		if  context.repetition
-			and context.cardarea == G.play then
+			then
 			local beeCount = GetBees()
 			
 			return {

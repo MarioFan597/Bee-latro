@@ -1949,43 +1949,6 @@ SMODS.Joker {
 		},
 }
 
--- SMODS.Joker {
--- 	key = '2bee',
--- 	config = { extra = {bee = true, total_bees = 0, bold = 2}, odds = 2 },
--- 	rarity = "1",
--- 	atlas = 'beeatlas2',
--- 	blueprint_compat = false,
--- 	pools = {["Bee"] = true},
--- 	pos = { x = 1, y = 0 },
--- 	cost = 5,
--- 	loc_vars = function(self, info_queue, card)
--- 		return { vars = {cry_prob(card.ability.cry_prob, card.ability.odds, card.ability.cry_rigged), card and card.ability.odds, card and card.ability.extra.total_bees} }
--- 	end,
--- 	calculate = function(self, card, context)
--- 		if 
--- 			context.setting_blind
--- 			and (
--- 				pseudorandom("2bee") < cry_prob(card.ability.cry_prob, card.ability.odds, card.ability.cry_rigged) / card.ability.odds
--- 			)
--- 		then
--- 			card.ability.total_bees = 2 
--- 		else
--- 			card.ability.total_bees = 1
--- 		end
--- 	end,
---     cry_credits = {
--- 			idea = {
--- 				"MarioFan597"
--- 			},
--- 			art = {
--- 				"MarioFan597"
--- 			},
--- 			code = {
--- 				"Inspector_B"
--- 			}
--- 		},
--- }
-
 
 ----------------------------------------------
 ------------MOD CODE END----------------------

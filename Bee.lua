@@ -1938,13 +1938,13 @@ SMODS.Joker {
 	end,
     cry_credits = {
 			idea = {
-				"Inspector_B"
+				"MarioFan597"
 			},
 			art = {
 				"MarioFan597"
 			},
 			code = {
-				"MarioFan597"
+				"Inspector_B"
 			}
 		},
 }

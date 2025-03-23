@@ -1759,7 +1759,7 @@ SMODS.Joker {
 }
 SMODS.Joker {
 	key = 'trenchcoat',
-	config = { extra = {bee = true, total_bees = 41290, bold = 2} },
+	config = { extra = {bee = true, total_bees = 4129, bold = 2} },
 	rarity = "cry_exotic",
 	atlas = 'beeatlas',
 	blueprint_compat = false,
@@ -1882,7 +1882,7 @@ SMODS.Joker {
 	end,
     cry_credits = {
 			idea = {
-				"MarioFan597"
+				"Luigicat11"
 			},
 			art = {
 				"MarioFan597"
@@ -1900,7 +1900,7 @@ SMODS.Joker {
 	atlas = 'beeatlas2',
 	blueprint_compat = false,
 	pools = {["Bee"] = true},
-	pos = { x = 0, y = 1 },
+	pos = { x = 1, y = 0 },
 	cost = 4,
 	immutable = true,
 	loc_vars = function(self, info_queue, card)
@@ -1944,7 +1944,7 @@ SMODS.Joker {
 				"MarioFan597"
 			},
 			code = {
-				"MarioFan597"
+				"Inspector_B"
 			}
 		},
 }

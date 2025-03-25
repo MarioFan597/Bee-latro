@@ -603,7 +603,7 @@ SMODS.Consumable {
 			"Inspector_B",
 		},
 		code = {
-			"Mr. Dingus",
+			"Mr. Dingus and Inspector_B",
 		},
 	},
 }
@@ -1943,6 +1943,47 @@ SMODS.Joker {
 			},
 			art = {
 				"MarioFan597"
+			},
+			code = {
+				"Inspector_B"
+			}
+		},
+}
+
+SMODS.Joker {
+	key = 'bottleobees',
+	config = { extra = { total_bees = 0, bee = false, bold = 1} },
+	rarity = 1,
+	atlas = 'beeatlas',
+	blueprint_compat = false,
+	pools = {["Bee"] = true},
+	pos = { x = 0, y = 0 },
+	cost = 2,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card and math.min(card.ability.extra.total_bees, 100), card and card.ability.extra.bee, card and card.ability.extra.bold } }
+	end,
+	calculate = function(self, card, context)
+		if context.selling_card and context.card:is_bee() and not (card.ability.extra.total_bees >= 5) then
+			if not context.blueprint then
+				card.ability.extra.total_bees = card.ability.extra.total_bees + 1
+
+				card_eval_status_text(
+				card,
+				"extra",
+				nil,
+				nil,
+				nil,
+				{ message = "Bottled Bee!" }
+				)
+			end
+		end
+    end,
+    cry_credits = {
+			idea = {
+				"Inspector_B"
+			},
+			art = {
+				"Inspector_B"
 			},
 			code = {
 				"Inspector_B"

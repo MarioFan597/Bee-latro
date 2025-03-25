@@ -217,6 +217,15 @@ return {
 				"{C:inactive}(Currently #3# Bees)",
 				"{C:inactive}This counts as a Bee Joker"
 		    }
+        },
+		j_bee_bottleobees = {
+        	name = 'Bottle o\' Bees',
+        	text = {
+			    "Whenever you sell a {C:attention}Bee Joker{},",
+				" increase the amount of {C:attention}Bees{}",
+				" this counts as {C:inactive}(up to 5)",
+				"{C:inactive}(Currently #1# Bees)"
+		    }
         }
 
         },

@@ -6,7 +6,7 @@
 --- PREFIX: bee
 --- BADGE_COLOUR: 708b91
 --- DEPENDENCIES:Cryptid>=0.5.3<=0.5.5
---- VERSION: 0.9.1
+--- VERSION: 0.9.2
 
 ----------------------------------------------
 ------------MOD CODE -------------------------
@@ -70,7 +70,8 @@ function Get_random_bee_card()
         	"j_bee_jimbee", "j_bee_ctrlplusbee", "j_bee_beebeedagger", "j_bee_spellingbee",
         	"j_bee_ballofbees", "j_bee_kingbee", "j_bee_beehive", "j_bee_jollybee",
         	"j_bee_bigbee", "j_bee_larva", "j_bee_honeycomb", 
-        	"j_bee_honeypot", "j_bee_nostalgic_jimbee"
+        	"j_bee_honeypot", "j_bee_nostalgic_jimbee", "j_bee_twobee",
+			"j_bee_bottleobees"
     	}
 
     	-- Define rare cards with their individual frequency (1 in X cycles)

@@ -161,6 +161,13 @@ SMODS.Atlas {
 	py = 95
 }
 
+SMODS.Atlas{
+	key = "honeydrop",
+	path = "honeydrop.png",
+	px = 71,
+	py = 95
+}
+
 SMODS.Atlas {
 	key = "beepackatlas",
 	path = "beepackatlas.png",
@@ -216,7 +223,27 @@ SMODS.Blind{
 	end,
 }
 
+----------Defining Shaders and Editions------------------
 
+
+--SMODS.Shader{ key = 'striped', path = 'striped.fs' }
+
+
+--[[SMODS.Edition{
+	key = "striped",
+    discovered = true,
+    unlocked = true,
+    shader = 'striped',
+    config = { p_dollars = 3 },
+    in_shop = true,
+    weight = 8,
+    extra_cost = 4,
+    apply_to_float = true,
+    loc_vars = function(self)
+        return { vars = { self.config.p_dollars } }
+    end
+}
+--]]
 
 ----------Defining Boosterpacks------------------
 SMODS.Booster {
@@ -1790,7 +1817,7 @@ SMODS.Joker {
 	key = 'honeydrops',
 	config = { extra = {bee = true, chips = 50, chip_mod = 5, total_bees = 0, last_threshold = 50, bold = 2} },
 	rarity = "cry_candy",
-	atlas = 'beeatlas2',
+	atlas = 'honeydrop',
 	blueprint_compat = false,
 	immutable = true,
 	pools = {["Bee"] = true},
@@ -1817,18 +1844,9 @@ SMODS.Joker {
 				-- Increment the total_bees for each crossed multiple of 10
 				local crossed_thresholds = (prev_multiple_of_10 - new_multiple_of_10) / 10
 				card.ability.extra.total_bees = (card.ability.extra.total_bees or 0) + crossed_thresholds
-	
+				card.children.center:set_sprite_pos({x = (card.ability.extra.total_bees), y = 0})
+				return {message = 'Bee Added', colour = G.C.FILTER,}
 				-- Display "Bee Added" message
-				card_eval_status_text(
-					card,
-					"extra",
-					nil,
-					nil,
-					nil,
-					{
-						message = "Bee Added",  -- Display the message when a bee is added
-					}
-				)
 			end
 	
 			-- Display evaluation message (for chips)

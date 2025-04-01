@@ -226,6 +226,12 @@ return {
 				" this counts as {C:inactive}(up to 5)",
 				"{C:inactive}(Currently #1# Bees)"
 		    }
+        },
+		j_bee_buggedbee = {
+        	name = 'B%u9g~g3d Bê3',
+        	text = {
+				"{C:inactive}T7h!i5s c0u~nt$ a§ a B33 Jø9kêr"
+		    }
         }
 
         },

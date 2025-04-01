@@ -226,24 +226,24 @@ SMODS.Blind{
 ----------Defining Shaders and Editions------------------
 
 
---SMODS.Shader{ key = 'striped', path = 'striped.fs' }
+-- SMODS.Shader{ key = 'striped', path = 'striped.fs' }
 
 
---[[SMODS.Edition{
-	key = "striped",
-    discovered = true,
-    unlocked = true,
-    shader = 'striped',
-    config = { p_dollars = 3 },
-    in_shop = true,
-    weight = 8,
-    extra_cost = 4,
-    apply_to_float = true,
-    loc_vars = function(self)
-        return { vars = { self.config.p_dollars } }
-    end
-}
---]]
+-- SMODS.Edition{
+-- 	key = "striped",
+--     discovered = true,
+--     unlocked = true,
+--     shader = 'striped',
+--     config = { p_dollars = 3 },
+--     in_shop = true,
+--     weight = 8,
+--     extra_cost = 4,
+--     apply_to_float = true,
+--     loc_vars = function(self)
+--         return { vars = { self.config.p_dollars } }
+--     end
+-- }
+
 
 ----------Defining Boosterpacks------------------
 SMODS.Booster {
@@ -2009,6 +2009,245 @@ SMODS.Joker {
 			}
 		},
 }
+
+-- SMODS.Joker {
+-- 	key = 'buggedbee',
+-- 	config = { extra = { bee = true, bold = 3.14159} },
+-- 	rarity = 3,
+-- 	atlas = 'beeatlas',
+-- 	blueprint_compat = false,
+-- 	pools = {["Bee"] = true},
+-- 	pos = { x = 0, y = 0 },
+-- 	cost = 2,
+-- 	loc_vars = function(self, info_queue, card) --Taken from Cryptids Machine Code
+-- 		return {
+-- 			main_start = {
+-- 				Cryptid.randomchar(codechars2),
+-- 				Cryptid.randomchar(codechars4),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars6),
+-- 				Cryptid.randomchar(codechars5),
+-- 			},
+-- 		}
+-- 	end,
+-- 	calculate = function(self, card, context)
+-- 		if context.using_consumeable and context.consumeable.ability.set == "Code"then
+-- 			print ("Bingo")
+-- 		end
+--     end,
+-- 	init = function(self)
+-- 		--Machine Code rendering
+-- 		codechars2 = { "!", "'", ",", ".", ":", ";", "i", "l", "|", "¡", "¦", "ì", "í", "ı" }
+-- 		codechars4 = { " ", "(", ")", "[", "]", "j", "î", "ī", "ĭ" }
+-- 		codechars5 = { '"', "*", "<", ">", "{", "}", "¨", "°", "º", "×" }
+-- 		codechars6 = {
+-- 			"$",
+-- 			"%",
+-- 			"+",
+-- 			"-",
+-- 			"/",
+-- 			"0",
+-- 			"1",
+-- 			"2",
+-- 			"3",
+-- 			"4",
+-- 			"5",
+-- 			"6",
+-- 			"7",
+-- 			"8",
+-- 			"9",
+-- 			"=",
+-- 			"?",
+-- 			"A",
+-- 			"B",
+-- 			"C",
+-- 			"D",
+-- 			"E",
+-- 			"F",
+-- 			"G",
+-- 			"H",
+-- 			"I",
+-- 			"J",
+-- 			"K",
+-- 			"L",
+-- 			"N",
+-- 			"O",
+-- 			"P",
+-- 			"R",
+-- 			"S",
+-- 			"T",
+-- 			"U",
+-- 			"V",
+-- 			"Y",
+-- 			"Z",
+-- 			"\\",
+-- 			"^",
+-- 			"_",
+-- 			"a",
+-- 			"b",
+-- 			"c",
+-- 			"d",
+-- 			"e",
+-- 			"f",
+-- 			"g",
+-- 			"h",
+-- 			"k",
+-- 			"n",
+-- 			"o",
+-- 			"p",
+-- 			"q",
+-- 			"r",
+-- 			"s",
+-- 			"t",
+-- 			"u",
+-- 			"v",
+-- 			"y",
+-- 			"z",
+-- 			"~",
+-- 			"¢",
+-- 			"¥",
+-- 			"§",
+-- 			"¬",
+-- 			"±",
+-- 			"¿",
+-- 			"À",
+-- 			"Á",
+-- 			"Â",
+-- 			"Ã",
+-- 			"Ä",
+-- 			"Å",
+-- 			"Ç",
+-- 			"È",
+-- 			"É",
+-- 			"Ê",
+-- 			"Ë",
+-- 			"Ì",
+-- 			"Í",
+-- 			"Î",
+-- 			"Ï",
+-- 			"Ñ",
+-- 			"Ò",
+-- 			"Ó",
+-- 			"Ô",
+-- 			"Õ",
+-- 			"Ö",
+-- 			"Ù",
+-- 			"Ú",
+-- 			"Û",
+-- 			"Ü",
+-- 			"Ý",
+-- 			"Þ",
+-- 			"à",
+-- 			"á",
+-- 			"â",
+-- 			"ã",
+-- 			"ä",
+-- 			"å",
+-- 			"ç",
+-- 			"è",
+-- 			"é",
+-- 			"ê",
+-- 			"ë",
+-- 			"ï",
+-- 			"ñ",
+-- 			"ò",
+-- 			"ó",
+-- 			"ô",
+-- 			"õ",
+-- 			"ö",
+-- 			"÷",
+-- 			"ù",
+-- 			"ú",
+-- 			"û",
+-- 			"ü",
+-- 			"ý",
+-- 			"þ",
+-- 			"ÿ",
+-- 			"Ā",
+-- 			"ā",
+-- 			"Ă",
+-- 			"ă",
+-- 			"Ć",
+-- 			"ć",
+-- 			"Ē",
+-- 			"ē",
+-- 			"Ĕ",
+-- 			"ĕ",
+-- 			"Ğ",
+-- 			"ğ",
+-- 			"Ī",
+-- 			"Ĭ",
+-- 			"İ",
+-- 			"ł",
+-- 			"Ń",
+-- 			"ń",
+-- 			"Ō",
+-- 			"ō",
+-- 			"Ŏ",
+-- 			"ŏ",
+-- 			"Ś",
+-- 			"ś",
+-- 			"Ş",
+-- 			"ş",
+-- 			"Ū",
+-- 			"ū",
+-- 			"Ŭ",
+-- 			"ŭ",
+-- 			"Ÿ",
+-- 			"Ź",
+-- 			"ź",
+-- 			"Ż",
+-- 			"ż",
+-- 			"Ǔ",
+-- 			"ǔ",
+-- 			"μ",
+-- 		}
+-- 		codechars7 = { "#", "Q", "X", "x", "£", "ß", "Ą", "ą", "Đ", "đ", "Ę", "ę" }
+-- 		codechars8 = { "M", "W", "m", "w", "¤", "¶", "Ø", "ø", "Ł" }
+-- 		codechars9 = { "&", "@", "©", "«", "®", "»" }
+-- 		codechars10 = { "Æ", "æ", "Œ", "œ" }
+-- 		function Cryptid.randomchar(arr)
+-- 			return {
+-- 				n = G.UIT.O,
+-- 				config = {
+-- 					object = DynaText({
+-- 						string = arr,
+-- 						colours = { G.C.BLACK },
+-- 						pop_in_rate = 9999999,
+-- 						silent = true,
+-- 						random_element = true,
+-- 						pop_delay = 0.1,
+-- 						scale = 0.4,
+-- 						min_cycle_time = 0,
+-- 					}),
+-- 				},
+-- 			}
+-- 		end
+-- 	end,
+--     cry_credits = {
+-- 			idea = {
+-- 				"Inspector_B"
+-- 			},
+-- 			art = {
+-- 				"Inspector_B"
+-- 			},
+-- 			code = {
+-- 				"Inspector_B"
+-- 			}
+-- 		},
+-- }
 
 
 ----------------------------------------------

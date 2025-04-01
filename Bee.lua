@@ -224,8 +224,6 @@ SMODS.Blind{
 }
 
 ----------Defining Shaders and Editions------------------
-
-
 SMODS.Shader{ key = 'striped', path = 'striped.fs' }
 
 SMODS.Edition{

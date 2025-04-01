@@ -226,23 +226,22 @@ SMODS.Blind{
 ----------Defining Shaders and Editions------------------
 
 
--- SMODS.Shader{ key = 'striped', path = 'striped.fs' }
+SMODS.Shader{ key = 'striped', path = 'striped.fs' }
 
-
--- SMODS.Edition{
--- 	key = "striped",
---     discovered = true,
---     unlocked = true,
---     shader = 'striped',
---     config = { p_dollars = 3 },
---     in_shop = true,
---     weight = 8,
---     extra_cost = 4,
---     apply_to_float = true,
---     loc_vars = function(self)
---         return { vars = { self.config.p_dollars } }
---     end
--- }
+SMODS.Edition{
+	key = "striped",
+    discovered = true,
+    unlocked = true,
+    shader = 'striped',
+    config = { p_dollars = 3 },
+    in_shop = true,
+    weight = 8,
+    extra_cost = 4,
+    apply_to_float = true,
+    loc_vars = function(self)
+        return { vars = { self.config.p_dollars } }
+    end
+}
 
 
 ----------Defining Boosterpacks------------------

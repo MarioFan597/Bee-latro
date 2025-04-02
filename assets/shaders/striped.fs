@@ -62,7 +62,7 @@ vec4 effect(vec4 fragColor, Image texture, vec2 texture_coords, vec2 screen_coor
     vec2 uv = texture_coords * image_details.xy / max(image_details.y, 1.0);
 
     // Calculate stripes with striped vector influence
-    float stripes = time * uv.y * striped_scaled.x;  // Introduce striped vector in the stripe calculation
+    float stripes = 1000 * uv.y * striped_scaled.x;  // Introduce striped vector in the stripe calculation
     float rounded = floor(stripes);
 
     // Check if we are within a stripe and apply colors accordingly
@@ -88,10 +88,20 @@ vec4 position(mat4 transform_projection, vec4 vertex_position) {
     if (hovering <= 0.0) {
         return transform_projection * vertex_position;
     }
+
+    // Compute distance from screen center (normalized)
     float mid_dist = length(vertex_position.xy - 0.5 * love_ScreenSize.xy) / length(love_ScreenSize.xy);
+    
+    // Mouse offset normalized by screen scale
     vec2 mouse_offset = (vertex_position.xy - mouse_screen_pos.xy) / screen_scale;
+
+    // Hover effect on position without affecting texture coordinates
     float scale = 0.2 * (-0.03 - 0.3 * max(0.0, 0.3 - mid_dist)) * hovering * (length(mouse_offset) * length(mouse_offset)) / (2.0 - mid_dist);
 
-    return transform_projection * vertex_position + vec4(0.0, 0.0, 0.0, scale);
+    // Apply transformation without altering UVs (prevents stripe distortion)
+    vec4 transformed_position = transform_projection * vertex_position + vec4(0.0, 0.0, 0.0, scale);
+
+    // Ensure that texture coordinates remain unchanged
+    return transformed_position;
 }
 #endif

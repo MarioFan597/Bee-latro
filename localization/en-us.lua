@@ -10,7 +10,14 @@ return {
 				},
 			},
         },
-        Edition={},
+        Edition={
+			e_bee_striped = {
+				name = "Striped",
+				text = {
+					"Do something with bees",
+				},
+			},
+		},
         Enhanced={},
         Joker={
         j_bee_jimbee = {
@@ -320,6 +327,7 @@ return {
             k_bee_mega_pack = "Mega Bee Pack"
         },
 		labels = {
+			bee_striped = "Striped",
 			bee_honey_seal = "Honey Seal",
 			bee_apian = "Apian"
 		}

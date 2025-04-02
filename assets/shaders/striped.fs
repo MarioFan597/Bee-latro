@@ -57,8 +57,9 @@ vec4 effect(vec4 fragColor, Image texture, vec2 texture_coords, vec2 screen_coor
     // Sample the original texture to get its alpha channel
     vec4 originalTexColor = Texel(texture, texture_coords);
 
-    // Stripe frequency tied strictly to image_details to prevent time-based drift
-    float stripe_size = min(max(10, (striped.x * 10.0)), 10.0);
+    // Stripe frequency tied strictly to striped.x to prevent growth of stripes. Small numbers = more stripes, Big number = less stripes.
+    // If you are wondering why I couldn't just write 5.0 instead of this nasty mess, blame F# compiler.
+    float stripe_size = min(max(5, (striped.x * 5.0)), 5.0);
 
     // Stable UV transformation
     vec2 uv = texture_coords * image_details.xy;

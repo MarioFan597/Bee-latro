@@ -231,14 +231,39 @@ SMODS.Edition{
     discovered = true,
     unlocked = true,
     shader = 'striped',
-    config = { p_dollars = 3 },
+    config = { extra = { mult = 0}  },
     in_shop = true,
     weight = 8,
     extra_cost = 4,
     apply_to_float = true,
     loc_vars = function(self)
-        return { vars = { self.config.p_dollars } }
-    end
+        return { vars = { self.config.extra.mult } }
+    end,
+	calculate = function(self, card, context)
+		if
+			(
+				context.edition -- for when on jonklers
+				and context.cardarea == G.jokers -- checks if should trigger
+				and card.config.trigger -- fixes double trigger
+			) or (
+				context.main_scoring -- for when on playing cards
+				and context.cardarea == G.play
+			)
+		then
+			local beeCount = GetBees()
+
+			self.config.extra.mult = (1.6 * 2 ^ beeCount)
+
+			return { mult_mod = self.config.extra.mult }
+		end
+		if context.joker_main then
+			card.config.trigger = true -- context.edition triggers twice, this makes it only trigger once (only for jonklers)
+		end
+
+		if context.after then
+			card.config.trigger = nil
+		end
+	end,
 }
 
 

@@ -14,7 +14,7 @@ return {
 			e_bee_striped = {
 				name = "Striped",
 				text = {
-					"Do something with bees",
+					"{C:mult}+1.6 Mult{}*2^{C:attention}Bee Jokers{} in your possession.",
 				},
 			},
 		},

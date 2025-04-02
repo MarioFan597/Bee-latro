@@ -55,25 +55,23 @@ vec4 dissolve_mask(vec4 tex, vec2 texture_coords, vec2 uv) {
 
 // Main effect function
 vec4 effect(vec4 fragColor, Image texture, vec2 texture_coords, vec2 screen_coords) {
-    // Use striped vector
-    vec2 striped_scaled = striped.xy * 0.1;  // Scale striped values for effect purpose
+    // Sample the original texture to get its alpha channel
+    vec4 originalTexColor = Texel(texture, texture_coords);
 
-    // Actual use of image_details to scale texture coordinates
+    // Use the striped uniform properly
+    float stripe_frequency = striped.x * image_details.y * 0.1; // Ensure consistent stripe width
+    
+    // Scale texture coordinates properly using image_details
     vec2 uv = texture_coords * image_details.xy / max(image_details.y, 1.0);
 
-    // Calculate stripes with striped vector influence
-    float stripes = 1000 * uv.y * striped_scaled.x;  // Introduce striped vector in the stripe calculation
-    float rounded = floor(stripes);
+    // Calculate stripes with a more stable approach
+    float stripes = mod(floor(uv.y * stripe_frequency), 2.0);  
 
-    // Check if we are within a stripe and apply colors accordingly
-    if (mod(rounded, 2.0) == 0.0) {
-        fragColor = vec4(1.0, 1.0, 0.0, 0.4);  // Yellow stripes (translucent)
-    } else {
-        fragColor = vec4(0.0, 0.0, 0.0, 0.4);  // Black stripes (translucent)
-    }
+    // Apply alternating stripe colors
+    fragColor = mix(vec4(0.0, 0.0, 0.0, 0.4), vec4(1.0, 1.0, 0.0, 0.4), stripes);
 
-    // Use a uniform for shader optimization (preventing compiler from skipping it)
-    fragColor.rgb += test.x * 0.0;
+    // Multiply the output color's alpha by the original texture alpha
+    fragColor.a *= originalTexColor.a;
 
     return dissolve_mask(fragColor, texture_coords, texture_coords);
 }
@@ -88,20 +86,20 @@ vec4 position(mat4 transform_projection, vec4 vertex_position) {
     if (hovering <= 0.0) {
         return transform_projection * vertex_position;
     }
-
-    // Compute distance from screen center (normalized)
+    
+    // Calculate distance from screen center
     float mid_dist = length(vertex_position.xy - 0.5 * love_ScreenSize.xy) / length(love_ScreenSize.xy);
     
-    // Mouse offset normalized by screen scale
+    // Calculate mouse offset effect
     vec2 mouse_offset = (vertex_position.xy - mouse_screen_pos.xy) / screen_scale;
 
-    // Hover effect on position without affecting texture coordinates
-    float scale = 0.2 * (-0.03 - 0.3 * max(0.0, 0.3 - mid_dist)) * hovering * (length(mouse_offset) * length(mouse_offset)) / (2.0 - mid_dist);
+    // Scale transformation effect only on position, not affecting texture coordinates
+    float scale = 0.2 * (-0.03 - 0.3 * max(0.0, 0.3 - mid_dist)) * hovering * 
+                  (length(mouse_offset) * length(mouse_offset)) / (2.0 - mid_dist);
 
-    // Apply transformation without altering UVs (prevents stripe distortion)
-    vec4 transformed_position = transform_projection * vertex_position + vec4(0.0, 0.0, 0.0, scale);
+    // Use uniforms in a non-disruptive way to prevent compiler optimization issues
+    scale += striped.x * 0.0 + striped.y * 0.0 + image_details.x * 0.0 + image_details.y * 0.0;
 
-    // Ensure that texture coordinates remain unchanged
-    return transformed_position;
+    return transform_projection * vertex_position + vec4(0.0, 0.0, 0.0, scale);
 }
 #endif

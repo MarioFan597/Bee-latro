@@ -251,7 +251,7 @@ SMODS.Edition{
     unlocked = true,
     shader = 'striped',
     in_shop = true,
-    weight = 8,
+    weight = 15,
     extra_cost = 4,
     apply_to_float = true,
 	sound = {
@@ -261,6 +261,9 @@ SMODS.Edition{
 	},
 	loc_vars = function(self, info_queue, card)
 		return { vars = {self.config.extra.scale} }
+	end,
+	get_weight = function(self)
+		return G.GAME.edition_rate * self.weight
 	end,
 	on_apply = function(card)
 		local beeCount = GetBees()

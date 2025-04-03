@@ -236,6 +236,7 @@ SMODS.Shader{ key = 'striped', path = 'striped.fs' }
 
 SMODS.Edition{
 	key = "striped",
+	config = { extra = {scale = 0.4, curr_scale = 0.4} },
     discovered = true,
     unlocked = true,
     shader = 'striped',
@@ -248,21 +249,24 @@ SMODS.Edition{
 		per = 1,
 		vol = 0.7,
 	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = {self.config.extra.scale} }
+	end,
 	on_apply = function(card)
 		local beeCount = GetBees()
 
 		if not card.ability.bee_striped then
 			Cryptid.with_deck_effects(card, function(card)
 				Cryptid.misprintize(card, {
-					min = 1 + (0.4 * (beeCount + 1)),
-					max = 1 + (0.4 * (beeCount + 1)),
+					min = (0.4 * (beeCount + 1)),
+					max = (0.4 * (beeCount + 1)),
 				}, nil, true)
 			end)
 			if card.config.center.apply_striped then
 				card.config.center:apply_striped(card, function(val)
 					return Cryptid.misprintize_val(val, {
-						min = 1 + (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_min or 1),
-						max = 1 + (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_max or 1),
+						min = (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_min or 1),
+						max = (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_max or 1),
 					}, Cryptid.is_card_big(card))
 				end)
 			end
@@ -284,16 +288,18 @@ SMODS.Edition{
 
 			local beeCount = GetBees()
 
+			self.config.extra.scale = (0.4 * (beeCount + 1))
+
 			Cryptid.with_deck_effects(card, function(card)
 				Cryptid.misprintize(card, {
-					min = 1 + (0.4 * (beeCount + 1)),
-					max = 1 + (0.4 * (beeCount + 1)),
+					min = (0.4 * (beeCount + 1)),
+					max = (0.4 * (beeCount + 1)),
 				}, nil, true)
 			end)
 
 			return Cryptid.misprintize_val(val, {
-				min = 1 + (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_min or 1),
-				max = 1 + (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_max or 1),
+				min = (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_min or 1),
+				max = (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_max or 1),
 			}, Cryptid.is_card_big(card))
 
 			end,

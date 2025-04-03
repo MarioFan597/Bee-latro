@@ -14,7 +14,9 @@ return {
 			e_bee_striped = {
 				name = "Striped",
 				text = {
-					"{C:mult}+1.6 Mult{}*2^{C:attention}Bee Jokers{} in your possession.",
+					"Increases card values by {C:attention}+0.4x{} for each ",
+					"{C:attention}Bee Joker{} you currently have",
+					"{C:inactive}(If possible)"
 				},
 			},
 		},

@@ -206,6 +206,13 @@ SMODS.Atlas {
 	py = 34
 }
 
+----------Defining Sounds------------------
+
+SMODS.Sound{
+	key = "e_striped",
+	path = "e_striped.ogg"
+}
+
 ----------Defining Blinds------------------
 SMODS.Blind{
 	key = "smoker",
@@ -239,7 +246,7 @@ SMODS.Edition{
 	sound = {
 		sound = "bee_e_striped",
 		per = 1,
-		vol = 0.5,
+		vol = 0.7,
 	},
 	on_apply = function(card)
 		local beeCount = GetBees()

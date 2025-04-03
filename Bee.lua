@@ -239,6 +239,11 @@ SMODS.Edition{
     loc_vars = function(self)
         return { vars = { self.config.extra.mult } }
     end,
+	sound = {
+		sound = "bee_e_striped",
+		per = 1,
+		vol = 0.5,
+	},
 	calculate = function(self, card, context)
 		if
 			(

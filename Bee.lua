@@ -14,6 +14,7 @@
 ---
 ---
 local Global_Cap = 1000000
+local lastBeeCount = nil  -- Initialize to nil to detect first-time calls
 
 function GetBees()
 	local beeCount = 0
@@ -30,8 +31,17 @@ function GetBees()
 			end
 		end
 	end
-
+	
 	return beeCount
+end
+
+function beeCountChanged()
+	local beeCount = GetBees()
+	if lastBeeCount == nil or lastBeeCount ~= beeCount then
+		lastBeeCount = beeCount  -- Update lastBeeCount only when there's a change
+		return true
+	end
+	return false
 end
 
 function HasMaximized()
@@ -281,6 +291,7 @@ SMODS.Edition{
 		card.ability.bee_striped = nil
 	end,
 	calculate = function(self, card, context)
+		if (beeCountChanged()) then
 			Cryptid.with_deck_effects(card, function(card)
 				Cryptid.misprintize(card, { min = 1, max = 1 }, true)
 				Cryptid.misprintize(card) -- Correct me if i'm wrong but this is for misprint deck. or atleast it is after this patch
@@ -302,7 +313,8 @@ SMODS.Edition{
 				max = (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_max or 1),
 			}, Cryptid.is_card_big(card))
 
-			end,
+		end
+	end,
 }
 
 

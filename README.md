@@ -26,3 +26,5 @@ George the Rat - Ctrl + Bee Art, Larva Art, Honeycomb Art
 Shadow - Beehive Art, Ball of Bees Art
 
 Mr. Dingus - Coding Contributions
+
+Striped Edition Sound Effect Derived From: Bee Swarm3.wav by Puniho -- https://freesound.org/s/184195/ -- License: Attribution 3.0

@@ -35,9 +35,18 @@ function GetBees()
 	return beeCount
 end
 
-function beeCountChanged()
+function beeCountChangedPositive()
 	local beeCount = GetBees()
-	if lastBeeCount == nil or lastBeeCount ~= beeCount then
+	if lastBeeCount == nil or lastBeeCount < beeCount then
+		lastBeeCount = beeCount  -- Update lastBeeCount only when there's a change
+		return true
+	end
+	return false
+end
+
+function beeCountChangedNegative()
+	local beeCount = GetBees()
+	if lastBeeCount == nil or lastBeeCount > beeCount then
 		lastBeeCount = beeCount  -- Update lastBeeCount only when there's a change
 		return true
 	end
@@ -246,7 +255,7 @@ SMODS.Shader{ key = 'striped', path = 'striped.fs' }
 
 SMODS.Edition{
 	key = "striped",
-	config = { extra = {scale = 0.4, curr_scale = 0.4} },
+	config = { extra = {scale = 0.4, pos_mult = 0, neg_mult = 0} },
     discovered = true,
     unlocked = true,
     shader = 'striped',
@@ -260,11 +269,11 @@ SMODS.Edition{
 		vol = 0.7,
 	},
 	loc_vars = function(self, info_queue, card)
-		return { vars = {self.config.extra.scale} }
+		return { vars = {self.config.extra.scale, self.config.extra.pos_mult, self.config.extra.neg_mult} }
 	end,
 	get_weight = function(self)
-		return G.GAME.edition_rate * self.weight
-	end,
+ 		return G.GAME.edition_rate * self.weight
+ 	end,
 	on_apply = function(card)
 		local beeCount = GetBees()
 
@@ -294,28 +303,47 @@ SMODS.Edition{
 		card.ability.bee_striped = nil
 	end,
 	calculate = function(self, card, context)
-		if (beeCountChanged()) then
-			Cryptid.with_deck_effects(card, function(card)
-				Cryptid.misprintize(card, { min = 1, max = 1 }, true)
-				Cryptid.misprintize(card) -- Correct me if i'm wrong but this is for misprint deck. or atleast it is after this patch
-			end)
+
+		if (beeCountChangedPositive()) then
 
 			local beeCount = GetBees()
-
 			self.config.extra.scale = (0.4 * (beeCount + 1))
+			local scale_cure = self.config.extra.scale
+			self.config.extra.pos_mult = (math.max(scale_cure, 0.4) / math.max(scale_cure - 0.4, 0.4))
+			local mult = self.config.extra.pos_mult
 
 			Cryptid.with_deck_effects(card, function(card)
 				Cryptid.misprintize(card, {
-					min = (0.4 * (beeCount + 1)),
-					max = (0.4 * (beeCount + 1)),
+					min = (mult),
+					max = (mult),
 				}, nil, true)
 			end)
 
 			return Cryptid.misprintize_val(val, {
-				min = (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_min or 1),
-				max = (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_max or 1),
+				min = (mult) * (G.GAME.modifiers.cry_misprint_min or 1),
+				max = (mult) * (G.GAME.modifiers.cry_misprint_max or 1),
 			}, Cryptid.is_card_big(card))
+		end
 
+		if (beeCountChangedNegative()) then
+
+			local beeCount = GetBees()
+			self.config.extra.scale = (0.4 * (beeCount + 1))
+			local scale_cure = self.config.extra.scale
+			self.config.extra.neg_mult = (math.max(scale_cure, 0.4) / math.max(scale_cure + 0.4, 0.4))
+			local mult2 = self.config.extra.neg_mult
+
+			Cryptid.with_deck_effects(card, function(card)
+				Cryptid.misprintize(card, {
+					min = (mult2),
+					max = (mult2),
+				}, nil, true)
+			end)
+
+			return Cryptid.misprintize_val(val, {
+				min = (mult2) * (G.GAME.modifiers.cry_misprint_min or 1),
+				max = (mult2) * (G.GAME.modifiers.cry_misprint_max or 1),
+			}, Cryptid.is_card_big(card))
 		end
 	end,
 }

@@ -255,7 +255,7 @@ SMODS.Shader{ key = 'striped', path = 'striped.fs' }
 
 SMODS.Edition{
 	key = "striped",
-	config = { extra = {scale = 0.4, pos_mult = 0, neg_mult = 0} },
+	config = { extra = {values = 1.4, scale = 0.4} },
     discovered = true,
     unlocked = true,
     shader = 'striped',
@@ -269,83 +269,68 @@ SMODS.Edition{
 		vol = 0.7,
 	},
 	loc_vars = function(self, info_queue, card)
-		return { vars = {self.config.extra.scale, self.config.extra.pos_mult, self.config.extra.neg_mult} }
+		return { vars = {self.config.extra.values, self.config.extra.scale} }
 	end,
 	get_weight = function(self)
  		return G.GAME.edition_rate * self.weight
  	end,
-	on_apply = function(card)
+	 on_apply = function(card)
 		local beeCount = GetBees()
-
-		if not card.ability.bee_striped then
-			Cryptid.with_deck_effects(card, function(card)
-				Cryptid.misprintize(card, {
-					min = (0.4 * (beeCount + 1)),
-					max = (0.4 * (beeCount + 1)),
-				}, nil, true)
-			end)
-			if card.config.center.apply_striped then
-				card.config.center:apply_striped(card, function(val)
-					return Cryptid.misprintize_val(val, {
-						min = (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_min or 1),
-						max = (0.4 * (beeCount + 1)) * (G.GAME.modifiers.cry_misprint_max or 1),
-					}, Cryptid.is_card_big(card))
-				end)
-			end
-		end
+		local mult = 1 + (0.4 * (beeCount + 1))
+	
+		-- Store the card's original multiplier as its base
+		card.ability.bee_base_value = card.ability.bee_base_value or card.config.base_mult or 1
+		card.last_applied_mult = mult
+	
+		Cryptid.with_deck_effects(card, function(card)
+			Cryptid.misprintize(card, {
+				min = mult,
+				max = mult,
+			}, nil, true)
+		end)
+	
 		card.ability.bee_striped = true
 	end,
 	on_remove = function(card)
 		Cryptid.with_deck_effects(card, function(card)
 			Cryptid.misprintize(card, { min = 1, max = 1 }, true)
-			Cryptid.misprintize(card) -- Correct me if i'm wrong but this is for misprint deck. or atleast it is after this patch
+			Cryptid.misprintize(card) 
 		end)
 		card.ability.bee_striped = nil
+		card.last_applied_mult = nil
 	end,
 	calculate = function(self, card, context)
-
-		if (beeCountChangedPositive()) then
-
+		if beeCountChangedPositive() or beeCountChangedNegative() then
 			local beeCount = GetBees()
-			self.config.extra.scale = (0.4 * (beeCount + 1))
-			local scale_cure = self.config.extra.scale
-			self.config.extra.pos_mult = (math.max(scale_cure, 0.4) / math.max(scale_cure - 0.4, 0.4))
-			local mult = self.config.extra.pos_mult
-
+			local new_mult = 1 + (0.4 * (beeCount + 1))
+	
+			-- Store for display purposes
+			self.config.extra.values = new_mult
+	
 			Cryptid.with_deck_effects(card, function(card)
+				-- Undo the old multiplier
+				if card.last_applied_mult then
+					Cryptid.misprintize(card, {
+						min = 1 / card.last_applied_mult,
+						max = 1 / card.last_applied_mult,
+					}, nil, true)
+				end
+	
+				-- Apply the new multiplier
 				Cryptid.misprintize(card, {
-					min = (mult),
-					max = (mult),
+					min = new_mult,
+					max = new_mult,
 				}, nil, true)
+	
+				card.last_applied_mult = new_mult
 			end)
-
+	
 			return Cryptid.misprintize_val(val, {
-				min = (mult) * (G.GAME.modifiers.cry_misprint_min or 1),
-				max = (mult) * (G.GAME.modifiers.cry_misprint_max or 1),
+				min = new_mult * (G.GAME.modifiers.cry_misprint_min or 1),
+				max = new_mult * (G.GAME.modifiers.cry_misprint_max or 1),
 			}, Cryptid.is_card_big(card))
 		end
-
-		if (beeCountChangedNegative()) then
-
-			local beeCount = GetBees()
-			self.config.extra.scale = (0.4 * (beeCount + 1))
-			local scale_cure = self.config.extra.scale
-			self.config.extra.neg_mult = (math.max(scale_cure, 0.4) / math.max(scale_cure + 0.4, 0.4))
-			local mult2 = self.config.extra.neg_mult
-
-			Cryptid.with_deck_effects(card, function(card)
-				Cryptid.misprintize(card, {
-					min = (mult2),
-					max = (mult2),
-				}, nil, true)
-			end)
-
-			return Cryptid.misprintize_val(val, {
-				min = (mult2) * (G.GAME.modifiers.cry_misprint_min or 1),
-				max = (mult2) * (G.GAME.modifiers.cry_misprint_max or 1),
-			}, Cryptid.is_card_big(card))
-		end
-	end,
+	end
 }
 
 

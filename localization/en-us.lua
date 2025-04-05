@@ -14,10 +14,9 @@ return {
 			e_bee_striped = {
 				name = "Striped",
 				text = {
-					"Alters card values by an additional {C:attention}x0.4{} for each",
-					"{C:attention}Bee Joker{} you currently have",
-					"{C:inactive}(If possible)(Starts at {C:attention}x0.4{C:inactive})",
-					"{C:inactive}(Currently values at {C:attention}x#1#{C:inactive})"
+					"{C:attention}+X#2#{} card values, increases by {C:attention}+X#2#{} per {C:attention}Bee Joker{} you have",
+					"{C:inactive}(Currently {}{C:attention}X#1#{}{C:inactive} values){}",
+					"{C:inactive}(if possible)"
 					--"Value 1: #2# Value 2: #3#"
 				},
 			},

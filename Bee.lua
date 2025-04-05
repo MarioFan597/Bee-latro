@@ -188,6 +188,13 @@ SMODS.Atlas{
 	py = 95
 }
 
+SMODS.Atlas{
+	key = "bottleobees",
+	path = "bottleobees.png",
+	px = 71,
+	py = 95
+}
+
 SMODS.Atlas {
 	key = "beepackatlas",
 	path = "beepackatlas.png",
@@ -332,6 +339,7 @@ SMODS.Edition{
 		end
 	end
 }
+
 
 
 ----------Defining Boosterpacks------------------
@@ -1933,6 +1941,7 @@ SMODS.Joker {
 				-- Increment the total_bees for each crossed multiple of 10
 				local crossed_thresholds = (prev_multiple_of_10 - new_multiple_of_10) / 10
 				card.ability.extra.total_bees = (card.ability.extra.total_bees or 0) + crossed_thresholds
+				-- Changes art to match the current bee count
 				card.children.center:set_sprite_pos({x = (card.ability.extra.total_bees), y = 0})
 				return {message = 'Bee Added', colour = G.C.FILTER,}
 				-- Display "Bee Added" message
@@ -2062,7 +2071,7 @@ SMODS.Joker {
 	key = 'bottleobees',
 	config = { extra = { total_bees = 0, bee = false, bold = 1} },
 	rarity = 1,
-	atlas = 'beeatlas',
+	atlas = 'bottleobees',
 	blueprint_compat = false,
 	pools = {["Bee"] = true},
 	pos = { x = 0, y = 0 },
@@ -2074,7 +2083,8 @@ SMODS.Joker {
 		if context.selling_card and context.card:is_bee() and not (card.ability.extra.total_bees >= 5) then
 			if not context.blueprint then
 				card.ability.extra.total_bees = card.ability.extra.total_bees + 1
-
+				-- Changes art to match the current bee count
+				card.children.center:set_sprite_pos({x = (card.ability.extra.total_bees), y = 0})
 				card_eval_status_text(
 				card,
 				"extra",
@@ -2085,13 +2095,17 @@ SMODS.Joker {
 				)
 			end
 		end
+		if context.setting_blind then
+			-- Makes sure the art is right even after saving and quiting
+			card.children.center:set_sprite_pos({x = (card.ability.extra.total_bees), y = 0})
+		end
     end,
     cry_credits = {
 			idea = {
 				"Inspector_B"
 			},
 			art = {
-				"Inspector_B"
+				"MarioFan597"
 			},
 			code = {
 				"Inspector_B"

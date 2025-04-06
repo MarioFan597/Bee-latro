@@ -281,27 +281,27 @@ SMODS.Edition{
 	get_weight = function(self)
  		return G.GAME.edition_rate * self.weight
  	end,
-	 on_apply = function(card)
-		local beeCount = GetBees()
-		card.values = 1 + (0.4 * (beeCount + 1))
+	--  on_apply = function(card)
+	-- 	local beeCount = GetBees()
+	-- 	card.values = 1 + (0.4 * (beeCount + 1))
 	
-		Cryptid.with_deck_effects(card, function(card)
-			Cryptid.misprintize(card, {
-				min = card.values,
-				max = card.values,
-			}, nil, true)
-		end)
+	-- 	Cryptid.with_deck_effects(card, function(card)
+	-- 		Cryptid.misprintize(card, {
+	-- 			min = card.values,
+	-- 			max = card.values,
+	-- 		}, nil, true)
+	-- 	end)
 	
-		card.ability.bee_striped = true
-	end,
-	on_remove = function(card)
-		Cryptid.with_deck_effects(card, function(card)
-			Cryptid.misprintize(card, { min = 1, max = 1 }, true)
-			Cryptid.misprintize(card) 
-		end)
-		card.ability.bee_striped = nil
-		card.last_applied_mult = nil
-	end,
+	-- 	card.ability.bee_striped = true
+	-- end,
+	-- on_remove = function(card)
+	-- 	Cryptid.with_deck_effects(card, function(card)
+	-- 		Cryptid.misprintize(card, { min = 1, max = 1 }, true)
+	-- 		Cryptid.misprintize(card) 
+	-- 	end)
+	-- 	card.ability.bee_striped = nil
+	-- 	card.last_applied_mult = nil
+	-- end,
 	calculate = function(self, card, context)
 		if beeCountChangedPositive() or beeCountChangedNegative() then
 			local beeCount = GetBees()
@@ -319,10 +319,12 @@ SMODS.Edition{
 				and context.cardarea == G.play
 			)
 		then
-			return { 
-				mult = self.config.extra.mult,
-				chips = self.config.extra.chips,
-			}
+			if (self.config.extra.mult > 0) then
+				return { 
+					mult = self.config.extra.mult,
+					chips = self.config.extra.chips,
+				}
+			end
 		end
 		if context.joker_main then
 			card.config.trigger = true -- context.edition triggers twice, this makes it only trigger once (only for jonklers)

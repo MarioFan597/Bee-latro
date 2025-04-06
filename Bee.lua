@@ -262,7 +262,7 @@ SMODS.Shader{ key = 'striped', path = 'striped.fs' }
 
 SMODS.Edition{
 	key = "striped",
-	config = { extra = {values = 1.4, scale = 0.4} },
+	config = { extra = {values = 1.4, scale = 0.4, chips = 0, mult = 0} },
     discovered = true,
     unlocked = true,
     shader = 'striped',
@@ -276,23 +276,19 @@ SMODS.Edition{
 		vol = 0.7,
 	},
 	loc_vars = function(self, info_queue, card)
-		return { vars = {self.config.extra.values, self.config.extra.scale} }
+		return { vars = {self.config.extra.values, self.config.extra.scale, self.config.extra.chips, self.config.extra.mult} }
 	end,
 	get_weight = function(self)
  		return G.GAME.edition_rate * self.weight
  	end,
 	 on_apply = function(card)
 		local beeCount = GetBees()
-		local mult = 1 + (0.4 * (beeCount + 1))
-	
-		-- Store the card's original multiplier as its base
-		card.ability.bee_base_value = card.ability.bee_base_value or card.config.base_mult or 1
-		card.last_applied_mult = mult
+		card.values = 1 + (0.4 * (beeCount + 1))
 	
 		Cryptid.with_deck_effects(card, function(card)
 			Cryptid.misprintize(card, {
-				min = mult,
-				max = mult,
+				min = card.values,
+				max = card.values,
 			}, nil, true)
 		end)
 	
@@ -309,33 +305,31 @@ SMODS.Edition{
 	calculate = function(self, card, context)
 		if beeCountChangedPositive() or beeCountChangedNegative() then
 			local beeCount = GetBees()
-			local new_mult = 1 + (0.4 * (beeCount + 1))
-	
-			-- Store for display purposes
-			self.config.extra.values = new_mult
-	
-			Cryptid.with_deck_effects(card, function(card)
-				-- Undo the old multiplier
-				if card.last_applied_mult then
-					Cryptid.misprintize(card, {
-						min = 1 / card.last_applied_mult,
-						max = 1 / card.last_applied_mult,
-					}, nil, true)
-				end
-	
-				-- Apply the new multiplier
-				Cryptid.misprintize(card, {
-					min = new_mult,
-					max = new_mult,
-				}, nil, true)
-	
-				card.last_applied_mult = new_mult
-			end)
-	
-			return Cryptid.misprintize_val(val, {
-				min = new_mult * (G.GAME.modifiers.cry_misprint_min or 1),
-				max = new_mult * (G.GAME.modifiers.cry_misprint_max or 1),
-			}, Cryptid.is_card_big(card))
+			self.config.extra.values = card.values
+			self.config.extra.chips = beeCount * 20
+			self.config.extra.mult = beeCount * 2
+		end
+		if
+			(
+				context.edition -- for when on jonklers
+				and context.cardarea == G.jokers -- checks if should trigger
+				and card.config.trigger -- fixes double trigger
+			) or (
+				context.main_scoring -- for when on playing cards
+				and context.cardarea == G.play
+			)
+		then
+			return { 
+				mult = self.config.extra.mult,
+				chips = self.config.extra.chips,
+			}
+		end
+		if context.joker_main then
+			card.config.trigger = true -- context.edition triggers twice, this makes it only trigger once (only for jonklers)
+		end
+
+		if context.after then
+			card.config.trigger = nil
 		end
 	end
 }

@@ -15,6 +15,7 @@
 ---
 local Global_Cap = 1000000
 local lastBeeCount = nil  -- Initialize to nil to detect first-time calls
+math.randomseed(os.time() + os.clock() * 100000)
 
 function GetBees()
 	local beeCount = 0
@@ -303,12 +304,9 @@ SMODS.Edition{
 	-- 	card.last_applied_mult = nil
 	-- end,
 	calculate = function(self, card, context)
-		if beeCountChangedPositive() or beeCountChangedNegative() then
-			local beeCount = GetBees()
-			self.config.extra.values = card.values
-			self.config.extra.chips = beeCount * 20
-			self.config.extra.mult = beeCount * 2
-		end
+		-- if beeCountChangedPositive() or beeCountChangedNegative() then
+			
+		-- end
 		if
 			(
 				context.edition -- for when on jonklers
@@ -319,10 +317,48 @@ SMODS.Edition{
 				and context.cardarea == G.play
 			)
 		then
-			if (self.config.extra.mult > 0) then
+			local beeCount = GetBees()
+			self.config.extra.values = card.values
+			self.config.extra.chips = 0
+			self.config.extra.mult = 0
+			local isChips = false
+			
+
+			for i = 1, beeCount do
+				local randomcheck = (math.random() < 0.5)
+			
+				-- Only increase chips if we haven't hit the cap
+				if randomcheck and self.config.extra.chips < 100 then
+					self.config.extra.chips = self.config.extra.chips + 20
+			
+				-- Only increase mult if we haven't hit the cap
+				elseif self.config.extra.mult < 20 then
+					self.config.extra.mult = self.config.extra.mult + 4
+				end
+			end
+			
+
+			--Caps for chips and mult... just in case
+			if self.config.extra.chips > 100 then 
+				self.config.extra.chips = 100
+			end
+
+			if self.config.extra.mult > 20 then
+				self.config.extra.mult = 20
+			end
+
+			if (self.config.extra.mult > 0 and self.config.extra.chips > 0) then
 				return { 
 					mult = self.config.extra.mult,
 					chips = self.config.extra.chips,
+				}
+			elseif (self.config.extra.mult == 0 and self.config.extra.chips > 0) then
+				return { 
+					chips = self.config.extra.chips
+				}
+			elseif (self.config.extra.mult > 0 and self.config.extra.chips == 0) then
+				return {
+					mult = self.config.extra.mult
 				}
 			end
 		end

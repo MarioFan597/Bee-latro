@@ -14,9 +14,9 @@ return {
 			e_bee_striped = {
 				name = "Striped",
 				text = {
-					" Adds an additional {C:chips}20{} Chips and {C:mult}2{} Mult",
-					" for each {C:attention}Bee Joker{} you currently have",
-					"{C:inactive}(Currently {}{C:chips}+#3#{}{C:inactive} Chips and {}{C:mult}+#4#{}{C:inactive} Mult){}"
+					"Randomly adds either an additional ",
+					"{C:chips}20{} Chips or {C:mult}4{} Mult {C:inactive}(up to {}{C:chips}100{}{C:inactive} Chips and {}{C:mult}20{}{C:inactive} Mult) ",
+					"for each {C:attention}Bee Joker{} you currently have",
 				},
 			},
 		},
